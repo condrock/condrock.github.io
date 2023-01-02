@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: 
+Sitemap: https://condrock.eu.org/sitemap.xml
