@@ -1,3 +1,48 @@
 .container {
+    padding-top: 50px;
     max-width: 500px;
+}
+
+.card {
+    padding-top: 20px;
+}
+
+.card-text {
+    padding-top: 10px;
+    font-size: 20px;
+}
+
+.card-footer {
+    background-color: silver;
+    padding: 20px;
+    margin: 20px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.fa-shopify {
+    color: black;
+    margin: 7px;
+}
+
+.fa-telegram {
+    color: black;
+    margin: 7px;
+}
+
+.fa-square-facebook {
+    color: black;
+    margin: 7px;
+}
+
+.fa-square-instagram {
+    color: black;
+    margin: 7px;
+}
+
+.fa-bookmark {
+    color: black;
+    margin: 7px;
 }
