@@ -1,5 +1,5 @@
 .container {
-    padding-top: 50px;
+    padding-top: 3px;
     max-width: 500px;
 }
 
@@ -42,7 +42,20 @@ a {
     margin: 7px;
 }
 
+.fa-github {
+    color: black;
+    margin: 7px;
+}
+
 .fa-bookmark {
     color: black;
     margin: 7px;
+}
+
+.semangart {
+    margin: 3%;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
 }
