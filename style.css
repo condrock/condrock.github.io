@@ -1,5 +1,5 @@
 .container {
-    padding-top: 3px;
+    padding-top: 0px;
     max-width: 500px;
 }
 
@@ -52,10 +52,26 @@ a {
     margin: 7px;
 }
 
+.iklan1 {
+    justify-content: center;
+    display: flex;
+    margin: auto;
+    padding-bottom: 1%;
+}
+
 .semangart {
+    border: 1px solid red;
+    border-radius: 3px;
     margin: 3%;
     font-size: 15px;
     font-weight: bold;
     color: #fff;
     text-align: center;
+}
+
+.iklan2 {
+    justify-content: center;
+    display: flex;
+    margin: 0 auto;
+    margin-top: 4px;
 }
