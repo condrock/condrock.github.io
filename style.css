@@ -18,6 +18,13 @@
     margin: 20px;
 }
 
+.iklan300x250 {
+    justify-content: center;
+    display: flex;
+    margin: auto;
+    margin-top: 4%;
+}
+
 a {
     text-decoration: none;
 }
@@ -47,15 +54,16 @@ a {
     margin: 7px;
 }
 
-.fa-blogger-b {
+.fa-blogger {
     color: black;
     margin: 7px;
 }
 
-.iklan1 {
+.iklan320x50-1 {
     justify-content: center;
     display: flex;
     margin: auto;
+    margin-top: 3%;
     padding-bottom: 3%;
 }
 
@@ -69,9 +77,10 @@ a {
     text-align: center;
 }
 
-.iklan2 {
+.iklan320x50-2 {
     justify-content: center;
     display: flex;
     margin: 0 auto;
-    margin-top: 7px;
+    margin-top: 3%;
+    margin-bottom: 3%;
 }
