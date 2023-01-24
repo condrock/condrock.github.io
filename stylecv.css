@@ -1,0 +1,63 @@
+a {
+    text-decoration: none;
+}
+
+.header-top {
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+#beranda {
+    color: #fff;
+}
+
+.nav-item {
+    text-decoration: none;
+}
+
+.galeri1,
+.galeri2,
+.galeri3,
+.galeri4 {
+    width: 90%;
+    height: auto;
+    justify-content: center;
+    position: relative;
+    display: block;
+    justify-content: center;
+    margin: 3% auto;
+    bottom: 5%;
+}
+
+.fa-square-check {
+    color: green;
+    font-weight: bold;
+}
+
+.fa-clock {
+    color: blue;
+    font-weight: bold;
+}
+
+.card-harga {
+    display: flex;
+    justify-content: center;
+}
+
+.list-unstyled {
+    text-align: left;
+    margin: auto;
+    display: inline-block;
+
+}
+
+.fa-circle-info {
+    color: rgb(6, 185, 209);
+}
+
+footer {
+    bottom: 0;
+    width: 100%;
+}

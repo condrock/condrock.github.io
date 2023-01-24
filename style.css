@@ -1,10 +1,15 @@
-.container {
-    padding-top: 0px;
-    max-width: 500px;
+body {
+    background-color: #949ca8;
 }
 
-.card {
-    padding-top: 20px;
+.container {
+    color: #1d1d1d;
+    padding-top: 0px;
+    max-width: 800px;
+}
+
+.container .card {
+    padding-top: 10px;
 }
 
 .card-text {
@@ -25,19 +30,12 @@
     margin-top: 4%;
 }
 
-.layanan1 {
-    padding: 0;
-    bottom: 0;
-}
-
-.layanan2 {
-    padding: 0;
-    bottom: 0;
-}
-
+.card,
+.mt-3,
+.layanan1,
+.layanan2,
 .layanan3 {
     padding: 0;
-    bottom: 0;
 }
 
 a {
@@ -48,34 +46,15 @@ a {
     background-color: #fff;
 }
 
-.fa-shopify {
-    color: black;
-    margin: 7px;
-}
-
-.fa-telegram {
-    color: black;
-    margin: 7px;
-}
-
-.fa-square-facebook {
-    color: black;
-    margin: 7px;
-}
-
-.fa-square-instagram {
-    color: black;
-    margin: 7px;
-}
-
-.fa-github {
-    color: black;
-    margin: 7px;
-}
-
+.card-footer,
+.fa-shopify,
+.fa-telegram,
+.fa-square-facebook,
+.fa-square-instagram,
+.fa-github,
 .fa-blogger {
-    color: black;
-    margin: 7px;
+    color: #949ca8;
+    margin: 2%;
 }
 
 .iklan320x50-1 {
