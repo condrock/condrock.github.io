@@ -24,18 +24,19 @@ a {
 
 body {
     background-color: #949ca8;
-    max-width: 800px;
+    max-width: 768px;
     justify-content: center;
 }
 
 .quote .card-header  {
     font-size: 15px;
     color: #949ca8;
+    background-color: #fff;
 }
 
 .quote {
     margin-top: 11px;
-    margin-bottom: 11px;
+    margin-bottom: 13px;
 }
 
 .card,
@@ -49,6 +50,7 @@ body {
     padding-bottom: 1%;
 }
 
+.bi-clock,
 .bi-badge-ad {
     color: #949ca8;
 }
@@ -59,6 +61,25 @@ body {
 
 .animated-icon {
     animation: spin 2.5s infinite;
+}
+
+.fa-quote-right,
+.fa-quote-left {
+    color: #949ca8;
+}
+
+#clock {
+    background-color: #fff;
+    color: #949ca8;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
+
+.hours,
+.minutes,
+.seconds {
+    display: inline-block;
 }
 
 @keyframes spin {
