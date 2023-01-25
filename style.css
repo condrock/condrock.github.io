@@ -2,15 +2,20 @@ a {
     text-decoration: none;
 }
 
-.card-footer,
+.icon,
 .fa-shopify,
 .fa-telegram,
 .fa-square-facebook,
 .fa-square-instagram,
 .fa-github,
 .fa-blogger {
-    color: #949ca8;
-    margin: 2%;
+    font-size: 45px;
+    gap: 5%;
+    color: #000;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    margin-bottom: 2%;
 }
 
 .body.bg {
@@ -19,14 +24,49 @@ a {
 
 body {
     background-color: #949ca8;
+    max-width: 800px;
+    justify-content: center;
 }
 
+.quote .card-header  {
+    font-size: 15px;
+    color: #949ca8;
+}
+
+.quote {
+    margin-top: 11px;
+    margin-bottom: 11px;
+}
+
+.card,
 .iklan320x50-1,
 .iklan320x50-2,
 .iklan320x50-3,
 .iklan320x50-4 {
+    font-size: 10px;
     display: flex;
     justify-content: center;
-    margin-top: 3%;
-    margin-bottom: 3%;
+    padding-bottom: 1%;
+}
+
+.bi-badge-ad {
+    color: #949ca8;
+}
+
+.bi-play-fill {
+    font-size: 20px;
+}
+
+.animated-icon {
+    animation: spin 2.5s infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
