@@ -1,93 +1,58 @@
 a {
-    text-decoration: none;
+  text-decoration: none;
+}
+.container {
+  max-width: 700px;
 }
 
-.icon,
-.fa-shopify,
-.fa-telegram,
-.fa-square-facebook,
-.fa-square-instagram,
-.fa-github,
-.fa-blogger {
-    font-size: 45px;
-    gap: 5%;
-    color: #000;
-    display: flex;
-    margin: auto;
-    justify-content: center;
-    margin-bottom: 2%;
+.card .container:hover {
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1.1);
+  
 }
 
-.body.bg {
-    background-color: #fff;
+.medsos {
+  margin: auto;
+  font-size: 30px;
 }
 
-body {
-    background-color: #949ca8;
-    max-width: 768px;
-    justify-content: center;
+.layanan:hover {
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1.1);
 }
 
-.quote .card-header  {
-    font-size: 15px;
-    color: #949ca8;
-    background-color: #fff;
+.card img {
+  width: 150px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin: auto;
 }
 
-.quote {
-    margin-top: 11px;
-    margin-bottom: 13px;
+.bg-name {
+  width: 250px;
+  justify-content: center;
+  align-items: center;
 }
 
-.card,
-.iklan320x50-1,
-.iklan320x50-2,
-.iklan320x50-3,
-.iklan320x50-4 {
-    font-size: 10px;
-    display: flex;
-    justify-content: center;
-    padding-bottom: 1%;
+.bg-job {
+  width: 250px;
+  justify-content: center;
+  align-items: center;
 }
 
-.bi-clock,
-.bi-badge-ad {
-    color: #949ca8;
+.bio {
+  font-weight: bold;
+  padding: 15px;
+  width: 75%;
+  margin: auto;
 }
 
-.bi-play-fill {
-    font-size: 20px;
+.bio h3 {
+  font-size: 1.1em;
 }
 
-.animated-icon {
-    animation: spin 2.5s infinite;
-}
-
-.fa-quote-right,
-.fa-quote-left {
-    color: #949ca8;
-}
-
-#clock {
-    background-color: #fff;
-    color: #949ca8;
-    font-weight: bold;
-    font-size: 20px;
-    text-align: center;
-}
-
-.hours,
-.minutes,
-.seconds {
-    display: inline-block;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+.bi-arrow-up-right-square-fill {
+  color: #005eff;
 }
