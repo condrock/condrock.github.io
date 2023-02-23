@@ -1,0 +1,25 @@
+a {
+    text-decoration: none;
+}
+
+.header-top {
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.card-text {
+    font-size: 0.8em;
+}
+
+.detailproduk {
+    padding: 6px;
+    padding-bottom: 0;
+    width: 80%;
+    border-radius: 5px;
+}
+
+img {
+    width: 120px;
+}
