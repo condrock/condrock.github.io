@@ -9,9 +9,36 @@ a {
     z-index: 1;
 }
 
-.card-text {
-    font-size: 0.8em;
+.profilkecil {
+    position: relative;
+    display: flex;
+    justify-content: space-between; 
 }
+
+.bi-person-fill {
+    font-size: 17px;
+}
+
+.bi-chat-heart {
+    font-size: 16px;
+}
+
+.profilkecil .bi-heart-fill {
+    font-size: 16px;
+}
+
+.bi-hand-thumbs-up-fill {
+    font-size: 16px;
+}
+
+.bi-star-fill {
+    margin: -2px;
+}
+
+.card-text {
+    font-size: 11px;
+}
+
 
 .detailproduk {
     padding: 6px;
