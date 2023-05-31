@@ -17,20 +17,6 @@ a {
     text-decoration: none;
 }
 
-.galeri1,
-.galeri2,
-.galeri3,
-.galeri4 {
-    width: 90%;
-    height: auto;
-    justify-content: center;
-    position: relative;
-    display: block;
-    justify-content: center;
-    margin: 3% auto;
-    bottom: 5%;
-}
-
 .fa-square-check {
     color: green;
     font-weight: bold;
