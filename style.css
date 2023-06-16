@@ -5,7 +5,7 @@ a {
   max-width: 700px;
 }
 
-.card .container:hover {
+.card .layanan:hover {
   transition: transform 0.3s ease-in-out;
   transform: scale(1.1);
   
@@ -14,11 +14,6 @@ a {
 .medsos {
   margin: auto;
   font-size: 30px;
-}
-
-.layanan:hover {
-  transition: transform 0.3s ease-in-out;
-  transform: scale(1.1);
 }
 
 .card img {
@@ -51,6 +46,10 @@ a {
 
 .bio h3 {
   font-size: 1.1em;
+}
+
+.bi-sliders {
+  color: #005eff;
 }
 
 .bi-arrow-up-right-square-fill {
