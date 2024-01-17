@@ -106,24 +106,22 @@
             <form class="container">
                 <div class="form-group mt-3">
                     <label for="name" class="nama fw-semibold">Nama:<span class="require text-danger">*</span></label>
-                    <input type="text" style="border: 1px solid #808080;" class="form-control" id="name"
-                        placeholder="Nama" name="name" required>
+                    <input type="text" style="border: 1px solid #808080;" class="form-control" id="name" placeholder="Nama" name="name" required>
                 </div>
-    
+            
                 <div class="form-group mt-3">
-                    <label for="address" class="alamat fw-semibold">Pesan:<span
-                            class="require text-danger">*</span></label>
-                    <textarea style="border: 1px solid #808080;" class="form-control" rows="5" id="address"
-                        placeholder="Pesan" address="address" required></textarea>
+                    <label for="ask" class="alamat fw-semibold">Pesan:<span class="require text-danger">*</span></label>
+                    <textarea style="border: 1px solid #808080;" class="form-control" rows="5" id="ask" placeholder="Pesan" name="ask" required></textarea>
                 </div>
-    
+            
                 <div>
                     <button type="button" class="btn btn-primary mt-3 d-flex align-items-center mx-auto btn-lg"
-                    onclick="window.open('https://wa.me/62895330390030?text=Halo%20bang%20Condrock,%20'+document.getElementById('name').value+'%20ingin%20bertanya:%20'+document.getElementById('ask').value, '_blank')"><i
-                      class="fa-solid fa-brands fa-whatsapp flex-shrink-0 me-1" style="color: #fff;"></i>Kirim Pesan</button>
+                        onclick="window.open('https://wa.me/6285855559325?text=Halo%20Condrock,%20'+encodeURIComponent(document.getElementById('name').value)+'%20ingin%20bertanya:%20'+encodeURIComponent(document.getElementById('ask').value), '_blank')">
+                        <i class="fa-solid fa-brands fa-whatsapp flex-shrink-0 me-1" style="color: #fff;"></i>Kirim Pesan
+                    </button>
                 </div>
-
             </form>
+            
         </section>
         <!-- order end-->
 
