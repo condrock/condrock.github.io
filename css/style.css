@@ -16,6 +16,10 @@ a {
   font-size: 30px;
 }
 
+.card {
+  color: #005eff;
+}
+
 .card img {
   width: 150px;
   border-radius: 50%;
@@ -46,10 +50,6 @@ a {
 
 .bio h3 {
   font-size: 1.1em;
-}
-
-.bi-sliders {
-  color: #005eff;
 }
 
 .bi-arrow-up-right-square-fill {
