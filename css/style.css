@@ -16,6 +16,21 @@ a {
   font-size: 30px;
 }
 
+@keyframes rocket {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.rocket {
+  width: 100px;
+  animation: rocket 1s infinite alternate ease-in-out; 
+}
+
+  
 .card {
   color: #005eff;
 }
