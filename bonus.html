@@ -29,13 +29,12 @@
     </style>
     
     <script>
-        // Periksa apakah pengguna sudah login saat halaman dimuat
-        window.onload = function() {
+        document.addEventListener('DOMContentLoaded', function() {
             if (!localStorage.getItem('loggedIn')) {
                 // Jika belum login, alihkan pengguna kembali ke halaman login
                 window.location.href = 'login-bonus.html';
             }
-        };
+        });
     </script>
 
 </head>
