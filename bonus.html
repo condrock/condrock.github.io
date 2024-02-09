@@ -53,5 +53,15 @@
 
 </div>
 
+<script>
+    // Periksa apakah pengguna sudah login saat halaman dimuat
+    window.onload = function() {
+        if (!localStorage.getItem('loggedIn')) {
+            // Jika belum login, alihkan pengguna kembali ke halaman login
+            window.location.href = 'login-bonus.html';
+        }
+    };
+</script>
+
 </body>
 </html>
