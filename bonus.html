@@ -109,5 +109,26 @@
     <h3 class="text-center fw-bold mt-3 bg-dark text-white rounded p-2">Terima Kasih</h3><br>
     </div>
 
+    <div class="container mx-auto text-center mb-3">
+    <!-- Tombol untuk logout -->
+    <button id="logoutButton" class="btn btn-dark fw-bold p-2">Logout</button>
+    </div>
+
+    <script>
+        // Fungsi untuk logout
+        function logout() {
+            // Lakukan proses logout di sini
+            // Misalnya, hapus token autentikasi, bersihkan sesi, atau tindakan logout lainnya
+            // Setelah logout, arahkan pengguna ke halaman login atau halaman lainnya
+            // Contoh pengalihan ke halaman login:
+            window.location.href = "login-bonus.html";
+        }
+
+        // Tangani klik tombol logout
+        document.getElementById("logoutButton").addEventListener("click", function() {
+            logout();
+        });
+    </script>
+
 </body>
 </html>
