@@ -1,0 +1,21 @@
+.bundle {
+    background-color: #ffc107; /* Warna latar belakang kuning Bootstrap */
+    color: #000; /* Warna teks hitam */
+    padding: 5px 10px; /* Atur padding sesuai kebutuhan */
+    border-radius: 5px; /* Membuat sudut label agak melengkung */
+    font-weight: bold; /* Membuat teks tebal */
+    position: absolute; /* Menempatkan label secara absolut */
+    top: 10px; /* Atur jarak dari atas */
+    right: 10px; /* Atur jarak dari kanan */
+}
+
+.label-terhemat {
+    background-color: #ffc107; /* Warna latar belakang kuning Bootstrap */
+    color: #000; /* Warna teks hitam */
+    padding: 5px 10px; /* Atur padding sesuai kebutuhan */
+    border-radius: 5px; /* Membuat sudut label agak melengkung */
+    font-weight: bold; /* Membuat teks tebal */
+    position: absolute; /* Menempatkan label secara absolut */
+    top: 50px; /* Atur jarak dari atas */
+    right: 10px; /* Atur jarak dari kanan */
+}
