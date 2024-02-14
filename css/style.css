@@ -1,9 +1,30 @@
+body {
+  background: linear-gradient(-45deg, #00008d, #ff0000, #00008d, #ff0000);
+  background-size: 400% 400%;
+  animation: gradient 3s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 80%;
+  }
+
+  50% {
+    background-position: 100% 0%;
+  }
+
+  100% {
+    background-position: 0% 80%;
+  }
+}
+
 a {
   text-decoration: none;
 }
 
 .container {
   max-width: 700px;
+  margin: 0 auto;
 }
 
 .card .layanan:hover {
@@ -14,7 +35,20 @@ a {
 .medsos {
   margin: auto;
   font-size: 30px;
+  animation: medsos-animation 3s ease infinite;
+	transform-origin: 50% 50%;
 }
+
+@keyframes medsos-animation {
+  0% { transform:translate(0,0) }
+ 1.78571% { transform:translate(7px,0) }
+ 3.57143% { transform:translate(0,0) }
+ 5.35714% { transform:translate(7px,0) }
+ 7.14286% { transform:translate(0,0) }
+ 8.92857% { transform:translate(7px,0) }
+ 10.71429% { transform:translate(0,0) }
+ 100% { transform:translate(0,0) }
+ }
 
 @keyframes rocket {
   0%, 100% {
@@ -32,7 +66,8 @@ a {
 
   
 .card {
-  color: #005eff;
+  background-color: rgba(233, 233, 233, 0.2);
+  color: #fff;
 }
 
 .card img {
@@ -67,6 +102,44 @@ a {
   font-size: 1.1em;
 }
 
-.bi-arrow-up-right-square-fill {
-  color: #005eff;
+.bi-box-arrow-up-right {
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgba(233, 233, 233, 0.2);
+  box-shadow: 1px 1px 1px #000;
+  color: #fff;
+}
+
+.article-image {
+  position: relative;
+}
+
+.article img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block; /* Menyelesaikan masalah margin auto dengan display block */
+  width: 100%;
+  height: 185px; /* Sesuaikan tinggi sesuai kebutuhan Anda */
+  object-fit: cover; /* Mengatur cara gambar ditampilkan */
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px #000;
+}
+
+
+.article h3 {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  padding: 10px;
+  margin: 0;
+  color: #fff;
+  font-weight: bold;
+}
+
+.element-font {
+  font-size: 19px; /* Sesuaikan dengan ukuran font yang Anda inginkan */
+  color: #ffffff; /* Sesuaikan dengan warna teks yang Anda inginkan */
+  text-shadow: 2px 1px 2px #000; /* Sesuaikan dengan ukuran dan warna outline yang Anda inginkan */
 }
