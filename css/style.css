@@ -29,7 +29,7 @@ a {
 
 .card .layanan:hover {
   transition: transform 0.3s ease-in-out;
-  transform: scale(1.1);
+  transform: scale(0.97);
 }
 
 .medsos {
@@ -109,6 +109,11 @@ a {
   box-shadow: 1px 1px 1px #000;
   color: #fff;
 }
+
+.article-image:hover {
+  transition: transform 0.3s ease-in-out;
+  transform: scale(0.97);
+} 
 
 .article-image {
   position: relative;
