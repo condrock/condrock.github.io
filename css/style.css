@@ -143,6 +143,11 @@ a {
   font-weight: bold;
 }
 
+.tools:hover {
+  transition: transform 0.3s ease-in-out;
+  transform: scale(0.97);
+} 
+
 .element-font {
   font-size: 19px; /* Sesuaikan dengan ukuran font yang Anda inginkan */
   color: #ffffff; /* Sesuaikan dengan warna teks yang Anda inginkan */
