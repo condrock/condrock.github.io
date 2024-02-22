@@ -34,7 +34,7 @@ a {
 
 .medsos {
   margin: auto;
-  font-size: 30px;
+  font-size: 20px;
   animation: medsos-animation 3s ease infinite;
 	transform-origin: 50% 50%;
 }
