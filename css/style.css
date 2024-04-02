@@ -1,7 +1,7 @@
 body {
-background: linear-gradient(-45deg, #00008d, #00759c, #00008d, #00759c);
+background: linear-gradient(-45deg, #020222, #00506a, #020222, #00506a);
 background-size: 400% 400%;
-animation: gradient 5s ease infinite;
+animation: gradient 7s ease infinite;
 }
 
 @keyframes gradient {
@@ -121,10 +121,10 @@ position: relative;
 .article img {
 margin-left: auto;
 margin-right: auto;
-display: block; /* Menyelesaikan masalah margin auto dengan display block */
+display: block;
 width: 100%;
-height: 185px; /* Sesuaikan tinggi sesuai kebutuhan Anda */
-object-fit: cover; /* Mengatur cara gambar ditampilkan */
+height: 185px;
+object-fit: cover; 
 border-radius: 10px;
 box-shadow: 1px 1px 5px #000;
 }
@@ -147,7 +147,7 @@ transform: scale(0.97);
 } 
 
 .element-font {
-font-size: 19px; /* Sesuaikan dengan ukuran font yang Anda inginkan */
-color: #ffffff; /* Sesuaikan dengan warna teks yang Anda inginkan */
-text-shadow: 2px 1px 2px #000; /* Sesuaikan dengan ukuran dan warna outline yang Anda inginkan */
+font-size: 19px;
+color: #ffffff;
+text-shadow: 2px 1px 2px #000;
 }
