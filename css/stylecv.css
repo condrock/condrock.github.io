@@ -9,10 +9,6 @@ a {
     z-index: 1;
 }
 
-#beranda {
-    color: #fff;
-}
-
 .nav-item {
     text-decoration: none;
 }
@@ -41,9 +37,4 @@ a {
 
 .fa-circle-info {
     color: rgb(6, 185, 209);
-}
-
-footer {
-    bottom: 0;
-    width: 100%;
 }
