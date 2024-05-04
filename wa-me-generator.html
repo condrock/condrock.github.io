@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html id="id" lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WA ME Generator</title>
+  
+<style>.container,body{background-color:#333}img,label{display:block}a{text-decoration:none}body{font-family:Arial,sans-serif;color:#fff;margin:0;padding:0}.container{max-width:400px;margin:50px auto;padding:20px;border-radius:5px}h1{text-align:center}label{margin-bottom:5px;margin-top:25px}input[type=text]{width:100%;padding:8px;margin-bottom:10px;box-sizing:border-box;border-radius:3px;border:1px solid #4caf50}button{background-color:#4caf50;color:#fff;padding:10px 15px;border:none;border-radius:3px;cursor:pointer}button:hover{background-color:#45a049}p#result{margin-top:5px;padding:20px;background-color:#f9f9f9;color:#000;border:1px solid #ccc;border-radius:3px;word-wrap:break-word;max-width:100%;overflow:auto;user-select:all}img{max-width:150px;margin-top:150px;margin-left:auto;margin-right:auto}</style>
+</head>
+
+<body>
+
+  <div class="container"><h1>WA ME Generator</h1><label for="phoneNumber">Nomor WhatsApp:</label><input type="text" id="phoneNumber" placeholder="Gunakan 62"><label for="message">Pesan:</label><input type="text" id="message" placeholder="Isi Pesan"><div class="button-container"><button onclick="generateLink()">Generate Link</button><button onclick="resetForm()">Reset</button></div><label for="result">Hasil:</label><p id="result"><span id="waLink"></span></p></div>
+
+  <a href="https://condrock.eu.org/"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9pcRz0048uUBeECb0hdsYRo587praQHEN2fP4CwHnIPTiz4yh8Ids30XfqY_sNrttwss9otYmS1Iwkbcyj2ZeGfloadxm8ooOfGjU1jQ_hMV1cU4IV6FLZ_9GZujoDNYgnf_ZZN0UIe8nuI8wBBNwBbdni2tfZOYBos_C2b2Soo7iC6UN5wSaWdygYsc/s1600/Cond%20Rock.png" alt="Deskripsi Gambar"></a>
+
+  <script>function generateLink() { var e = document.getElementById("phoneNumber").value.trim(), t = document.getElementById("message").value.trim(); if ("" !== e && "" !== t) { var n = "https://wa.me/" + (e = e.replace(/\D/g, "")) + "?text=" + encodeURIComponent(t), o = document.getElementById("waLink"); o.textContent = n; var m = document.createRange(); m.selectNode(o), window.getSelection().removeAllRanges(), window.getSelection().addRange(m), document.execCommand("copy"), window.getSelection().removeAllRanges() } else alert("Please enter a phone number and a message.") } function resetForm() { document.getElementById("phoneNumber").value = "", document.getElementById("message").value = "", document.getElementById("waLink").textContent = "" }</script>
+
+</body>
+
+</html>
