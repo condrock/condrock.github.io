@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html id="id" lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parse HTML</title>
+    <style>code,h1{font-family:Consolas,Monaco,'Andale Mono','Courier New',Courier,Monospace;color:#fff}#codes,body{margin:0 auto;display:block}#codes,code{padding:16px}.button-group,h1{text-align:center}#wrapin,code,h1{color:#fff}#codes,#wrapin,body,img{display:block}body{background-color:#333;max-width:700PX;align-items:center}.parse{margin-top:20px}#wrapin{max-width:0 auto;list-style-type:none}code{font-size:13px}#codes{width:88%;height:300px;background-color:#000;color:#0f4;border-radius:5px}.button-group{margin:20px}button,button[disabled]:active{border:none;padding:5px 12px;color:#fff;background-color:#000;cursor:pointer;font-size:13px;margin:0 10px;line-height:23px;border-radius:20px;transition:.3s ease-in-out}button:active{background:#3f92e1}button[disabled],button[disabled]:active{background:#0f4}#opt1,#opt2,#opt3,#opt4,#opt5{display:inline-block;margin-right:10px;font-size:13px}img{max-width:150px;margin-top:100px;margin-left:auto;margin-right:auto}</style>
+</head>
+
+<body>
+
+    <div class="parse">
+        <h1>Parse HTML</h1>
+        <textarea id="codes" spellcheck="false" style="resize: none;"></textarea>
+
+        <div class="button-group">
+            <button id="convert" onclick="cdConvert();this.disabled = true;">Parse Kode</button><button
+                onclick="cdClear();">Hapus Kode</button>
+        </div>
+        <ul id="wrapin">
+            <li><input checked="true" id="opt1" type="checkbox" />Konversi <code>&amp;</code> menjadi
+                <code>&amp;amp;</code>
+            </li>
+            <li><input checked="true" id="opt2" type="checkbox" />Konversi <code>&lt;</code> menjadi
+                <code>&amp;lt;</code>
+            </li>
+            <li><input checked="true" id="opt3" type="checkbox" />Konversi <code>&gt;</code> menjadi
+                <code>&amp;gt;</code>
+            </li>
+            <li><input id="opt4" type="checkbox" />Konversi <code>"</code> menjadi <code>&amp;quot;</code></li>
+            <li><input id="opt5" type="checkbox" />Konversi <code>'</code> menjadi <code>&amp;#039;</code></li>
+        </ul>
+    </div>
+
+    <a href="https://condrock.eu.org/"><img
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9pcRz0048uUBeECb0hdsYRo587praQHEN2fP4CwHnIPTiz4yh8Ids30XfqY_sNrttwss9otYmS1Iwkbcyj2ZeGfloadxm8ooOfGjU1jQ_hMV1cU4IV6FLZ_9GZujoDNYgnf_ZZN0UIe8nuI8wBBNwBbdni2tfZOYBos_C2b2Soo7iC6UN5wSaWdygYsc/s1600/Cond%20Rock.png"
+            alt="Deskripsi Gambar"></a>
+
+
+    <script>function cdClear(){var e=document.getElementById("codes");e.value="",e.focus(),document.getElementById("convert").disabled=!1}function cdConvert(){var e=document.getElementById("codes"),t=e.value,c=document.getElementById("opt1"),d=document.getElementById("opt2"),n=document.getElementById("opt3"),o=document.getElementById("opt4"),l=document.getElementById("opt5");t=t.replace(/\t/g,"    "),c.checked&&(t=t.replace(/&/g,"&amp;")),d.checked&&(t=t.replace(/</g,"&lt;")),n.checked&&(t=t.replace(/>/g,"&gt;")),o.checked&&(t=t.replace(/"/g,"&quot;")),l.checked&&(t=t.replace(/'/g,"&#039;")),e.value=t,e.focus(),e.select()}</script>
+</body>
+
+</html>
