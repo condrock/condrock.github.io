@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permalink Generator</title>
+
+    <!-- Link jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #cccccc;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        input {
+            font-size: 18px;
+            display: block;
+            border: 1px solid #777;
+            width: 80%;
+            max-width: 600px;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #444;
+            color: #fff;
+        }
+
+        input:focus {
+            border-color: #555;
+            outline: none;
+        }
+
+        img {
+            max-width: 150px;
+            margin-top: 100px;
+            margin-left: auto;
+            margin-right: auto
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            $('#title').on('input', function () {
+                var permalink = $.trim($(this).val())
+                    .toLowerCase()
+                    .replace(/\s+/g, ' ')
+                    .replace(/[^\w\s]/g, '')
+                    .replace(/\s+/g, '-');
+                $('#url').val(permalink);
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <h1>Permalink Generator</h1>
+    <input type="text" id="title" name="title" placeholder="Enter your title here">
+    <input type="text" id="url" readonly placeholder="Generated permalink will appear here">
+
+
+    <a href="https://condrock.eu.org/"><img
+            src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9pcRz0048uUBeECb0hdsYRo587praQHEN2fP4CwHnIPTiz4yh8Ids30XfqY_sNrttwss9otYmS1Iwkbcyj2ZeGfloadxm8ooOfGjU1jQ_hMV1cU4IV6FLZ_9GZujoDNYgnf_ZZN0UIe8nuI8wBBNwBbdni2tfZOYBos_C2b2Soo7iC6UN5wSaWdygYsc/s1600/Cond%20Rock.png"
+            alt="Deskripsi Gambar"></a>
+
+</body>
+
+</html>
