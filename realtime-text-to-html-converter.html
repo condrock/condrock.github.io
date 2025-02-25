@@ -33,10 +33,11 @@
 
     <h2 class="mb-3 text-white fw-bold">Realtime Text to HTML Converter</h2>
     <textarea id="inputText" class="form-control mb-3" placeholder="Masukkan teks dengan format seperti:
-h2: Contoh judul utama tingkat 2
-h3: Contoh subjudul di bawah h2
-h4: Contoh subjudul di bawah h3
-p: Ini adalah paragraf
+h1: Judul utama
+h2: Judul utama tingkat 2
+h3: Subjudul di bawah h2
+h4: Subjudul di bawah h3
+p: Paragraf
 ol: Daftar bernomor
 ul: Daftar tanpa nomor
 "></textarea>
@@ -54,13 +55,15 @@ ul: Daftar tanpa nomor
             lines.forEach(line => {
                 line = line.trim();
 
-                if (line.startsWith("h1:") || line.startsWith("h2:") || line.startsWith("h3:") || line.startsWith("h4:")) {
-                    let tag = line.substring(0, 2);
+                if (line.startsWith("h1:")) {
                     let title = line.substring(3).trim();
                     let permalink = generatePermalink(title);
-
-                    htmlOutput += `<${tag}>${title}</${tag}>\n`;
+                    htmlOutput += `<h1>${title}</h1>\n`;
                     htmlOutput += `${permalink}\n`;
+                } else if (line.startsWith("h2:") || line.startsWith("h3:") || line.startsWith("h4:")) {
+                    let tag = line.substring(0, 2);
+                    let title = line.substring(3).trim();
+                    htmlOutput += `<${tag}>${title}</${tag}>\n`;
                 } else if (line.startsWith("p:")) {
                     htmlOutput += `<p>${line.substring(2).trim()}</p>\n`;
                 } else if (line.startsWith("ul:")) {
