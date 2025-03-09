@@ -37,7 +37,6 @@
         </div>
         <div class="container row mb-3 justify-content-center mx-auto">
             <button class="btn bg-primary text-light fw-bold" onclick="generateTable()">Hitung</button>
-
         </div>
         <table class="table table-bordered text-center">
             <thead>
@@ -87,33 +86,26 @@
                 let tdKolom2 = document.createElement("td");
                 let tdKolom3 = document.createElement("td");
                 let inputKolom2 = document.createElement("input");
+                let inputKolom3 = document.createElement("input");
 
                 inputKolom2.type = "number";
                 inputKolom2.className = "form-control text-center w-75 mx-auto";
                 inputKolom2.value = 0;
                 inputKolom2.dataset.index = index;
 
-                tdKolom3.textContent = value;
+                inputKolom3.type = "number";
+                inputKolom3.className = "form-control text-center w-75 mx-auto";
+                inputKolom3.value = value;
+                inputKolom3.dataset.index = index;
+
                 tdKolom1.textContent = value;
                 tdKolom1.id = `hasilAkhir-${index}`;
 
-                inputKolom2.oninput = function () {
-                    let ngValues = document.querySelectorAll("tbody input");
-                    totalNG = 0;
-                    totalAkhir = totalBarang;
-
-                    ngValues.forEach((input, i) => {
-                        let ngValue = Number(input.value);
-                        totalNG += ngValue;
-                        document.getElementById(`hasilAkhir-${i}`).textContent = initialRows[i] - ngValue;
-                    });
-
-                    totalAkhir = totalBarang - totalNG;
-                    document.getElementById("totalHasilAkhir").textContent = totalAkhir;
-                    document.getElementById("totalNG").textContent = totalNG;
-                };
+                inputKolom2.oninput = updateValues;
+                inputKolom3.oninput = updateValues;
 
                 tdKolom2.appendChild(inputKolom2);
+                tdKolom3.appendChild(inputKolom3);
                 tr.appendChild(tdKolom1);
                 tr.appendChild(tdKolom2);
                 tr.appendChild(tdKolom3);
@@ -124,6 +116,27 @@
             document.getElementById("totalSPH").textContent = totalSPH;
             document.getElementById("totalHasilAkhir").textContent = totalAkhir;
             document.getElementById("totalNG").textContent = totalNG;
+        }
+
+        function updateValues() {
+            let totalNG = 0;
+            let totalSPH = 0;
+            let totalAkhir = 0;
+            let rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach((row, index) => {
+                let ngValue = Number(row.children[1].firstChild.value);
+                let sphValue = Number(row.children[2].firstChild.value);
+                totalNG += ngValue;
+                totalSPH += sphValue;
+                let hasilAkhir = sphValue - ngValue;
+                document.getElementById(`hasilAkhir-${index}`).textContent = hasilAkhir;
+                totalAkhir += hasilAkhir;
+            });
+
+            document.getElementById("totalSPH").textContent = totalSPH;
+            document.getElementById("totalNG").textContent = totalNG;
+            document.getElementById("totalHasilAkhir").textContent = totalAkhir;
         }
     </script>
 
