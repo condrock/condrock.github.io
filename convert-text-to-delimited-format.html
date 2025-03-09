@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Convert Text to Delimited Format</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body class="bg-dark">
@@ -16,19 +17,28 @@
             <textarea id="inputText" class="form-control" rows="5" placeholder="Masukkan teks..."></textarea>
         </div>
 
-        <div class="mb-3">
-            <label for="separator" class="form-label">Pilih Pemisah</label>
-            <select id="separator" class="form-select">
-                <option value=",">Koma (,)</option>
-                <option value=";">Titik Koma (;)</option>
-            </select>
+        <div class="mb-3 row g-2">
+            <div class="col-12 col-md-6">
+                <label for="separator" class="form-label">Pilih Pemisah</label>
+                <select id="separator" class="form-select">
+                    <option value=";">Titik Koma (;)</option>
+                    <option value=",">Koma (,)</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-6 d-flex align-items-end">
+                <button class="btn btn-primary w-100" onclick="convertText()">Konversi</button>
+            </div>
         </div>
 
-        <button class="btn btn-primary w-100" onclick="convertText()">Konversi</button>
-
-        <div class="mt-3">
-            <label for="outputText" class="form-label">Hasil</label>
-            <input type="text" id="outputText" class="form-control" readonly>
+        <div class="mt-3 row g-2">
+            <div class="col-12 col-md-10">
+                <label for="outputText" class="form-label">Hasil</label>
+                <input type="text" id="outputText" class="form-control" readonly>
+            </div>
+            <div class="col-12 col-md-2 d-flex align-items-end">
+                <button class="btn btn-success w-100" onclick="copyText()"><i class="fa-solid fa-copy"></i>
+                    Salin</button>
+            </div>
         </div>
     </div>
 
@@ -41,6 +51,14 @@
             let result = lines.join(separator + " ");
 
             document.getElementById("outputText").value = result;
+        }
+
+        function copyText() {
+            let outputText = document.getElementById("outputText");
+            outputText.select();
+            outputText.setSelectionRange(0, 99999); // Untuk kompatibilitas dengan mobile
+            navigator.clipboard.writeText(outputText.value);
+            alert("Teks berhasil disalin!");
         }
     </script>
 
