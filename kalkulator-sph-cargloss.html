@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator SPH Cargloss</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        table {
+            width: 60%;
+            margin: 20px auto;
+        }
+
+        input {
+            width: 80px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="container py-5 bg-dark text-white">
+    <div class="card shadow-lg p-4">
+        <h1 class="my-4 fw-bold">Kalkulator SPH Cargloss</h1>
+        <div class="mb-3">
+            <label for="totalBarang" class="form-label">Total Barang:</label>
+            <input type="number" id="totalBarang" class="form-control d-inline w-auto"
+                placeholder="Masukkan total barang">
+            <button class="btn btn-primary ms-2" onclick="generateTable()">Hitung</button>
+        </div>
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th class="table-primary">HASIL</th>
+                    <th class="table-danger">NG</th>
+                    <th class="table-primary">SPH</th>
+                </tr>
+            </thead>
+            <tbody id="dataBody">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="table-primary" id="totalHasilAkhir">0</td>
+                    <td class="table-danger" id="totalNG">0</td>
+                    <td class="table-primary" id="totalSPH">0</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <script>
+        function generateTable() {
+            let totalBarang = Number(document.getElementById("totalBarang").value);
+            if (isNaN(totalBarang) || totalBarang <= 0) {
+                alert("Masukkan jumlah total barang yang valid.");
+                return;
+            }
+
+            const jamTotal = 8;
+            const jamPenuh = 6; // Jam 2-7 memiliki jumlah yang sama
+            const barangPerJamPenuh = Math.floor(totalBarang / 7);
+            const sisa = totalBarang - (barangPerJamPenuh * jamPenuh);
+            const barangJam1 = Math.floor(sisa / 2);
+            const barangJam8 = sisa - barangJam1;
+
+            const initialRows = [barangJam1, ...Array(jamPenuh).fill(barangPerJamPenuh), barangJam8];
+            let tbody = document.getElementById("dataBody");
+            tbody.innerHTML = "";
+            let totalNG = 0;
+            let totalSPH = 0;
+            let totalAkhir = totalBarang;
+
+            initialRows.forEach((value, index) => {
+                let tr = document.createElement("tr");
+                let tdKolom1 = document.createElement("td");
+                let tdKolom2 = document.createElement("td");
+                let tdKolom3 = document.createElement("td");
+                let inputKolom2 = document.createElement("input");
+
+                inputKolom2.type = "number";
+                inputKolom2.className = "form-control text-center w-75 mx-auto";
+                inputKolom2.value = 0;
+                inputKolom2.dataset.index = index;
+
+                tdKolom3.textContent = value;
+                tdKolom1.textContent = value; // Default sama dengan SPH sebelum dikurangi NG
+                tdKolom1.id = `hasilAkhir-${index}`;
+
+                inputKolom2.oninput = function () {
+                    let ngValues = document.querySelectorAll("tbody input");
+                    totalNG = 0;
+                    totalAkhir = totalBarang;
+
+                    ngValues.forEach((input, i) => {
+                        let ngValue = Number(input.value);
+                        totalNG += ngValue;
+                        document.getElementById(`hasilAkhir-${i}`).textContent = initialRows[i] - ngValue;
+                    });
+
+                    totalAkhir = totalBarang - totalNG;
+                    document.getElementById("totalHasilAkhir").textContent = totalAkhir;
+                    document.getElementById("totalNG").textContent = totalNG;
+                };
+
+                tdKolom2.appendChild(inputKolom2);
+                tr.appendChild(tdKolom1);
+                tr.appendChild(tdKolom2);
+                tr.appendChild(tdKolom3);
+                tbody.appendChild(tr);
+                totalSPH += value;
+            });
+
+            document.getElementById("totalSPH").textContent = totalSPH;
+            document.getElementById("totalHasilAkhir").textContent = totalAkhir;
+            document.getElementById("totalNG").textContent = totalNG;
+        }
+    </script>
+
+    <div class="text-center mt-4">
+        <a href="https://condrock.eu.org/" target="_blank">
+            <img src="images/condrock.png" alt="condrock" width="100">
+        </a>
+    </div>
+
+    <script>function disableSelection(e) { void 0 !== e.onselectstart ? e.onselectstart = function () { return !1 } : void 0 !== e.style.MozUserSelect ? e.style.MozUserSelect = "none" : e.onmousedown = function () { return !1 }, e.style.cursor = "default" } function mousedwn(e) { try { if (2 == e.button || 3 == e.button) return !1 } catch (e) { if (3 == e.which) return !1 } } window.onload = function () { disableSelection(document.body) }, document.oncontextmenu = function () { return !1 }, document.ondragstart = function () { return !1 }, document.onmousedown = mousedwn, document.onkeydown = function (e) { return !e.ctrlKey || 67 !== e.keyCode && 86 !== e.keyCode && 85 !== e.keyCode && 117 !== e.keyCode ? 123 == e.keyCode || 18 == e.keyCode ? (e.preventDefault(), !1) : void 0 : (e.preventDefault(), !1) };</script>
+
+</body>
+
+</html>
