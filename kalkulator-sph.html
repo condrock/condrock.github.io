@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator SPH Cargloss</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container py-5 bg-dark text-white">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">Kalkulator SPH Cargloss</h2>
+        <div class="mb-3">
+            <label for="totalBarang" class="form-label">Total Barang:</label>
+            <input type="number" id="totalBarang" class="form-control" min="1" placeholder="Masukkan total barang">
+        </div>
+        <button class="btn btn-primary w-100 mb-3" onclick="hitungDistribusi()">Hitung</button>
+        <h4 class="mt-4">Hasil Perhitungan SPH:</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Total Kumulatif</th>
+                    <th>SPH</th>
+                </tr>
+            </thead>
+            <tbody id="hasilDistribusi"></tbody>
+        </table>
+    </div>
+
+    <script>
+        function hitungDistribusi() {
+            let totalBarang = parseInt(document.getElementById("totalBarang").value);
+            if (isNaN(totalBarang) || totalBarang <= 0) {
+                alert("Masukkan jumlah barang yang valid!");
+                return;
+            }
+
+            let hasilDistribusi = document.getElementById("hasilDistribusi");
+            hasilDistribusi.innerHTML = "";
+
+            let jamTotal = 8;
+            let jamPenuh = 6; // Jam 2–7 memiliki jumlah yang sama
+            let barangPerJamPenuh = Math.ceil(totalBarang / 7); // Dibagi 7 sesuai pola
+            let sisa = totalBarang - (barangPerJamPenuh * jamPenuh);
+            let barangJam1 = Math.floor(sisa / 2);
+            let barangJam8 = sisa - barangJam1; // Pastikan jumlah total tetap sesuai
+
+            let distribusi = [];
+            let kumulatif = 0;
+
+            // Hitung distribusi
+            distribusi.push({ jam: 1, jumlah: barangJam1 });
+            kumulatif += barangJam1;
+
+            for (let i = 2; i <= 7; i++) {
+                distribusi.push({ jam: i, jumlah: barangPerJamPenuh });
+                kumulatif += barangPerJamPenuh;
+            }
+
+            distribusi.push({ jam: 8, jumlah: barangJam8 });
+            kumulatif += barangJam8;
+
+            // Render hasil ke tabel
+            let output = "";
+            let totalKumulatif = 0;
+            distribusi.forEach(row => {
+                totalKumulatif += row.jumlah;
+                output += `<tr><td>${totalKumulatif}</td><td>${row.jumlah}</td></tr>`;
+            });
+
+            hasilDistribusi.innerHTML = output;
+        }
+    </script>
+
+    <div class="text-center mt-4">
+        <a href="https://condrock.eu.org/" target="_blank">
+            <img src="images/condrock.png" alt="condrock" width="100">
+        </a>
+    </div>
+
+</body>
+
+</html>
