@@ -26,13 +26,18 @@
 </head>
 
 <body class="container py-5 bg-dark text-white">
-    <div class="card shadow-lg p-4">
+    <div class="container">
         <h1 class="my-4 fw-bold">Kalkulator SPH Cargloss</h1>
-        <div class="mb-3">
-            <label for="totalBarang" class="form-label">Total Barang:</label>
-            <input type="number" id="totalBarang" class="form-control d-inline w-auto"
-                placeholder="Masukkan total barang">
-            <button class="btn btn-primary ms-2" onclick="generateTable()">Hitung</button>
+        <div class="row mb-3 justify-content-center">
+            <div class="col-12 col-md-auto">
+                <label for="totalBarang" class="form-label">Total Barang:</label>
+                <input type="number" id="totalBarang" class="form-control d-inline w-auto"
+                    placeholder="Masukkan total barang">
+            </div>
+        </div>
+        <div class="container row mb-3 justify-content-center mx-auto">
+            <button class="btn bg-primary text-light fw-bold" onclick="generateTable()">Hitung</button>
+
         </div>
         <table class="table table-bordered text-center">
             <thead>
@@ -46,7 +51,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td class="table-primary" id="totalHasilAkhir">0</td>
+                    <td class="table-primary fw-bold" id="totalHasilAkhir">0</td>
                     <td class="table-danger" id="totalNG">0</td>
                     <td class="table-primary" id="totalSPH">0</td>
                 </tr>
@@ -63,7 +68,7 @@
             }
 
             const jamTotal = 8;
-            const jamPenuh = 6; // Jam 2-7 memiliki jumlah yang sama
+            const jamPenuh = 6;
             const barangPerJamPenuh = Math.floor(totalBarang / 7);
             const sisa = totalBarang - (barangPerJamPenuh * jamPenuh);
             const barangJam1 = Math.floor(sisa / 2);
@@ -89,7 +94,7 @@
                 inputKolom2.dataset.index = index;
 
                 tdKolom3.textContent = value;
-                tdKolom1.textContent = value; // Default sama dengan SPH sebelum dikurangi NG
+                tdKolom1.textContent = value;
                 tdKolom1.id = `hasilAkhir-${index}`;
 
                 inputKolom2.oninput = function () {
