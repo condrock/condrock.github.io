@@ -29,8 +29,8 @@
         <div class="calculator">
             <h2 class="text-center mb-4"><i class="fa-solid fa-calculator"></i> Kalkulator Harga Spanduk</h2>
             <form id="bannerForm">
-                <input type="number" class="form-control mb-2" id="length" placeholder="Panjang (meter)" required>
-                <input type="number" class="form-control mb-2" id="width" placeholder="Lebar (meter)" required>
+                <input type="number" class="form-control mb-2" id="length" placeholder="Panjang (cm)" required>
+                <input type="number" class="form-control mb-2" id="width" placeholder="Lebar (cm)" required>
                 <input type="text" class="form-control mb-2" id="pricePerMeter" placeholder="Harga per Meter (Rp)"
                     required>
                 <button type="submit" class="btn btn-primary w-100">Hitung</button>
@@ -70,8 +70,8 @@
 
         document.getElementById('bannerForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            let length = parseFloat(document.getElementById('length').value);
-            let width = parseFloat(document.getElementById('width').value);
+            let length = parseFloat(document.getElementById('length').value) / 100;
+            let width = parseFloat(document.getElementById('width').value) / 100;
             let pricePerMeter = parseFloat(document.getElementById('pricePerMeter').value.replace(/\./g, ''));
             let totalArea = length * width;
             let totalPrice = totalArea * pricePerMeter;
