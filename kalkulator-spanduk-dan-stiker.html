@@ -31,7 +31,7 @@
             <form id="bannerForm">
                 <input type="number" class="form-control mb-2" id="length" placeholder="Panjang (cm)" required>
                 <input type="number" class="form-control mb-2" id="width" placeholder="Lebar (cm)" required>
-                <input type="text" class="form-control mb-2" id="pricePerMeter" placeholder="Harga per Meter (Rp)"
+                <input type="number" class="form-control mb-2" id="pricePerMeter" placeholder="Harga per Meter (Rp)"
                     required>
                 <button type="submit" class="btn btn-primary w-100">Hitung</button>
             </form>
@@ -64,15 +64,15 @@
     </div>
 
     <script>
-        document.getElementById('pricePerMeter').addEventListener('input', function (e) {
-            this.value = this.value.replace(/[^0-9]/g, '').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
-        });
-
         document.getElementById('bannerForm').addEventListener('submit', function (e) {
             e.preventDefault();
             let length = parseFloat(document.getElementById('length').value) / 100;
             let width = parseFloat(document.getElementById('width').value) / 100;
-            let pricePerMeter = parseFloat(document.getElementById('pricePerMeter').value.replace(/\./g, ''));
+            let pricePerMeter = parseFloat(document.getElementById('pricePerMeter').value);
+            if (isNaN(length) || isNaN(width) || isNaN(pricePerMeter)) {
+                alert("Harap masukkan angka yang valid.");
+                return;
+            }
             let totalArea = length * width;
             let totalPrice = totalArea * pricePerMeter;
             document.getElementById('totalArea').textContent = `Total Luas: ${totalArea.toFixed(2)} m²`;
@@ -95,6 +95,10 @@
             }
             let stickerWidth = parseFloat(document.getElementById('stickerWidth').value) * 10;
             let stickerHeight = parseFloat(document.getElementById('stickerHeight').value) * 10;
+            if (isNaN(stickerWidth) || isNaN(stickerHeight) || isNaN(paperWidth) || isNaN(paperHeight)) {
+                alert("Harap masukkan angka yang valid.");
+                return;
+            }
             let countWidth = Math.floor(paperWidth / stickerWidth);
             let countHeight = Math.floor(paperHeight / stickerHeight);
             let totalStickers = countWidth * countHeight;
