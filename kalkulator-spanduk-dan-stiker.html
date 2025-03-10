@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Spanduk & Stiker</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .calculator {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .result {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="bg-dark">
+
+    <div class="container">
+
+        <!-- Kalkulator Harga Spanduk -->
+        <div class="calculator">
+            <h2 class="text-center mb-4"><i class="fa-solid fa-calculator"></i> Kalkulator Harga Spanduk</h2>
+            <form id="bannerForm">
+                <div class="mb-3">
+                    <label for="length" class="form-label">Panjang (meter)</label>
+                    <input type="number" class="form-control" id="length" placeholder="Masukkan panjang" required>
+                </div>
+                <div class="mb-3">
+                    <label for="width" class="form-label">Lebar (meter)</label>
+                    <input type="number" class="form-control" id="width" placeholder="Masukkan lebar" required>
+                </div>
+                <div class="mb-3">
+                    <label for="pricePerMeter" class="form-label">Harga per Meter (Rp)</label>
+                    <input type="text" class="form-control" id="pricePerMeter" placeholder="Masukkan harga per meter"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100"><i class="fa-solid fa-calculator"></i>
+                    Hitung</button>
+            </form>
+            <div class="mt-4">
+                <p class="result" id="totalArea">Total Luas: 0 m²</p>
+                <p class="result" id="totalPrice">Total Harga: Rp 0</p>
+            </div>
+        </div>
+
+        <!-- Kalkulator Jumlah Stiker -->
+        <div class="calculator">
+            <h2 class="text-center mb-4"><i class="fa-solid fa-sticky-note"></i> Kalkulator Jumlah Stiker</h2>
+            <form id="stickerForm">
+                <div class="mb-3">
+                    <label for="paperSize" class="form-label">Ukuran Kertas</label>
+                    <select class="form-select" id="paperSize" required onchange="toggleCustomSize(this.value)">
+                        <option value="" disabled selected>Pilih ukuran kertas</option>
+                        <option value="594x841">A1 (594 x 841 mm)</option>
+                        <option value="420x594">A2 (420 x 594 mm)</option>
+                        <option value="297x420">A3 (297 x 420 mm)</option>
+                        <option value="210x297">A4 (210 x 297 mm)</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div>
+
+                <div id="customSizeInputs" class="mb-3 d-none">
+                    <label for="customWidth" class="form-label">Lebar Kertas (mm)</label>
+                    <input type="number" class="form-control" id="customWidth" placeholder="Masukkan lebar kertas">
+                    <label for="customHeight" class="form-label mt-2">Tinggi Kertas (mm)</label>
+                    <input type="number" class="form-control" id="customHeight" placeholder="Masukkan tinggi kertas">
+                </div>
+
+                <div class="mb-3">
+                    <label for="stickerWidth" class="form-label">Lebar Stiker (cm)</label>
+                    <input type="number" class="form-control" id="stickerWidth" placeholder="Masukkan lebar stiker"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="stickerHeight" class="form-label">Tinggi Stiker (cm)</label>
+                    <input type="number" class="form-control" id="stickerHeight" placeholder="Masukkan tinggi stiker"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100"><i class="fa-solid fa-calculator"></i>
+                    Hitung</button>
+            </form>
+            <div class="mt-4">
+                <p class="result" id="stickerCount">Jumlah Stiker: 0</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleCustomSize(value) {
+            const customSizeInputs = document.getElementById('customSizeInputs');
+            if (value === "custom") {
+                customSizeInputs.classList.remove('d-none');
+            } else {
+                customSizeInputs.classList.add('d-none');
+            }
+        }
+
+        document.getElementById('stickerForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let paperWidth, paperHeight;
+            const paperSize = document.getElementById('paperSize').value;
+
+            if (paperSize === "custom") {
+                paperWidth = parseInt(document.getElementById('customWidth').value);
+                paperHeight = parseInt(document.getElementById('customHeight').value);
+            } else {
+                const size = paperSize.split('x');
+                paperWidth = parseInt(size[0]);
+                paperHeight = parseInt(size[1]);
+            }
+
+            const stickerWidth = parseFloat(document.getElementById('stickerWidth').value) * 10;
+            const stickerHeight = parseFloat(document.getElementById('stickerHeight').value) * 10;
+
+            if (stickerWidth > 0 && stickerHeight > 0 && paperWidth > 0 && paperHeight > 0) {
+                const countWidth = Math.floor(paperWidth / stickerWidth);
+                const countHeight = Math.floor(paperHeight / stickerHeight);
+                const totalStickers = countWidth * countHeight;
+
+                document.getElementById('stickerCount').textContent = `Jumlah Stiker: ${totalStickers}`;
+            } else {
+                alert('Mohon masukkan ukuran dengan benar.');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
