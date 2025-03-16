@@ -21,7 +21,7 @@
             overflow-y: auto;
             background-color: #f8f9fa;
             color: black;
-            border-radius: 10px;
+            border-radius: 7px;
         }
 
         .bg-light {
@@ -80,7 +80,7 @@
         </div>
         <div class="row row-gap">
             <div class="col-md-4 col-12 bg-light-analyze p-3 rounded-start-2">
-                <h4>Keyword Density (1 kata)</h4>
+                <h4>Keyword Density (x1)</h4>
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -93,7 +93,7 @@
                 </table>
             </div>
             <div class="col-md-4 col-12 bg-light-analyze p-3">
-                <h4>Keyword Density (2 kata)</h4>
+                <h4>Keyword Density (x2)</h4>
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -106,7 +106,7 @@
                 </table>
             </div>
             <div class="col-md-4 col-12 bg-light-analyze p-3 rounded-end-2">
-                <h4>Keyword Density (3 kata)</h4>
+                <h4>Keyword Density (x3)</h4>
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -124,12 +124,13 @@
     <script>
         function analyzeText() {
             let inputDiv = document.getElementById("inputText");
-            let text = inputDiv.innerText.trim();
+            let text = inputDiv.innerText.trim(); // Use innerText to preserve line breaks
 
             let words = text.match(/[A-Za-zÀ-ÖØ-öø-ÿ0-9]+(?:['’-][A-Za-zÀ-ÖØ-öø-ÿ0-9]+)*/g) || [];
             let totalWords = words.length;
             let charCount = text.length;
-            let readingTime = Math.ceil(totalWords / 320);
+            let readingTime = (totalWords / 400).toFixed(2); // Calculate reading time in minutes with decimal
+
 
             document.getElementById("charCount").innerText = charCount;
             document.getElementById("wordCount").innerText = totalWords;
@@ -149,7 +150,7 @@
                 table.innerHTML = "";
                 data.forEach(([phrase, count]) => {
                     let percentage = ((count / totalWords) * 100).toFixed(2);
-                    let warning = percentage > 6 ? "<span style='color:red;'>⚠</span>" : "";
+                    let warning = percentage > 7 ? "<span style='color:red;'>⚠</span>" : "";
                     let row = `<tr><td>${phrase}</td><td>${count}</td><td>${percentage}% ${warning}</td></tr>`;
                     table.innerHTML += row;
                 });
@@ -159,6 +160,17 @@
             updateTable("keywordTable2", countPhrases(2));
             updateTable("keywordTable3", countPhrases(3));
         }
+
+        // Add paste event listener to strip formatting and preserve line breaks
+        document.getElementById("inputText").addEventListener('paste', function (event) {
+            event.preventDefault(); // Prevent the default paste behavior
+            let text = (event.clipboardData || window.clipboardData).getData('text/plain'); // Get plain text
+            // Replace newline characters with <br> tags
+            text = text.replace(/\n/g, '<br>');
+            document.execCommand('insertHTML', false, text); // Insert plain text with preserved line breaks
+        });
+
+
     </script>
 </body>
 
