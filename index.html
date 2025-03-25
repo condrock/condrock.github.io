@@ -585,9 +585,8 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const imageExtensions = /\.(jpe?g|png)(?=\?|#|$)/i;
-      const resizeRegex = /(s\d+)(\/[^\/?#]+)(\?[^#]*)?/;
 
-      // Fungsi untuk mendeteksi dukungan WebP
+      // Deteksi apakah browser mendukung WebP
       const supportsWebP = (() => {
         try {
           const canvas = document.createElement("canvas");
@@ -597,54 +596,41 @@
         }
       })();
 
-      // Fungsi untuk membersihkan URL dari query atau hash
-      const cleanUrl = (url) => url.split("?")[0].split("#")[0];
-
-      // Fungsi untuk menangani error jika WebP gagal dimuat
+      // Fungsi menangani error jika WebP gagal dimuat
       const handleImageError = (img) => {
         if (img.src.includes(".webp") && img.dataset.originalSrc) {
-          img.setAttribute("src", img.dataset.originalSrc.replace(/-rw/g, "").replace(/webp$/, "jpg"));
+          img.src = img.dataset.originalSrc;
         }
       };
 
       document.querySelectorAll("img").forEach((img) => {
         try {
-          let src = img.dataset.originalSrc || img.getAttribute("src") || img.getAttribute("data-src");
-          if (!src || typeof src !== "string" || !src.includes("blogspot.com") || src.includes("-rw")) return;
+          let src = img.dataset.originalSrc || img.src || img.getAttribute("data-src");
+          if (!src || typeof src !== "string" || !imageExtensions.test(src)) return;
 
-          const cleanSrc = cleanUrl(src);
-          if (!imageExtensions.test(cleanSrc)) return;
+          // Simpan src asli agar bisa fallback jika WebP gagal
+          img.dataset.originalSrc = src;
 
-          let newSrc = cleanSrc.replace(resizeRegex, "$1-rw$2");
-          if (supportsWebP) newSrc = newSrc.replace(imageExtensions, ".webp");
-
-          const originalParams = src.match(/[?#].*/);
-          if (originalParams) newSrc += originalParams[0];
-
-          // Hanya set dataset jika belum ada
-          if (!img.dataset.originalSrc) {
-            img.dataset.originalSrc = src;
+          // Ganti ekstensi ke WebP jika browser mendukung
+          if (supportsWebP) {
+            let newSrc = src.replace(imageExtensions, ".webp");
+            img.src = newSrc;
+            if (img.hasAttribute("data-src")) {
+              img.setAttribute("data-src", newSrc);
+            }
           }
 
-          img.setAttribute("loading", "lazy");
-          img.setAttribute("decoding", "async");
-          img.setAttribute("src", newSrc);
+          img.loading = "lazy"; // Lazy loading
+          img.decoding = "async"; // Optimalisasi decoding
 
-          if (img.hasAttribute("data-src")) {
-            img.setAttribute("data-src", newSrc);
-          }
-
-          if (newSrc.startsWith("http") && !newSrc.includes(location.origin)) {
-            img.setAttribute("crossOrigin", "anonymous");
-          }
-
+          // Event error untuk fallback ke format asli jika WebP gagal dimuat
           img.addEventListener("error", () => handleImageError(img), { once: true });
+
         } catch (error) {
           console.error("Gagal memproses gambar:", img, error);
         }
       });
     });
-
   </script>
 </body>
 
