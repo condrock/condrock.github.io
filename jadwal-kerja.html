@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Kerja 6-2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white p-6">
+    <div class="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+        <h2 class="text-xl font-bold mb-4">Jadwal Kerja 6-2</h2>
+
+        <label class="block mb-2">Pilih Tanggal:</label>
+        <input type="date" id="startDate" class="border p-2 w-full mb-4 text-black">
+
+        <button id="generateButton" class="bg-blue-500 text-white px-4 py-2 rounded">Buat Jadwal</button>
+
+        <table class="w-full mt-6 border-collapse border border-gray-400">
+            <thead>
+                <tr class="bg-gray-700 text-white">
+                    <th class="border p-2">Tanggal</th>
+                    <th class="border p-2">Hari</th>
+                    <th class="border p-2">Shift</th>
+                </tr>
+            </thead>
+            <tbody id="scheduleTable"></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById("generateButton").addEventListener("click", generateSchedule);
+
+        function generateSchedule() {
+            const startDateInput = document.getElementById("startDate").value;
+            if (!startDateInput) {
+                alert("Pilih tanggal terlebih dahulu.");
+                return;
+            }
+
+            const acuanDate = new Date("2025-03-27"); // Acuan awal shift 1
+            const startDate = new Date(startDateInput);
+            const scheduleTable = document.getElementById("scheduleTable");
+            scheduleTable.innerHTML = "";
+
+            const shifts = [1, 3, 2]; // Urutan shift sesuai pola
+            let shiftIndex = 0;
+
+            const timeDiff = Math.floor((startDate - acuanDate) / (1000 * 60 * 60 * 24));
+            let cycleOffset = (timeDiff % 8 + 8) % 8;
+            shiftIndex = Math.floor((timeDiff % 24) / 8);
+
+            let currentDate = new Date(startDate);
+            let endDate = new Date(startDate);
+            endDate.setMonth(endDate.getMonth() + 1);
+
+            while (currentDate <= endDate) {
+                let row = `<tr class='bg-gray-800 text-white'>
+                    <td class='border p-2'>${currentDate.toLocaleDateString("id-ID")}</td>
+                    <td class='border p-2'>${currentDate.toLocaleDateString("id-ID", { weekday: 'long' })}</td>`;
+
+                if (cycleOffset < 6) {
+                    row += `<td class='border p-2 bg-gray-600 text-white'>Shift ${shifts[shiftIndex]}</td>`;
+                } else {
+                    row += `<td class='border p-2 bg-red-500 text-white'>Libur</td>`;
+                }
+
+                row += `</tr>`;
+                scheduleTable.innerHTML += row;
+
+                currentDate.setDate(currentDate.getDate() + 1);
+                cycleOffset++;
+
+                if (cycleOffset === 8) {
+                    cycleOffset = 0;
+                    shiftIndex = (shiftIndex + 1) % 3;
+                } else if (cycleOffset === 6) {
+                    shiftIndex = (shiftIndex + 1) % 3;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
