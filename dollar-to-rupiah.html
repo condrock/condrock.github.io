@@ -29,6 +29,13 @@
             border: none;
         }
 
+        .form-control:focus {
+            background: #333;
+            color: white;
+            outline: none;
+            box-shadow: none;
+        }
+
         .form-control::placeholder {
             color: #a5c4a9;
         }
@@ -48,46 +55,73 @@
 
 <body>
     <div class="container mt-5">
-        <h2 class="fw-bold">DOLAR AS KE RUPIAH INDONESIA</h2>
-        <p>Konversi USD ke IDR dengan nilai tukar nyata</p>
+        <h2 class="fw-bold">KONVERSI USD & IDR</h2>
+        <p>Konversi antara USD dan IDR dengan nilai tukar nyata</p>
         <div class="card shadow p-4 mx-auto" style="max-width: 500px;">
             <div class="mb-3 text-start">
-                <label class="form-label">Jumlah</label>
+                <label class="form-label">Dari</label>
                 <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="bi bi-currency-dollar"></i> USD</span>
-                    <input type="number" class="form-control" id="usdInput" placeholder="Masukkan jumlah dolar"
-                        oninput="convertCurrency()">
+                    <span class="input-group-text bg-light" id="fromCurrencyLabel"><i class="bi bi-currency-dollar"></i>
+                        USD</span>
+                    <input type="number" class="form-control" id="fromInput" placeholder="Masukkan jumlah"
+                        oninput="convertCurrency('from')">
                 </div>
             </div>
             <div class="mb-3 text-start">
-                <label class="form-label">Dikonversi menjadi</label>
+                <label class="form-label">Ke</label>
                 <div class="input-group">
-                    <span class="input-group-text bg-light"><i class="bi bi-currency-exchange"></i> IDR</span>
-                    <input type="text" class="form-control" id="result" readonly>
+                    <span class="input-group-text bg-light" id="toCurrencyLabel"><i class="bi bi-currency-exchange"></i>
+                        IDR</span>
+                    <input type="number" class="form-control" id="toInput" placeholder="Masukkan jumlah"
+                        oninput="convertCurrency('to')">
                 </div>
             </div>
-            <p class="fw-bold">Nilai Tukar: <span id="exchangeRate">Memuat...</span></p>
+            <button class="btn btn-custom" onclick="swapCurrency()">Tukar</button>
+            <p class="fw-bold mt-3">Nilai Tukar: <span id="exchangeRate">Memuat...</span></p>
         </div>
     </div>
 
     <script>
         let exchangeRate = 0;
+        let isUsdToIdr = true;
 
         async function fetchExchangeRate() {
             try {
                 const response = await axios.get('https://api.exchangerate-api.com/v4/latest/USD');
                 exchangeRate = response.data.rates.IDR;
-                document.getElementById('exchangeRate').innerText = `1 USD = Rp${exchangeRate.toLocaleString('id-ID')}`;
+                updateExchangeRateText();
             } catch (error) {
                 document.getElementById('exchangeRate').innerText = "Gagal memuat kurs";
                 console.error("Error fetching exchange rate:", error);
             }
         }
 
-        function convertCurrency() {
-            const usdValue = document.getElementById('usdInput').value;
-            const result = usdValue * exchangeRate;
-            document.getElementById('result').value = result.toLocaleString('id-ID');
+        function updateExchangeRateText() {
+            if (isUsdToIdr) {
+                document.getElementById('exchangeRate').innerText = `1 USD = Rp${exchangeRate.toLocaleString('id-ID')}`;
+            } else {
+                document.getElementById('exchangeRate').innerText = `1 IDR = ${(1 / exchangeRate).toFixed(6)} USD`;
+            }
+        }
+
+        function convertCurrency(inputField) {
+            let fromValue = parseFloat(document.getElementById('fromInput').value) || 0;
+            let toValue = parseFloat(document.getElementById('toInput').value) || 0;
+
+            if (inputField === 'from') {
+                document.getElementById('toInput').value = (fromValue * exchangeRate).toFixed(2);
+            } else {
+                document.getElementById('fromInput').value = (toValue / exchangeRate).toFixed(2);
+            }
+        }
+
+        function swapCurrency() {
+            isUsdToIdr = !isUsdToIdr;
+            document.getElementById('fromCurrencyLabel').innerHTML = isUsdToIdr ? '<i class="bi bi-currency-dollar"></i> USD' : '<i class="bi bi-currency-exchange"></i> IDR';
+            document.getElementById('toCurrencyLabel').innerHTML = isUsdToIdr ? '<i class="bi bi-currency-exchange"></i> IDR' : '<i class="bi bi-currency-dollar"></i> USD';
+            document.getElementById('fromInput').value = '';
+            document.getElementById('toInput').value = '';
+            updateExchangeRateText();
         }
 
         fetchExchangeRate();
