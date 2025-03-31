@@ -38,7 +38,6 @@
 
         .ayah-arabic {
             font-family: 'Noto Naskh Arabic', 'Arial', sans-serif;
-            /* Menambahkan Arial sebagai fallback */
             font-size: 1.7rem;
             direction: rtl;
             text-align: right;
@@ -65,7 +64,7 @@
             const apiBase = "https://equran.id/api/v2/";
 
             function normalizeAyah(text) {
-                return text.normalize("NFC");
+                return text.normalize("NFC").replace(/\u08D6/g, ''); // Menghapus tanda baca ࣖ (Unicode U+08D6)
             }
 
             function loadSurah() {
@@ -87,7 +86,6 @@
 
                 $.getJSON(apiBase + `surat/${surahNumber}`)
                     .done(function (data) {
-                        console.log(data); // Tambahkan ini untuk memeriksa data yang diterima
                         let ayahHtml = '';
                         data.data.ayat.forEach(ayah => {
                             ayahHtml += `
@@ -106,7 +104,7 @@
                     })
                     .fail(function () {
                         $('#ayah-list').html("");
-                        $('#error-message').text("Gagal memuat ay at. Coba lagi nanti.");
+                        $('#error-message').text("Gagal memuat ayat. Coba lagi nanti.");
                     });
             }
 
