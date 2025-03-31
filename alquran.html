@@ -48,7 +48,7 @@
     <div class="container mt-4">
         <h2 class="text-center">Penampil Al-Qur'an</h2>
         <p class="text-center text-muted">Sumber data: <a href="https://equran.id/" rel="sponsored" target="_blank"
-                class="text-warning" target="_blank">Equran.id API</a></p>
+                class="text-warning">Equran.id API</a></p>
         <select id="surah-list" class="form-select mb-3">
             <option value="">Pilih Surah</option>
         </select>
@@ -59,6 +59,10 @@
     <script>
         $(document).ready(function () {
             const apiBase = "https://equran.id/api/v2/";
+
+            function normalizeAyah(text) {
+                return text.normalize("NFC");
+            }
 
             function loadSurah() {
                 $.getJSON(apiBase + "surat")
@@ -86,7 +90,7 @@
                                 <div class="card-body">
                                     <div class="ayah-container">
                                         <span class="ayah-number">${ayah.nomorAyat}.</span>
-                                        <h5 class="ayah-arabic">${ayah.teksArab}</h5>
+                                        <h5 class="ayah-arabic">${normalizeAyah(ayah.teksArab)}</h5>
                                     </div>
                                     <p class="card-text">${ayah.teksLatin}</p>
                                     <p class="card-text text-muted">${ayah.teksIndonesia}</p>
