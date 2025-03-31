@@ -87,6 +87,7 @@
 
                 $.getJSON(apiBase + `surat/${surahNumber}`)
                     .done(function (data) {
+                        console.log(data); // Tambahkan ini untuk memeriksa data yang diterima
                         let ayahHtml = '';
                         data.data.ayat.forEach(ayah => {
                             ayahHtml += `
@@ -105,7 +106,7 @@
                     })
                     .fail(function () {
                         $('#ayah-list').html("");
-                        $('#error-message').text("Gagal memuat ayat. Coba lagi nanti.");
+                        $('#error-message').text("Gagal memuat ay at. Coba lagi nanti.");
                     });
             }
 
