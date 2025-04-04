@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Keyword Generator + Delimiter Converter</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        #inputKeyword {
+            height: 50px;
+        }
+
+        #generatedKeywords {
+            height: 350px;
+        }
+
+        @media (min-width: 992px) {
+            .custom-container {
+                width: 50% !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="container bg-dark mb-5">
+    <div class="container mt-5 text-white custom-container">
+        <h2 class="text-center mb-4 display-3">Keyword Generator + Delimiter Converter</h2>
+
+        <!-- Keyword Generator -->
+        <div class="mb-3">
+            <label for="inputKeyword" class="form-label fs-4">Masukkan Kata Kunci</label>
+            <input type="text" id="inputKeyword" class="form-control fs-4" placeholder="Misalnya: desain grafis">
+        </div>
+
+        <button class="btn btn-primary w-100 mb-3" onclick="generateKeywords()">
+            <i class="fa-solid fa-bolt"></i> Generate
+        </button>
+
+        <div class="mb-3">
+            <label for="generatedKeywords" class="form-label fs-4">Hasil Keyword</label>
+            <textarea id="generatedKeywords" class="form-control fs-4" readonly></textarea>
+        </div>
+
+        <!-- Convert to Delimited Format -->
+        <div class="mb-3 row g-2">
+            <div class="col-12 col-md-6">
+                <label for="separator" class="form-label fs-4">Pilih Pemisah</label>
+                <select id="separator" class="form-select fw-bold fs-4">
+                    <option value=";">;</option>
+                    <option value=",">,</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-6 d-flex align-items-end">
+                <button class="btn btn-primary w-100 fs-4" onclick="convertText()">
+                    <i class="fa-solid fa-rotate"></i> Konversi
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-3 row g-2">
+            <div class="col-12">
+                <label for="outputText" class="form-label fs-4">Hasil</label>
+                <input type="text" id="outputText" class="form-control fs-4" readonly>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary w-100" onclick="copyText()">
+                    <i class="fa-solid fa-copy"></i> Salin
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-5 fs-4">
+            <p>Tools ini memungkinkan Anda untuk menghasilkan ide kata kunci berdasarkan input yang diberikan dan
+                mengonversinya ke
+                dalam format yang lebih mudah digunakan.</p>
+
+            <p>Setelah menghasilkan kata kunci, Anda dapat memilih pemisah seperti koma atau titik koma untuk
+                memformatnya sesuai
+                kebutuhan, misalnya untuk keperluan SEO, riset keyword, metadata dan lainnya.</p>
+
+            <p>Dengan fitur salin cepat, Anda bisa langsung menyalin hasilnya dan menggunakannya di mana saja.</p>
+        </div>
+    </div>
+
+    <script>
+        function generateKeywords() {
+            let input = document.getElementById("inputKeyword").value.trim();
+            if (input === "") {
+                alert("Masukkan kata kunci terlebih dahulu!");
+                return;
+            }
+
+            let keywords = [
+                `${input} murah`, `${input} terbaik`, `belajar ${input}`, `${input} profesional`,
+                `${input} untuk pemula`, `jasa ${input}`, `tutorial ${input}`, `cara membuat ${input}`,
+                `software untuk ${input}`, `${input} online`
+            ];
+
+            document.getElementById("generatedKeywords").value = keywords.join("\n");
+        }
+
+        function convertText() {
+            let inputText = document.getElementById("generatedKeywords").value.trim();
+            let separator = document.getElementById("separator").value;
+
+            if (inputText === "") {
+                alert("Generate keyword dulu sebelum mengubah format!");
+                return;
+            }
+
+            let lines = inputText.split("\n").map(line => line.trim()).filter(line => line !== "");
+            let result = lines.join(separator + " ");
+
+            document.getElementById("outputText").value = result;
+        }
+
+        function copyText() {
+            let outputText = document.getElementById("outputText").value;
+            if (outputText === "") {
+                alert("Tidak ada teks untuk disalin!");
+                return;
+            }
+
+            navigator.clipboard.writeText(outputText).then(() => {
+                alert("Teks berhasil disalin!");
+            }).catch(err => console.error("Gagal menyalin teks: ", err));
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
