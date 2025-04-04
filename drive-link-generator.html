@@ -19,12 +19,12 @@
 
 <body class="bg-dark">
 
-  <div class="container mt-5 p-3">
+  <div class="container mt-5">
     <!-- Kartu utama yang membungkus semua elemen -->
     <div class="card shadow p-3 panel panel-default panel-primary" id="mainpanel">
       <!-- Bagian kepala kartu dengan judul -->
       <div class="card-heading panel-heading">
-        <h1 class="card bg-primary text-white panel-title p-2 text-center fw-bold fs-5">Pembuat Tautan Unduh Langsung
+        <h1 class="p-2 fw-bold">Pembuat Tautan Unduh Langsung
           Google Drive</h1>
       </div>
 
@@ -33,24 +33,32 @@
         <form>
           <!-- Input untuk tautan berbagi -->
           <div class="form-group mt-3">
-            <label for="sharelink" class="fw-semibold mb-1">Input tautan berbagi</label>
-            <input type="text" class="form-control" id="sharelink"
+            <label for="sharelink" class="mb-1 fs-4">Input tautan berbagi</label>
+            <input type="text" class="form-control  fs-4" id="sharelink"
               placeholder="https://drive.google.com/file/d/XX-X__XXXXX-XXXXXXXXXXXXXXXX/view?usp=sharing" autofocus>
           </div>
 
           <!-- Input untuk tautan unduhan -->
-          <div class="form-group mt-3">
-            <label for="downloadlink" class="fw-semibold mb-1">Tautan unduhan</label>
+          <div class="form-group py-3">
+            <label for="downloadlink" class="mb-1 fs-4">Tautan unduhan</label>
             <div class="input-group">
-              <input type="text" class="form-control" id="downloadlink" readonly>
+              <input type="text" class="form-control fs-4" id="downloadlink" readonly>
               <span class="input-group-btn">
                 <!-- Tombol untuk menyalin tautan -->
-                <button id="copylinkbtn" class="btn btn-primary" type="button" data-clipboard-target="#downloadlink"
-                  disabled>Salin link</button>
+                <button id="copylinkbtn" class="btn btn-primary fs-4" type="button"
+                  data-clipboard-target="#downloadlink" disabled>Salin link</button>
               </span>
             </div>
           </div>
         </form>
+
+        <!-- Saran untuk mengubah setelan berbagi -->
+        <div class="alert alert-info mt-4" role="alert">
+          <strong>Pastikan:</strong> File yang ingin diunduh sudah diatur ke <b>"Siapa saja yang memiliki link dapat
+            melihat"</b>
+          agar bisa diakses oleh semua orang.
+        </div>
+
 
         <!-- Elemen yang tersembunyi dan dapat dijatuhkan -->
         <div class="collapse" id="collapseExample">
@@ -61,21 +69,8 @@
           </div>
         </div>
       </div>
-
-      <!-- Bagian kaki kartu dengan informasi hak cipta -->
-      <div class="panel-footer bg-light rounded text-right mt-5 fw-semibold text-center" id="year">&copy; <span
-          id="currentYear"></span> <a href="https://condrock.eu.org/" style="text-decoration: none" target="_blank">Cond
-          Rock</a></div>
     </div>
   </div>
-  <!-- Bagian iklan -->
-  <div class="container mt-32 mb-5 text-center">
-    <div data-type="_mgwidget" data-widget-id="1687146">
-    </div>
-    <script>(function (w, q) { w[q] = w[q] || []; w[q].push(["_mgc.load"]) })(window, "_mgq");
-    </script>
-  </div>
-
   <!-- Pemuatan jQuery, Bootstrap JS, Clipboard.js, dan notifikasi Bootstrap dari CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -85,9 +80,6 @@
   <!-- Pemuatan skrip kustom -->
   <script src="js/scriptgd.js"></script>
   <!-- Skrip untuk memperbarui tahun saat ini di kaki halaman -->
-  <script>
-    document.getElementById('currentYear').innerHTML = new Date().getFullYear();
-  </script>
 
   <!-- script js -->
   <script src="js/scriptgd.js"></script>
