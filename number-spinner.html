@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Undian Angka</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            text-align: center;
+        }
+
+        #spinnerWrapper {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div id="spinnerWrapper">
+            <!-- Panah dihapus dari sini -->
+            <canvas id="spinnerCanvas" width="500" height="500"></canvas>
+        </div>
+        <button class="btn w-50 btn-warning mt-4 fw-bold p-3" onclick="spin()">PUTAR</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("spinnerCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const numSegments = 10;
+        const anglePerSegment = (2 * Math.PI) / numSegments;
+        const colors = ['#fde2e2', '#d0ebff'];
+        let currentAngle = 0;
+
+        function drawWheel() {
+            const radius = canvas.width / 2;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < numSegments; i++) {
+                const angle = i * anglePerSegment;
+                ctx.beginPath();
+                ctx.moveTo(radius, radius);
+                ctx.arc(radius, radius, radius - 20, angle, angle + anglePerSegment);
+                ctx.fillStyle = colors[i % 2];
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(radius, radius);
+                ctx.rotate(angle + anglePerSegment / 2);
+                ctx.textAlign = "right";
+                ctx.fillStyle = "#000";
+                ctx.font = `${radius * 0.15}px Arial`;
+                ctx.fillText(i + 1, radius - 30, 10);
+                ctx.restore();
+            }
+        }
+
+        function spin() {
+            const winningNumber = Math.floor(Math.random() * numSegments) + 1;
+            const targetIndex = winningNumber - 1;
+            const segmentAngle = anglePerSegment;
+
+            const totalSpins = 5;
+            const fullRotation = 2 * Math.PI;
+
+            const stopAt = (targetIndex * segmentAngle) + (segmentAngle / 2);
+            const targetAngle = (fullRotation * totalSpins) - stopAt;
+
+            const duration = 2500;
+            let start = null;
+
+            function animate(timestamp) {
+                if (!start) start = timestamp;
+                let progress = timestamp - start;
+                let easing = Math.min(progress / duration, 1);
+                let angle = easing * targetAngle;
+
+                ctx.save();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.translate(canvas.width / 2, canvas.height / 2);
+                ctx.rotate(currentAngle + angle);
+                ctx.translate(-canvas.width / 2, -canvas.height / 2);
+                drawWheel();
+                ctx.restore();
+
+                if (easing < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    currentAngle = (currentAngle + targetAngle) % (2 * Math.PI);
+
+                    Swal.fire({
+                        title: `🎉 SELAMAT! 🎉`,
+                        html: `<h2 class="mt-2">Angka <strong>${winningNumber}</strong> Menang!</h2>`,
+                        icon: 'success',
+                        confirmButtonText: 'Lanjut!',
+                        backdrop: `
+              rgba(0,0,123,0.4)
+              url("https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif")
+              center top
+              no-repeat
+            `,
+                    });
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Responsif
+        window.addEventListener('resize', () => {
+            const size = Math.min(window.innerWidth, 500);
+            canvas.width = size;
+            canvas.height = size;
+            drawWheel();
+        });
+
+        window.dispatchEvent(new Event('resize'));
+    </script>
+
+</body>
+
+</html>
