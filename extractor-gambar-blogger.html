@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Extractor Gambar Blogger</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <style>
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border: 1px solid #ced4da;
+            white-space: pre-wrap;
+            word-break: break-word;
+            cursor: pointer;
+            user-select: text;
+        }
+
+        .copied-msg {
+            color: green;
+            margin-top: 5px;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        @media (min-width: 992px) {
+            .container {
+                width: 50% !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-dark text-light">
+    <div class="container my-5">
+        <h2 class="mb-4 fw-bold">Converter Gambar Blogger ke Tag &lt;img&gt;</h2>
+
+        <div class="mb-3">
+            <label for="htmlInput" class="form-label fs-4">Tempelkan HTML dari Blogger:</label>
+            <textarea class="form-control fs-3" id="htmlInput" rows="10"
+                placeholder="Paste kode HTML di sini..."></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="altInput" class="form-label fs-4">Alt & Title untuk Gambar:</label>
+            <input type="text" class="form-control fs-3" id="altInput"
+                placeholder="Tulis deskripsi gambar (alt & title)">
+        </div>
+
+        <button class="btn btn-primary" onclick="convert()">Convert</button>
+
+        <div class="mt-4">
+            <label class="form-label fs-4">Hasil Tag &lt;img&gt;:</label>
+            <pre><code class="fs-3 text-dark" id="result" onclick="copyAndHighlight()"></code></pre>
+            <div id="copied" class="copied-msg">✅ Disalin ke clipboard!</div>
+        </div>
+    </div>
+
+    <script>
+        function convert() {
+            const html = document.getElementById('htmlInput').value;
+            const altText = document.getElementById('altInput').value;
+
+            const div = document.createElement('div');
+            div.innerHTML = html;
+
+            const img = div.querySelector('img');
+            if (img) {
+                const src = img.getAttribute('src');
+                const result = `<img alt="${altText}" src="${src}" title="${altText}"/>`;
+                document.getElementById('result').textContent = result;
+                document.getElementById('copied').style.display = 'none';
+            } else {
+                document.getElementById('result').textContent = 'Gambar tidak ditemukan.';
+            }
+        }
+
+        function copyAndHighlight() {
+            const codeElement = document.getElementById('result');
+
+            // Select the text
+            const range = document.createRange();
+            range.selectNodeContents(codeElement);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Copy to clipboard
+            try {
+                document.execCommand('copy'); // fallback & compatible
+                navigator.clipboard.writeText(codeElement.textContent); // modern way
+            } catch (err) {
+                console.error('Copy failed:', err);
+            }
+
+            // Show confirmation
+            const copiedMsg = document.getElementById('copied');
+            copiedMsg.style.display = 'block';
+            setTimeout(() => copiedMsg.style.display = 'none', 2000);
+        }
+    </script>
+</body>
+
+</html>
