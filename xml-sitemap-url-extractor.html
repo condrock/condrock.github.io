@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>XML Sitemap URL Extractor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #121212;
+            color: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-5">
+        <h1 class="text-center mb-4">XML Sitemap URL Extractor</h1>
+
+        <div class="card bg-dark border-light mb-4">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="sitemapUrl" class="form-label">Sitemap URL</label>
+                    <input type="text" id="sitemapUrl" class="form-control"
+                        placeholder="https://www.xml-sitemaps.com/sitemap.xml" />
+                </div>
+                <button class="btn btn-primary" onclick="loadSitemap()">Load Sitemap</button>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="result" class="form-label">Extracted URLs</label>
+            <textarea id="result" class="form-control" rows="10" readonly
+                placeholder="Your URLs will appear here..."></textarea>
+        </div>
+        <button class="btn btn-outline-light" onclick="copyResult()">Copy to Clipboard</button>
+    </div>
+
+    <script>
+        async function loadSitemap() {
+            const input = document.getElementById("sitemapUrl");
+            const resultArea = document.getElementById("result");
+            const url = input.value.trim();
+            resultArea.value = "Loading...";
+
+            if (!url.startsWith("http")) {
+                resultArea.value = "Error: Please enter a valid URL (with http or https).";
+                return;
+            }
+
+            try {
+                const encodedUrl = encodeURIComponent(url);
+                const proxy = `https://api.allorigins.win/raw?url=${encodedUrl}`;
+                const response = await fetch(proxy);
+
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+
+                const xml = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(xml, "application/xml");
+                const locs = doc.getElementsByTagName("loc");
+                const urls = Array.from(locs).map(loc => loc.textContent.trim());
+
+                resultArea.value = urls.length > 0 ? urls.join("\n") : "No <loc> URLs found in sitemap.";
+            } catch (error) {
+                resultArea.value = "Error: " + error.message;
+            }
+        }
+
+        function copyResult() {
+            const textArea = document.getElementById("result");
+            textArea.select();
+            document.execCommand("copy");
+        }
+    </script>
+</body>
+
+</html>
