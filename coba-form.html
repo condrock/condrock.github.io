@@ -39,22 +39,26 @@
   const nomorUser = document.getElementById('nomor').value.trim();
   const pertanyaan = document.getElementById('pesan').value.trim();
 
-  const query = new URLSearchParams({
-    nomor_wa: nomorUser,
-    pertanyaan: pertanyaan
-  });
+  // Ganti dengan URL Web App kamu
+  const scriptURL = "https://script.google.com/macros/s/AKfycbyhduvRrhyPKc7vA31xjf0HfBWKn_YBBGn7wwVkgK2jIKqSJoQXubgeYCHkWCxvbDlM/exec";
 
-  const url = `https://script.google.com/macros/s/AKfycbyhduvRrhyPKc7vA31xjf0HfBWKn_YBBGn7wwVkgK2jIKqSJoQXubgeYCHkWCxvbDlM/exec?${query}`;
+  // Buat URL lengkap dengan query string
+  const fullURL = `${scriptURL}?nomor_wa=${encodeURIComponent(nomorUser)}&pertanyaan=${encodeURIComponent(pertanyaan)}`;
 
-  fetch(url)
-    .then(() => {
-      const nomorAdmin = "6285855559325";
-      const pesanKeAdmin = `Hai, saya (${nomorUser}) ingin bertanya:\n${pertanyaan}`;
-      const waLink = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(pesanKeAdmin)}`;
-      window.location.href = waLink;
+  fetch(fullURL)
+    .then(response => {
+      if (response.ok) {
+        // Ganti dengan nomor admin
+        const nomorAdmin = "6285855559325";
+        const pesanKeAdmin = `Hai, saya (${nomorUser}) ingin bertanya:\n${pertanyaan}`;
+        const waLink = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(pesanKeAdmin)}`;
+        window.location.href = waLink;
+      } else {
+        alert("Gagal kirim data ke spreadsheet.");
+      }
     })
     .catch(() => {
-      alert("Gagal kirim data, coba lagi ya.");
+      alert("Terjadi error. Coba lagi.");
     });
 });
     </script>
