@@ -33,31 +33,30 @@
     </div>
 
     <script>
-        document.getElementById('form-wa').addEventListener('submit', function (e) {
-            e.preventDefault();
+        document.getElementById('form-wa').addEventListener('submit', function(e) {
+  e.preventDefault();
 
-            const nomorUser = document.getElementById('nomor').value.trim();
-            const pertanyaan = document.getElementById('pesan').value.trim();
+  const nomorUser = document.getElementById('nomor').value.trim();
+  const pertanyaan = document.getElementById('pesan').value.trim();
 
-            // Kirim ke Google Sheets
-            fetch("https://script.google.com/macros/s/AKfycbyhduvRrhyPKc7vA31xjf0HfBWKn_YBBGn7wwVkgK2jIKqSJoQXubgeYCHkWCxvbDlM/exec", {
-                method: "POST",
-                body: new URLSearchParams({
-                    nomor_wa: nomorUser,
-                    pertanyaan: pertanyaan
-                })
-            }).then(() => {
-                // Ganti dengan nomor WhatsApp kamu
-                const nomorAdmin = "6285855559325";
+  const query = new URLSearchParams({
+    nomor_wa: nomorUser,
+    pertanyaan: pertanyaan
+  });
 
-                const pesanKeAdmin = `Hai, saya (${nomorUser}) ingin bertanya:\n${pertanyaan}`;
-                const waLink = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(pesanKeAdmin)}`;
+  const url = `https://script.google.com/macros/s/AKfycbyhduvRrhyPKc7vA31xjf0HfBWKn_YBBGn7wwVkgK2jIKqSJoQXubgeYCHkWCxvbDlM/exec?${query}`;
 
-                window.location.href = waLink;
-            }).catch(() => {
-                alert("Gagal kirim data, coba lagi ya.");
-            });
-        });
+  fetch(url)
+    .then(() => {
+      const nomorAdmin = "6285855559325";
+      const pesanKeAdmin = `Hai, saya (${nomorUser}) ingin bertanya:\n${pertanyaan}`;
+      const waLink = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(pesanKeAdmin)}`;
+      window.location.href = waLink;
+    })
+    .catch(() => {
+      alert("Gagal kirim data, coba lagi ya.");
+    });
+});
     </script>
 
 </body>
