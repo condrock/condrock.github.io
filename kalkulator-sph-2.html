@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator SPH Cargloss</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container py-5 bg-dark text-white">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center mb-4">Kalkulator SPH Cargloss (Jam Aktual)</h2>
+
+        <!-- Produk A -->
+        <div class="mb-3">
+            <label class="form-label">Total Barang Produk A:</label>
+            <input type="number" id="totalBarangA" class="form-control" min="0" placeholder="Masukkan total barang A">
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Jam Mulai A:</label>
+                <input type="time" id="jamMulaiA" class="form-control">
+            </div>
+            <div class="col">
+                <label class="form-label">Jam Selesai A:</label>
+                <input type="time" id="jamSelesaiA" class="form-control">
+            </div>
+        </div>
+
+        <!-- Produk B -->
+        <div class="mb-3">
+            <label class="form-label">Total Barang Produk B:</label>
+            <input type="number" id="totalBarangB" class="form-control" min="0" placeholder="Masukkan total barang B">
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Jam Mulai B:</label>
+                <input type="time" id="jamMulaiB" class="form-control">
+            </div>
+            <div class="col">
+                <label class="form-label">Jam Selesai B:</label>
+                <input type="time" id="jamSelesaiB" class="form-control">
+            </div>
+        </div>
+
+        <button class="btn btn-primary w-100 mb-3" onclick="hitungDistribusi()">Hitung</button>
+
+        <h4 class="mt-4">Hasil Perhitungan SPH:</h4>
+        <table class="table table-bordered table-striped table-dark">
+            <thead>
+                <tr>
+                    <th>Jam</th>
+                    <th>Kumulatif Total</th>
+                    <th>SPH (A+B)</th>
+                </tr>
+            </thead>
+            <tbody id="hasilDistribusi"></tbody>
+        </table>
+    </div>
+
+    <script>
+        // konversi "HH:MM" -> decimal jam (mis. "07:30" => 7.5)
+        function timeToDecimal(timeStr) {
+            if (!timeStr) return NaN;
+            const [h, m] = timeStr.split(":").map(Number);
+            return h + (m || 0) / 60;
+        }
+
+        // format decimal jam -> "HH:MM"
+        function formatTime(decimal) {
+            const h = Math.floor(decimal);
+            let m = Math.round((decimal - h) * 60);
+            if (m === 60) { m = 0; return `${String(h + 1).padStart(2, '0')}:00`; }
+            return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+        }
+
+        // Hitung overlap antara interval [s,e) dan bin [bin, bin+1)
+        function overlapInHour(binStart, s, e) {
+            const binEnd = binStart + 1;
+            return Math.max(0, Math.min(e, binEnd) - Math.max(s, binStart));
+        }
+
+        // Distribusi integer akurat: bagi total menurut overlap proporsional, lalu gunakan largest remainder method
+        function distribusiProduk(total, start, end, jamMulaiGlobal, jamSelesaiGlobal) {
+            const jamStartFloor = Math.floor(jamMulaiGlobal);
+            const jamEndCeil = Math.ceil(jamSelesaiGlobal);
+            const jamRange = jamEndCeil - jamStartFloor;
+            const temp = Array(jamRange).fill(0);
+            const distribusi = Array(jamRange).fill(0);
+
+            const durasi = end - start;
+            if (!(durasi > 0) || total === 0) return distribusi; // kosong bila durasi 0 atau total 0
+
+            // hitung alokasi desimal per bin menurut overlap
+            for (let i = 0; i < jamRange; i++) {
+                const binStart = jamStartFloor + i;
+                const ov = overlapInHour(binStart, start, end);
+                if (ov > 0) {
+                    temp[i] = total * (ov / durasi); // proporsional
+                } else {
+                    temp[i] = 0;
+                }
+            }
+
+            // floor tiap bin
+            let sumFloor = 0;
+            for (let i = 0; i < jamRange; i++) {
+                distribusi[i] = Math.floor(temp[i]);
+                sumFloor += distribusi[i];
+            }
+
+            // sisa yang harus dibagikan
+            let diff = total - sumFloor;
+            if (diff <= 0) return distribusi;
+
+            // buat list indices dengan sisa fractional, hanya bins yang punya temp>0
+            const fracList = [];
+            for (let i = 0; i < jamRange; i++) {
+                if (temp[i] > 0) {
+                    const frac = temp[i] - Math.floor(temp[i]);
+                    fracList.push({ idx: i, frac });
+                }
+            }
+
+            // kalau nggak ada bin positif (tidak seharusnya), tulis semua ke first bin
+            if (fracList.length === 0) {
+                distribusi[0] += diff;
+                return distribusi;
+            }
+
+            // urut descending berdasarkan fractional part (besar ke kecil), tie-breaker idx kecil dulu
+            fracList.sort((a, b) => b.frac - a.frac || a.idx - b.idx);
+
+            // distribusikan diff: beri +1 ke idx dengan frac terbesar, jika diff > count maka cycle ulang
+            let k = 0;
+            while (diff > 0) {
+                const target = fracList[k % fracList.length].idx;
+                distribusi[target] += 1;
+                diff--;
+                k++;
+            }
+
+            return distribusi;
+        }
+
+        function hitungDistribusi() {
+            const totalA = parseInt(document.getElementById("totalBarangA").value || "0", 10);
+            const startA = timeToDecimal(document.getElementById("jamMulaiA").value);
+            const endA = timeToDecimal(document.getElementById("jamSelesaiA").value);
+
+            const totalB = parseInt(document.getElementById("totalBarangB").value || "0", 10);
+            const startB = timeToDecimal(document.getElementById("jamMulaiB").value);
+            const endB = timeToDecimal(document.getElementById("jamSelesaiB").value);
+
+            if (isNaN(startA) || isNaN(endA) || isNaN(startB) || isNaN(endB)) {
+                alert("Isi semua input jam dengan format benar.");
+                return;
+            }
+            if (startA >= endA) { alert("Jam mulai A harus < jam selesai A"); return; }
+            if (startB >= endB) { alert("Jam mulai B harus < jam selesai B"); return; }
+
+            // global range (per jam bulat)
+            const jamMulaiGlobal = Math.min(startA, startB);
+            const jamSelesaiGlobal = Math.max(endA, endB);
+            const jamStartFloor = Math.floor(jamMulaiGlobal);
+            const jamEndCeil = Math.ceil(jamSelesaiGlobal);
+            const jamRange = jamEndCeil - jamStartFloor;
+
+            // hitung distribusi masing-masing produk (integer, akurat)
+            const distribusiA = distribusiProduk(totalA, startA, endA, jamMulaiGlobal, jamSelesaiGlobal);
+            const distribusiB = distribusiProduk(totalB, startB, endB, jamMulaiGlobal, jamSelesaiGlobal);
+
+            // render tabel
+            const tbody = document.getElementById("hasilDistribusi");
+            tbody.innerHTML = "";
+            let kumulatif = 0;
+
+            for (let i = 0; i < jamRange; i++) {
+                const binStart = jamStartFloor + i;
+                const sphA = distribusiA[i] || 0;
+                const sphB = distribusiB[i] || 0;
+                const sphGabung = sphA + sphB;
+                kumulatif += sphGabung;
+
+                const jamAwalLabel = formatTime(binStart);
+                const jamAkhirLabel = formatTime(binStart + 1);
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+        <td>${jamAwalLabel} - ${jamAkhirLabel}</td>
+        <td>${kumulatif}</td>
+        <td>${sphGabung}</td>
+      `;
+                tbody.appendChild(tr);
+            }
+
+            // baris total (akurat)
+            const totalSemua = totalA + totalB;
+            const trTotal = document.createElement("tr");
+            trTotal.className = "table-success text-dark fw-bold";
+            trTotal.innerHTML = `
+      <td>TOTAL</td>
+      <td>${totalSemua}</td>
+      <td>${totalSemua}</td>
+    `;
+            tbody.appendChild(trTotal);
+        }
+    </script>
+</body>
+
+<div class="text-center mt-4">
+    <a href="https://condrock.eu.org/" target="_blank">
+        <img src="images/condrock.png" alt="condrock" width="100">
+    </a>
+</div>
+
+<script>function disableSelection(e) { void 0 !== e.onselectstart ? e.onselectstart = function () { return !1 } : void 0 !== e.style.MozUserSelect ? e.style.MozUserSelect = "none" : e.onmousedown = function () { return !1 }, e.style.cursor = "default" } function mousedwn(e) { try { if (2 == e.button || 3 == e.button) return !1 } catch (e) { if (3 == e.which) return !1 } } window.onload = function () { disableSelection(document.body) }, document.oncontextmenu = function () { return !1 }, document.ondragstart = function () { return !1 }, document.onmousedown = mousedwn, document.onkeydown = function (e) { return !e.ctrlKey || 67 !== e.keyCode && 86 !== e.keyCode && 85 !== e.keyCode && 117 !== e.keyCode ? 123 == e.keyCode || 18 == e.keyCode ? (e.preventDefault(), !1) : void 0 : (e.preventDefault(), !1) };</script>
+
+</body>
+
+</html>
