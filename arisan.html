@@ -87,21 +87,20 @@
         let interval;
 
         btnKocok.addEventListener("click", () => {
-            if (names.length === 0) {
-                rollingText.innerText = "Nama kosong";
-                return;
-            }
+
+            // RESET STYLE
+            rollingText.style.color = "";
+            rollingText.style.fontSize = "";
+            rollingText.style.borderColor = "";
+            hasil.innerHTML = "";
 
             btnKocok.disabled = true;
-            hasil.innerText = "";
 
-            // Rolling text
             interval = setInterval(() => {
                 const randomIndex = Math.floor(Math.random() * names.length);
                 rollingText.innerText = names[randomIndex];
             }, 80);
 
-            // Stop rolling setelah 5 detik
             setTimeout(() => {
                 clearInterval(interval);
                 const winner = names[Math.floor(Math.random() * names.length)];
@@ -109,15 +108,11 @@
                 rollingText.style.color = "#198754";
                 rollingText.style.fontSize = "50px";
                 rollingText.style.borderColor = "#198754";
-                hasil.innerHTML = '<i class="bi bi-trophy-fill text-warning me-1"></i> Pemenang: ' + winner;
+                hasil.innerHTML = "🏆 Pemenang: " + winner;
                 btnKocok.disabled = false;
-
-                // Getar HP (jika didukung)
-                if (navigator.vibrate) {
-                    navigator.vibrate(200);
-                }
             }, 5000);
         });
+
     </script>
 
 </body>
