@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Imsakiyah Ramadan 1447 H</title>
+
+    <!-- Bootstrap 5.3.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
+    <meta property="og:image"
+        content="https://img.freepik.com/free-photo/photorealistic-lohri-festival-celebration-with-lanterns_23-2151098257.jpg">
+</head>
+
+<body class="bg-dark text-light">
+
+    <div class="container py-5">
+
+        <div class="text-center mb-4">
+            <h2 class="fw-bold">Jadwal Imsak & Maghrib</h2>
+            <p class="fw-bold">
+                Ramadan 1447 Hijriah / 2026 Masehi
+            </p>
+            <p>
+                Sumber:
+                <a href="https://bimasislam.kemenag.go.id/jadwalimsakiyah" target="_blank"
+                    class="fw-semibold link-light text-decoration-none">
+                    Bimas Islam Kemenag RI
+                    <i class="fa-solid fa-up-right-from-square ms-1"></i>
+                </a>
+            </p>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-dark table-striped table-hover align-middle text-center" id="jadwalTable">
+                <thead class="table-secondary text-dark">
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Imsak</th>
+                        <th>Maghrib</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        const jadwalImsakiyah = [
+            { tanggal: "1 Ramadan 1447 H", imsak: "04:31", magrib: "18:18" },
+            { tanggal: "2 Ramadan 1447 H", imsak: "04:31", magrib: "18:18" },
+            { tanggal: "3 Ramadan 1447 H", imsak: "04:32", magrib: "18:18" },
+            { tanggal: "4 Ramadan 1447 H", imsak: "04:32", magrib: "18:17" },
+            { tanggal: "5 Ramadan 1447 H", imsak: "04:32", magrib: "18:17" },
+            { tanggal: "6 Ramadan 1447 H", imsak: "04:32", magrib: "18:17" },
+            { tanggal: "7 Ramadan 1447 H", imsak: "04:32", magrib: "18:16" },
+            { tanggal: "8 Ramadan 1447 H", imsak: "04:32", magrib: "18:16" },
+            { tanggal: "9 Ramadan 1447 H", imsak: "04:32", magrib: "18:16" },
+            { tanggal: "10 Ramadan 1447 H", imsak: "04:32", magrib: "18:15" },
+            { tanggal: "11 Ramadan 1447 H", imsak: "04:33", magrib: "18:15" },
+            { tanggal: "12 Ramadan 1447 H", imsak: "04:33", magrib: "18:15" },
+            { tanggal: "13 Ramadan 1447 H", imsak: "04:33", magrib: "18:14" },
+            { tanggal: "14 Ramadan 1447 H", imsak: "04:33", magrib: "18:14" },
+            { tanggal: "15 Ramadan 1447 H", imsak: "04:33", magrib: "18:13" },
+            { tanggal: "16 Ramadan 1447 H", imsak: "04:33", magrib: "18:13" },
+            { tanggal: "17 Ramadan 1447 H", imsak: "04:33", magrib: "18:13" },
+            { tanggal: "18 Ramadan 1447 H", imsak: "04:33", magrib: "18:12" },
+            { tanggal: "19 Ramadan 1447 H", imsak: "04:33", magrib: "18:12" },
+            { tanggal: "20 Ramadan 1447 H", imsak: "04:33", magrib: "18:11" },
+            { tanggal: "21 Ramadan 1447 H", imsak: "04:33", magrib: "18:11" },
+            { tanggal: "22 Ramadan 1447 H", imsak: "04:33", magrib: "18:10" },
+            { tanggal: "23 Ramadan 1447 H", imsak: "04:33", magrib: "18:10" },
+            { tanggal: "24 Ramadan 1447 H", imsak: "04:33", magrib: "18:10" },
+            { tanggal: "25 Ramadan 1447 H", imsak: "04:33", magrib: "18:09" },
+            { tanggal: "26 Ramadan 1447 H", imsak: "04:32", magrib: "18:09" },
+            { tanggal: "27 Ramadan 1447 H", imsak: "04:32", magrib: "18:08" },
+            { tanggal: "28 Ramadan 1447 H", imsak: "04:32", magrib: "18:08" },
+            { tanggal: "29 Ramadan 1447 H", imsak: "04:32", magrib: "18:07" },
+            { tanggal: "30 Ramadan 1447 H", imsak: "04:32", magrib: "18:07" }
+        ];
+
+        function generateTable() {
+            const tbody = document.querySelector("#jadwalTable tbody");
+
+            jadwalImsakiyah.forEach(item => {
+                const row = `
+                    <tr>
+                        <td>${item.tanggal}</td>
+                        <td class="fw-semibold">${item.imsak}</td>
+                        <td class="fw-semibold text-warning">${item.magrib}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", generateTable);
+    </script>
+
+</body>
+
+</html>
