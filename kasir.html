@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kasir Modern - Gajah Mungkur 88 mama</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg1: #0f172a;
+            --bg2: #111827;
+            --card: rgba(255, 255, 255, .08);
+            --stroke: rgba(255, 255, 255, .12);
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --accent: #22c55e;
+            --accent2: #38bdf8
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(56, 189, 248, .18), transparent 28%), radial-gradient(circle at bottom right, rgba(34, 197, 94, .16), transparent 30%), linear-gradient(160deg, var(--bg1), var(--bg2));
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif
+        }
+
+        .app-shell {
+            max-width: 1200px
+        }
+
+        .glass {
+            background: var(--card);
+            border: 1px solid var(--stroke);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .25)
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .6rem .9rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid var(--stroke);
+            color: #fff;
+            font-weight: 600
+        }
+
+        .metric {
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid var(--stroke);
+            border-radius: 18px;
+            padding: 1rem
+        }
+
+        .metric .label {
+            color: var(--muted);
+            font-size: .85rem
+        }
+
+        .metric .value {
+            font-size: 1.4rem;
+            font-weight: 700
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, .06) !important;
+            color: var(--text) !important;
+            border: 1px solid var(--stroke) !important;
+            border-radius: 14px !important
+        }
+
+        .form-control::placeholder {
+            color: #cbd5e1
+        }
+
+        .btn-modern {
+            border: none;
+            border-radius: 14px;
+            padding: .9rem 1rem;
+            font-weight: 700;
+            transition: .2s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .18)
+        }
+
+        .btn-modern:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.03)
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent2), var(--accent)) !important;
+            color: #fff !important
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #16a34a, #22c55e) !important
+        }
+
+        .pill {
+            font-size: .78rem;
+            padding: .35rem .6rem;
+            border-radius: 999px;
+            background: rgba(34, 197, 94, .14);
+            color: #86efac
+        }
+
+        #struk {
+            display: none;
+            font-family: monospace;
+            width: 58mm;
+            color: #000;
+            background: #fff;
+            padding: 12px
+        }
+
+        @media print {
+            body * {
+                visibility: hidden
+            }
+
+            #struk,
+            #struk * {
+                visibility: visible
+            }
+
+            #struk {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-4 app-shell">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+            <div>
+                <div class="brand-badge mb-2"><i class="bi bi-shop-window"></i> Kasir Modern</div>
+                <h2 class="fw-bold mb-1">Gajah Mungkur 88 Mama Dira</h2>
+                <div class="text-white-50">Murah, Kenyang, Bikin Balik Lagi. Pilihan Tepat di Saat Perut Tak Bisa Diajak
+                    Kompromi</div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="glass p-4 h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="mb-0"><i class="bi bi-bag-plus"></i> Input Barang</h5>
+                        <button class="btn btn-sm btn-outline-light rounded-pill" onclick="resetForm()"><i
+                                class="bi bi-arrow-counterclockwise"></i> Reset</button>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-white-50">Nama barang</label>
+                        <input type="text" id="nama" class="form-control form-control-lg"
+                            placeholder="Contoh: Nasi Ayam" />
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Harga</label>
+                            <input type="number" id="harga" class="form-control form-control-lg" placeholder="10000"
+                                min="0" />
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label text-white-50">Qty</label>
+                            <input type="number" id="qty" class="form-control form-control-lg" placeholder="1" min="1"
+                                value="1" />
+                        </div>
+                    </div>
+
+                    <button class="btn btn-modern btn-accent w-100 mt-4" onclick="tambahItem()"><i
+                            class="bi bi-plus-circle"></i> Tambah ke Transaksi</button>
+
+                    <div class="row g-3 mt-4">
+                        <div class="col-6">
+                            <div class="metric">
+                                <div class="label">Item</div>
+                                <div class="value" id="countItem">0</div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="metric">
+                                <div class="label">Total</div>
+                                <div class="value">Rp <span id="total">0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="glass p-4 h-100">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h5 class="mb-0"><i class="bi bi-receipt"></i> Transaksi</h5>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill" onclick="clearCart()"><i
+                                class="bi bi-trash3"></i> Kosongkan</button>
+                    </div>
+
+                    <div class="table-responsive mb-3">
+                        <table class="table table-borderless align-middle text-white mb-0">
+                            <thead>
+                                <tr class="text-white-50">
+                                    <th>Barang</th>
+                                    <th class="text-center">Qty</th>
+                                    <th class="text-end">Harga</th>
+                                    <th class="text-end">Subtotal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="list"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-6">
+                            <label class="form-label text-white-50">Uang bayar</label>
+                            <input type="number" id="bayar" class="form-control form-control-lg"
+                                placeholder="Masukkan nominal" min="0" oninput="hitungKembali()" />
+                        </div>
+                        <div class="col-md-6">
+                            <div class="metric">
+                                <div class="label">Kembali</div>
+                                <div class="value">Rp <span id="kembali">0</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-modern btn-success w-100 mt-4" onclick="printStruk()"><i
+                            class="bi bi-printer"></i> Print Struk</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="struk">
+        <center>
+            <b>Gajah Mungkur 88 mama</b><br>
+            Wawan Kiwink<br>
+            0856 9496 6205<br>
+            <hr>
+        </center>
+        <div id="struk-list"></div>
+        <hr>
+        Total: <span id="struk-total"></span><br>
+        Bayar: <span id="struk-bayar"></span><br>
+        Kembali: <span id="struk-kembali"></span><br>
+        <br>
+        <center>Terima kasih</center>
+    </div>
+
+    <script>
+        let items = [];
+        const fmt = n => new Intl.NumberFormat('id-ID').format(n || 0);
+
+        function tambahItem() {
+            const nama = document.getElementById('nama').value.trim();
+            const harga = Number(document.getElementById('harga').value);
+            const qty = Number(document.getElementById('qty').value);
+
+            if (!nama || !Number.isFinite(harga) || harga <= 0 || !Number.isFinite(qty) || qty <= 0) {
+                alert('Lengkapi nama, harga, dan qty dengan benar.');
+                return;
+            }
+
+            const found = items.find(i => i.nama.toLowerCase() === nama.toLowerCase() && i.harga === harga);
+
+            if (found) {
+                found.qty += qty;
+                found.total = found.harga * found.qty;
+            } else {
+                items.push({ nama, harga, qty, total: harga * qty });
+            }
+
+            render();
+            resetForm(false);
+        }
+
+        function hapusItem(index) {
+            items.splice(index, 1);
+            render();
+        }
+
+        function clearCart() {
+            if (!confirm('Kosongkan semua item?')) return;
+            items = [];
+            render();
+            document.getElementById('bayar').value = '';
+        }
+
+        function resetForm(focus = true) {
+            document.getElementById('nama').value = '';
+            document.getElementById('harga').value = '';
+            document.getElementById('qty').value = 1;
+            if (focus) document.getElementById('nama').focus();
+        }
+
+        function render() {
+            const list = document.getElementById('list');
+            list.innerHTML = '';
+            let total = 0;
+
+            items.forEach((item, index) => {
+                total += item.total;
+                list.insertAdjacentHTML('beforeend', `
+          <tr>
+            <td>
+              <div class="fw-semibold">${item.nama}</div>
+              <div class="text-white-50 small">Rp ${fmt(item.harga)} / item</div>
+            </td>
+            <td class="text-center">${item.qty}</td>
+            <td class="text-end">Rp ${fmt(item.harga)}</td>
+            <td class="text-end fw-semibold">Rp ${fmt(item.total)}</td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-outline-light" onclick="hapusItem(${index})">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </td>
+          </tr>
+        `);
+            });
+
+            document.getElementById('total').innerText = fmt(total);
+            document.getElementById('countItem').innerText = items.reduce((a, b) => a + b.qty, 0);
+            hitungKembali();
+        }
+
+        function hitungKembali() {
+            const total = items.reduce((a, b) => a + b.total, 0);
+            const bayar = Number(document.getElementById('bayar').value) || 0;
+            document.getElementById('kembali').innerText = fmt(bayar - total);
+        }
+
+        function printStruk() {
+            if (!items.length) {
+                alert('Belum ada item.');
+                return;
+            }
+
+            const total = items.reduce((a, b) => a + b.total, 0);
+            const bayar = Number(document.getElementById('bayar').value) || 0;
+            const kembali = bayar - total;
+
+            const strukList = document.getElementById('struk-list');
+            strukList.innerHTML = items.map(item => `
+        ${item.nama} ${item.qty} x ${fmt(item.harga)}<br>
+        Rp ${fmt(item.total)}<br>
+      `).join('');
+
+            document.getElementById('struk-total').innerText = fmt(total);
+            document.getElementById('struk-bayar').innerText = fmt(bayar);
+            document.getElementById('struk-kembali').innerText = fmt(kembali);
+
+            window.print();
+        }
+
+        document.getElementById('nama').addEventListener('keydown', e => { if (e.key === 'Enter') tambahItem(); });
+        document.getElementById('harga').addEventListener('keydown', e => { if (e.key === 'Enter') tambahItem(); });
+        document.getElementById('qty').addEventListener('keydown', e => { if (e.key === 'Enter') tambahItem(); });
+
+        document.getElementById('nama').focus();
+        render();
+    </script>
+</body>
+
+</html>
