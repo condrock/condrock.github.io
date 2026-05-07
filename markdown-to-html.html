@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown → HTML Converter</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            color: #e8eaed;
+            min-height: 100vh;
+            padding: 3rem 2rem;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            min-height: 52px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .btn-info:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .btn-clear:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+
+        textarea {
+            width: 100%;
+            height: 55vh;
+            min-height: 400px;
+            background: #111827;
+            color: #f9fafb;
+            border: 3px solid #374151;
+            border-radius: 20px;
+            padding: 2rem;
+            font-size: 18px;
+            font-family: 'Consolas', monospace;
+            resize: vertical;
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2), 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        #output {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: #0f172a;
+            border: 3px solid #1e293b;
+            border-radius: 20px;
+            white-space: pre-wrap;
+            font-family: 'Consolas', 'Roboto Mono', monospace;
+            font-size: 17px;
+            line-height: 1.6;
+            min-height: 55vh;
+            max-height: 55vh;
+            overflow: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e1b4b, #1e293b);
+            margin: 5% auto;
+            padding: 3rem;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow: auto;
+            border: 2px solid #3730a3;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.7);
+        }
+
+        .close {
+            color: #94a3b8;
+            float: right;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: #f1f5f9;
+        }
+
+        .features {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            padding: 1.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 16px;
+            border-left: 5px solid #6366f1;
+        }
+
+        .feature code {
+            background: #1e1e1e;
+            padding: 0.3rem 0.6rem;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem 1rem;
+                font-size: 16px;
+            }
+
+            .toolbar {
+                gap: 1rem;
+            }
+
+            .btn {
+                padding: 0.9rem 1.5rem;
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Markdown to HTML</h1>
+        </div>
+
+        <div class="toolbar">
+            <button class="btn" onclick="copyHTML()">
+                <span class="material-icons">content_copy</span>
+                Copy HTML
+            </button>
+            <button class="btn btn-clear" onclick="clearAll()">
+                <span class="material-icons">delete</span>
+                Clear
+            </button>
+            <button class="btn btn-info" onclick="toggleInfo()">
+                <span class="material-icons">info</span>
+                Guide
+            </button>
+        </div>
+
+        <textarea id="inputText" placeholder="# Judul Utama Artikel
+        
+Teks paragraf *italic* dengan [contoh-link.com]
+        
+## Subjudul H2
+        
+Paragraf biasa di bawah H2
+        
+### Judul H3
+        
+Paragraf di bawah H3
+        
+#### Judul H4
+        
+- Poin pertama *penting*
+- Poin kedua dengan [link.com]
+        
+1. Langkah pertama
+2. Langkah kedua
+        
+Paragraf penutup [domain.com]"></textarea>
+
+        <div id="output"></div>
+    </div>
+
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleInfo()">&times;</span>
+            <h2 style="margin-bottom: 1.5rem;">📖 Panduan Penggunaan</h2>
+            <div class="features">
+                <div class="feature">
+                    <strong># Judul → </strong><code>&lt;h1&gt;Judul&lt;/h1&gt;<br>judul-permalink</code>
+                </div>
+                <div class="feature">
+                    <strong>## Subjudul → </strong><code>&lt;h2&gt;Subjudul&lt;/h2&gt;</code>
+                </div>
+                <div class="feature">
+                    <strong>### Judul h3</strong> → <code>&lt;h3&gt;Judul&nbsp;H3&lt;/h3&gt;</code>
+                </div>
+                <div class="feature">
+                    <strong>#### Judul h4</strong> → <code>&lt;h4&gt;Judul&nbsp;H4&lt;/h4&gt;</code>
+                </div>
+                <div class="feature">
+                    <strong>*Teks* → </strong><code>&lt;em&gt;Teks&nbsp;Miring&lt;/em&gt;</code>
+                </div>
+                <div class="feature">
+                    <strong>[domain.com] →
+                    </strong><code>&lt;a href="https://domain.com" rel="sponsored" target="_blank"&gt;&lt;b&gt;domain.com&lt;/b&gt;&lt;/a&gt;</code>
+                </div>
+                <div class="feature">
+                    <strong>- Item → </strong><code>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</code>
+                </div>
+                <div class="feature">
+                    <strong>1. Item → </strong><code>&lt;ol&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ol&gt;</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cache = new Map();
+        let debounceTimer, currentListType = '';
+
+        document.getElementById('inputText').addEventListener('input', debounceConvert);
+
+        function debounceConvert() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(convertToHTML, 200);
+        }
+
+        function convertToHTML() {
+            const input = document.getElementById('inputText').value;
+            if (cache.has(input)) {
+                document.getElementById('output').textContent = cache.get(input);
+                return;
+            }
+
+            let lines = input.split('\n');
+            let htmlOutput = '';
+
+            lines.forEach(line => {
+                let trimmed = line.trim();
+                if (!trimmed) {
+                    if (currentListType) {
+                        htmlOutput += `</${currentListType}>\n`;
+                        currentListType = '';
+                    }
+                    return;
+                }
+
+                let processed = processInline(trimmed);
+
+                // H1: # text
+                if (trimmed.startsWith('# ')) {
+                    if (currentListType) {
+                        htmlOutput += `</${currentListType}>\n`;
+                        currentListType = '';
+                    }
+                    let title = trimmed.substring(2).trim();
+                    let permalink = generatePermalink(title);
+                    htmlOutput += `<h1>${title}</h1>\n${permalink}\n`;
+                }
+                // H2: ## text
+                else if (trimmed.startsWith('## ')) {
+                    if (currentListType) {
+                        htmlOutput += `</${currentListType}>\n`;
+                        currentListType = '';
+                    }
+                    let title = trimmed.substring(3).trim();
+                    htmlOutput += `<h2>${title}</h2>\n`;
+                }
+                // H3: ### text  
+                else if (trimmed.startsWith('### ')) {
+                    if (currentListType) {
+                        htmlOutput += `</${currentListType}>\n`;
+                        currentListType = '';
+                    }
+                    let title = trimmed.substring(4).trim();
+                    htmlOutput += `<h3>${title}</h3>\n`;
+                }
+                // H4: #### text
+                else if (trimmed.startsWith('#### ')) {
+                    if (currentListType) {
+                        htmlOutput += `</${currentListType}>\n`;
+                        currentListType = '';
+                    }
+                    let title = trimmed.substring(5).trim();
+                    htmlOutput += `<h4>${title}</h4>\n`;
+                }
+                // UL: - text
+                else if (trimmed.startsWith('- ')) {
+                    if (currentListType !== 'ul') {
+                        if (currentListType) htmlOutput += `</${currentListType}>`;
+                        htmlOutput += '<ul>\n';
+                        currentListType = 'ul';
+                    }
+                    let content = trimmed.substring(2).trim();
+                    htmlOutput += `<li>${processInline(content)}</li>\n`;
+                }
+                // OL: 1. text
+                else if (/^\d+\.\s/.test(trimmed)) {
+                    if (currentListType !== 'ol') {
+                        if (currentListType) htmlOutput += `</${currentListType}>`;
+                        htmlOutput += '<ol>\n';
+                        currentListType = 'ol';
+                    }
+                    let content = trimmed.substring(trimmed.indexOf('.') + 2).trim();
+                    htmlOutput += `<li>${processInline(content)}</li>\n`;
+                }
+                // PARAGRAPH
+                else {
+                    if (currentListType) {
+                        htmlOutput += `</${currentListType}>\n`;
+                        currentListType = '';
+                    }
+                    htmlOutput += `<p>${processed}</p>\n`;
+                }
+            });
+
+            if (currentListType) htmlOutput += `</${currentListType}>`;
+
+            cache.set(input, htmlOutput);
+            document.getElementById('output').textContent = htmlOutput;
+        }
+
+        function processInline(text) {
+            let inline = text;
+            // *italic*
+            inline = inline.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+            // [domain.com] → short sponsored link
+            inline = inline.replace(/\[([^\]]+)\]/g, (match, url) => {
+                const fullUrl = url.startsWith('http') ? url : `https://${url}`;
+                return `<a href="${fullUrl}" rel="sponsored" target="_blank"><b>${url}</b></a>`;
+            });
+            return inline;
+        }
+
+        function generatePermalink(text) {
+            return text.toLowerCase()
+                .replace(/[^a-z0-9\s]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-');
+        }
+
+        function copyHTML() {
+            navigator.clipboard.writeText(document.getElementById('output').textContent).then(() => {
+                const btn = event.target.closest('.btn');
+                const original = btn.innerHTML;
+                btn.innerHTML = '<span class="material-icons">check</span> Disalin!';
+                btn.classList.add('btn-info');
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('btn-info');
+                }, 2000);
+            });
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('output').textContent = '';
+            cache.clear();
+            currentListType = '';
+            document.getElementById('inputText').focus();
+        }
+
+        function toggleInfo() {
+            document.getElementById('infoModal').style.display =
+                document.getElementById('infoModal').style.display === 'block' ? 'none' : 'block';
+        }
+
+        window.onclick = (e) => {
+            if (e.target.id === 'infoModal') toggleInfo();
+        }
+
+        convertToHTML();
+    </script>
+</body>
+
+</html>
