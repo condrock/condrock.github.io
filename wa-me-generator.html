@@ -1,21 +1,284 @@
 <!DOCTYPE html>
-<html id="id" lang="id">
+<html lang="id">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WA ME Generator</title>
-  
-<style>.container,body{background-color:#333}img,label{display:block}a{text-decoration:none}body{font-family:Arial,sans-serif;color:#fff;margin:0;padding:0}.container{max-width:400px;margin:50px auto;padding:20px;border-radius:5px}h1{text-align:center}label{margin-bottom:5px;margin-top:25px}input[type=text]{width:100%;padding:8px;margin-bottom:10px;box-sizing:border-box;border-radius:3px;border:1px solid #4caf50}button{background-color:#4caf50;color:#fff;padding:10px 15px;margin-right: 10px;border:none;border-radius:3px;cursor:pointer}button:hover{background-color:#45a049}p#result{margin-top:5px;padding:20px;background-color:#f9f9f9;color:#000;border:1px solid #ccc;border-radius:3px;word-wrap:break-word;max-width:100%;overflow:auto;user-select:all}img{max-width:150px;margin-top:100px;margin-left:auto;margin-right:auto}</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WA ME Generator Modern</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <meta name="theme-color" content="#10b981" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(16, 185, 129, 0.12), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.10), transparent 30%),
+                #0f172a;
+        }
+
+        .glass {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .fade-in {
+            animation: fade .4s ease;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+    </style>
 </head>
 
-<body>
+<body class="min-h-screen text-white">
 
-  <div class="container"><h1>WA ME Generator</h1><label for="phoneNumber">Nomor WhatsApp:</label><input type="text" id="phoneNumber" placeholder="Gunakan 62"><label for="message">Pesan:</label><input type="text" id="message" placeholder="Isi Pesan"><div class="button-container"><button onclick="generateLink()">Generate Link</button><button onclick="resetForm()">Reset</button></div><label for="result">Hasil:</label><p id="result"><span id="waLink"></span></p></div>
+    <div class="max-w-7xl mx-auto px-5 lg:px-8 py-10">
 
-  <a href="https://condrock.eu.org/"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9pcRz0048uUBeECb0hdsYRo587praQHEN2fP4CwHnIPTiz4yh8Ids30XfqY_sNrttwss9otYmS1Iwkbcyj2ZeGfloadxm8ooOfGjU1jQ_hMV1cU4IV6FLZ_9GZujoDNYgnf_ZZN0UIe8nuI8wBBNwBbdni2tfZOYBos_C2b2Soo7iC6UN5wSaWdygYsc/s1600/Cond%20Rock.png" alt="Deskripsi Gambar"></a>
+        <!-- HEADER -->
+        <div class="text-center mb-12">
 
-  <script>function generateLink() { var e = document.getElementById("phoneNumber").value.trim(), t = document.getElementById("message").value.trim(); if ("" !== e && "" !== t) { var n = "https://wa.me/" + (e = e.replace(/\D/g, "")) + "?text=" + encodeURIComponent(t), o = document.getElementById("waLink"); o.textContent = n; var m = document.createRange(); m.selectNode(o), window.getSelection().removeAllRanges(), window.getSelection().addRange(m), document.execCommand("copy"), window.getSelection().removeAllRanges() } else alert("Please enter a phone number and a message.") } function resetForm() { document.getElementById("phoneNumber").value = "", document.getElementById("message").value = "", document.getElementById("waLink").textContent = "" }</script>
+            <div
+                class="w-24 h-24 mx-auto rounded-3xl glass flex items-center justify-center shadow-2xl shadow-green-500/10 mb-5">
+
+                <svg class="w-12 h-12 text-green-400" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M20.52 3.48A11.91 11.91 0 0012.06 0C5.5 0 .15 5.34.15 11.92c0 2.1.55 4.16 1.6 5.98L0 24l6.28-1.64a11.9 11.9 0 005.78 1.48h.01c6.56 0 11.91-5.34 11.91-11.92 0-3.18-1.24-6.17-3.46-8.44z" />
+                </svg>
+
+            </div>
+
+            <h1
+                class="text-4xl lg:text-5xl font-extrabold bg-gradient-to-r from-green-400 to-emerald-300 bg-clip-text text-transparent mb-4">
+                WA ME Generator
+            </h1>
+
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                Buat link WhatsApp otomatis dengan pesan custom dalam hitungan detik.
+            </p>
+
+        </div>
+
+        <!-- MAIN -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- FORM -->
+            <div class="glass rounded-3xl p-6 lg:p-8 shadow-2xl">
+
+                <div class="mb-6">
+
+                    <label class="block text-sm font-semibold text-gray-300 mb-3">
+                        Nomor WhatsApp
+                    </label>
+
+                    <input type="tel" id="phoneNumber" placeholder="6281234567890"
+                        class="w-full bg-gray-900/70 border border-gray-700 rounded-2xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all text-lg">
+
+                </div>
+
+                <div class="mb-8">
+
+                    <label class="block text-sm font-semibold text-gray-300 mb-3">
+                        Pesan Otomatis
+                    </label>
+
+                    <textarea id="message" placeholder="Halo admin, saya ingin bertanya..."
+                        class="w-full bg-gray-900/70 border border-gray-700 rounded-2xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none transition-all"></textarea>
+
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="flex flex-col sm:flex-row gap-4">
+
+                    <button onclick="generateLink()" id="generateBtn"
+                        class="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-[1.02] hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-300 px-6 py-4 rounded-2xl text-lg font-bold">
+                        Generate Link
+                    </button>
+
+                    <button onclick="resetForm()"
+                        class="bg-gray-800 hover:bg-gray-700 border border-gray-700 px-6 py-4 rounded-2xl transition-all duration-300">
+                        Reset
+                    </button>
+
+                </div>
+
+                <!-- TIPS -->
+                <div class="mt-8 p-5 rounded-2xl bg-gray-900/60 border border-gray-700">
+
+                    <h3 class="font-semibold mb-3 text-green-400">
+                        Tips Format
+                    </h3>
+
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>• Gunakan format internasional tanpa +</li>
+                        <li>• Awali dengan kode negara 62</li>
+                        <li>• Contoh: 6281234567890</li>
+                        <li>• Tulis pesan seperti biasa</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <!-- RESULT -->
+            <div id="result" class="hidden fade-in glass rounded-3xl p-6 lg:p-8 shadow-2xl sticky top-6">
+
+                <div class="flex items-center justify-between mb-6">
+
+                    <div>
+
+                        <h2 class="text-2xl font-bold text-green-400">
+                            Link Berhasil Dibuat
+                        </h2>
+
+                        <p class="text-gray-400 text-sm mt-1">
+                            Salin atau langsung buka WhatsApp
+                        </p>
+
+                    </div>
+
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-green-500/20 border border-green-500/30 flex items-center justify-center">
+
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                            </path>
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+                <!-- LINK -->
+                <div class="relative mb-5">
+
+                    <div id="waLink"
+                        class="bg-gray-950 border border-gray-700 rounded-2xl p-5 text-sm break-all text-green-300 font-mono leading-relaxed">
+                    </div>
+
+                    <button onclick="copyLink(event)"
+                        class="absolute top-3 right-3 bg-green-600 hover:bg-green-700 transition-all px-4 py-2 rounded-xl text-sm font-medium">
+                        Copy
+                    </button>
+
+                </div>
+
+                <!-- ACTION BUTTON -->
+                <a id="openLink" href="#" target="_blank"
+                    class="flex items-center justify-center gap-3 w-full bg-blue-600 hover:bg-blue-700 transition-all px-6 py-4 rounded-2xl font-semibold">
+                    Buka WhatsApp
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FLOAT BUTTON -->
+    <a href="https://condrock.eu.org/" target="_blank"
+        class="fixed bottom-5 right-5 w-12 h-12 rounded-2xl overflow-hidden shadow-2xl hover:scale-110 transition-all duration-300 z-50">
+
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh9pcRz0048uUBeECb0hdsYRo587praQHEN2fP4CwHnIPTiz4yh8Ids30XfqY_sNrttwss9otYmS1Iwkbcyj2ZeGfloadxm8ooOfGjU1jQ_hMV1cU4IV6FLZ_9GZujoDNYgnf_ZZN0UIe8nuI8wBBNwBbdni2tfZOYBos_C2b2Soo7iC6UN5wSaWdygYsc/s1600/Cond%20Rock.png"
+            alt="Cond Rock" class="w-full h-full object-cover">
+
+    </a>
+
+    <script>
+
+        function generateLink() {
+
+            const phone = document
+                .getElementById("phoneNumber")
+                .value
+                .trim()
+                .replace(/\D/g, '');
+
+            const message = document
+                .getElementById("message")
+                .value
+                .trim();
+
+            if (!phone || phone.length < 10) {
+
+                alert("Masukkan nomor WhatsApp yang valid.");
+
+                return;
+            }
+
+            const link =
+                `https://wa.me/${phone}${message ? '?text=' + encodeURIComponent(message) : ''}`;
+
+            document.getElementById("waLink").textContent = link;
+
+            document.getElementById("openLink").href = link;
+
+            document.getElementById("result").classList.remove("hidden");
+
+            const btn = document.getElementById("generateBtn");
+
+            btn.innerHTML = "Berhasil Dibuat";
+
+            setTimeout(() => {
+
+                btn.innerHTML = "Generate Link";
+
+            }, 1800);
+        }
+
+        function copyLink(event) {
+
+            const text = document.getElementById("waLink").textContent;
+
+            navigator.clipboard.writeText(text);
+
+            const btn = event.target;
+
+            const original = btn.innerHTML;
+
+            btn.innerHTML = "Copied";
+
+            setTimeout(() => {
+
+                btn.innerHTML = original;
+
+            }, 1500);
+        }
+
+        function resetForm() {
+
+            document.getElementById("phoneNumber").value = "";
+
+            document.getElementById("message").value = "";
+
+            document.getElementById("result").classList.add("hidden");
+        }
+
+    </script>
 
 </body>
 
