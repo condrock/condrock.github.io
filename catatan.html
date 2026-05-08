@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catatan</title>
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        h1 .material-icons {
+            vertical-align: middle;
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th,
+        td {
+            padding: 16px 12px;
+            text-align: center;
+            border-bottom: 1px solid #e8ecef;
+        }
+
+        th {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-size: 0.95rem;
+        }
+
+        .total-row {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d5f4e6 100%) !important;
+            font-weight: 700;
+            font-size: 1.05em;
+            position: sticky;
+            top: 60px;
+            z-index: 9;
+        }
+
+        .grand-total {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
+            font-weight: 800;
+            font-size: 1.15em;
+            position: sticky;
+            top: 40px;
+            z-index: 11;
+        }
+
+        .grand-total td:first-child {
+            text-align: left;
+        }
+
+        .header-row input {
+            width: 100%;
+            height: 40px;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+            background: white;
+            transition: border-color 0.3s;
+        }
+
+        .header-row input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .data-row input {
+            width: 80px;
+            height: 40px;
+            border: 2px solid #bdc3c7;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            background: white;
+        }
+
+        .data-row input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            th,
+            td {
+                padding: 12px 8px;
+                font-size: 14px;
+            }
+
+            .data-row input {
+                width: 70px;
+                height: 36px;
+                font-size: 14px;
+            }
+
+            .header-row input {
+                height: 36px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1><span class="material-icons">inventory_2</span>Catatan</h1>
+
+        <div class="controls">
+            <button class="btn" onclick="addRow()">
+                <span class="material-icons">add</span>
+                Tambah Baris
+            </button>
+            <button class="btn btn-danger" onclick="clearAllData()">
+                <span class="material-icons">delete_forever</span>
+                Hapus Semua
+            </button>
+        </div>
+
+        <div class="table-wrapper" id="tableWrapper">
+            <table id="stockTable">
+                <thead id="tableHead">
+                    <!-- Header akan di-generate via JS -->
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data rows akan ditambahkan via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'stockData_v2';
+        let data = []; // Array of objects: [{headers: ['Barang1',''], data: [123,123,...]}, ...]
+        let headers = ['Barang 1', 'Barang 2', 'Barang 3', 'Barang 4', 'Barang 5', 'Barang 6'];
+
+        // Load data dari localStorage
+        function loadData() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                data = parsed.data || [];
+                headers = parsed.headers || headers;
+            }
+            renderTable();
+        }
+
+        // Simpan data
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ headers, data }));
+        }
+
+        // Render tabel lengkap
+        function renderTable() {
+            renderHeader();
+
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            // Grand total (jumlah semua kolom dari semua baris)
+            const grandTotals = new Array(headers.length).fill(0);
+            data.forEach(item => {
+                item.data.forEach((val, col) => {
+                    grandTotals[col] += parseFloat(val) || 0;
+                });
+            });
+            const grandTotalRow = document.createElement('tr');
+            grandTotalRow.className = 'grand-total';
+            grandTotalRow.innerHTML = `
+                <td colspan="${headers.length}"><strong>TOTAL SEMUA: ${grandTotals.reduce((a, b) => a + b, 0).toLocaleString()}</strong></td>
+            `;
+            tbody.appendChild(grandTotalRow);
+
+            // Total per kolom
+            const colTotals = new Array(headers.length).fill(0);
+            data.forEach(item => {
+                item.data.forEach((val, col) => {
+                    colTotals[col] += parseFloat(val) || 0;
+                });
+            });
+            const totalRow = document.createElement('tr');
+            totalRow.className = 'total-row';
+            totalRow.innerHTML = colTotals.map(total => `<td>${total.toLocaleString()}</td>`).join('');
+            tbody.appendChild(totalRow);
+
+            // Data rows
+            data.forEach((item, rowIndex) => {
+                const tr = document.createElement('tr');
+                tr.className = 'data-row';
+                let html = '';
+                item.data.forEach((val, colIndex) => {
+                    html += `<td><input type="number" value="${val || ''}" onchange="updateCell(${rowIndex}, ${colIndex}, this.value)" min="0" step="0.01"></td>`;
+                });
+                html += `<td><button class="delete-btn" onclick="deleteRow(${rowIndex})"><span class="material-icons" style="font-size:16px;vertical-align:middle;">delete</span></button></td>`;
+                tr.innerHTML = html;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Render header yang editable
+        function renderHeader() {
+            const thead = document.getElementById('tableHead');
+            const tr = document.createElement('tr');
+            tr.className = 'header-row';
+            let html = '';
+            headers.forEach((header, colIndex) => {
+                html += `<th><input type="text" value="${header}" onchange="updateHeader(${colIndex}, this.value)" placeholder="Nama Barang"></th>`;
+            });
+            tr.innerHTML = html;
+            thead.innerHTML = '';
+            thead.appendChild(tr);
+        }
+
+        // Update nama header
+        function updateHeader(colIndex, value) {
+            headers[colIndex] = value || `Barang ${colIndex + 1}`;
+            saveData();
+            renderTable();
+        }
+
+        // Update sel data
+        function updateCell(rowIndex, colIndex, value) {
+            data[rowIndex].data[colIndex] = value === '' ? 0 : parseFloat(value);
+            saveData();
+            renderTable();
+        }
+
+        // Hapus baris
+        function deleteRow(rowIndex) {
+            data.splice(rowIndex, 1);
+            saveData();
+            renderTable();
+        }
+
+        // Tambah baris baru
+        function addRow() {
+            data.push({ data: new Array(headers.length).fill('') });
+            saveData();
+            renderTable();
+        }
+
+        // Hapus semua
+        function clearAllData() {
+            if (confirm('Yakin hapus semua data?')) {
+                data = [];
+                localStorage.removeItem(STORAGE_KEY);
+                renderTable();
+            }
+        }
+
+        // Load saat start
+        loadData();
+    </script>
+</body>
+
+</html>
