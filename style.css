@@ -1,0 +1,300 @@
+body {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(circle at top left,
+      rgba(59, 130, 246, 0.22),
+      transparent 30%),
+
+    radial-gradient(circle at bottom right,
+      rgba(34, 197, 94, 0.18),
+      transparent 30%),
+
+    linear-gradient(-45deg,
+      #020617,
+      #0f172a,
+      #082f49,
+      #111827);
+
+  background-size:
+    cover,
+    cover,
+    400% 400%;
+
+  animation: gradientMove 12s ease infinite;
+
+  color: white;
+}
+
+@keyframes gradientMove {
+
+  0% {
+    background-position:
+      top left,
+      bottom right,
+      0% 50%;
+  }
+
+  25% {
+    background-position:
+      top center,
+      bottom center,
+      50% 100%;
+  }
+
+  50% {
+    background-position:
+      center top,
+      center bottom,
+      100% 50%;
+  }
+
+  75% {
+    background-position:
+      left center,
+      right center,
+      50% 0%;
+  }
+
+  100% {
+    background-position:
+      top left,
+      bottom right,
+      0% 50%;
+  }
+}
+
+a {
+text-decoration: none;
+}
+
+.container {
+max-width: 700px;
+margin: 0 auto;
+}
+
+.card .layanan:hover {
+transition: transform 0.3s ease-in-out;
+transform: scale(0.97);
+}
+
+.medsos {
+  margin: auto;
+
+  font-size: 1.25rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transform-origin: center;
+
+  animation:
+    medsosFloat 6s ease-in-out infinite,
+    medsosPulse 5s ease-in-out infinite;
+
+  transition: 4s ease;
+}
+
+/* Floating smooth */
+@keyframes medsosFloat {
+
+  0% {
+    transform:
+      translateY(0px) rotate(0deg);
+  }
+
+  25% {
+    transform:
+      translateY(-4px) rotate(-1deg);
+  }
+
+  50% {
+    transform:
+      translateY(-8px) rotate(1deg);
+  }
+
+  75% {
+    transform:
+      translateY(-4px) rotate(-1deg);
+  }
+
+  100% {
+    transform:
+      translateY(0px) rotate(0deg);
+  }
+}
+
+/* Pulse halus */
+@keyframes medsosPulse {
+
+  0% {
+    filter:
+      drop-shadow(0 0 0 rgba(59, 130, 246, 0));
+  }
+
+  50% {
+    filter:
+      drop-shadow(0 0 14px rgba(59, 130, 246, 0.35));
+  }
+
+  100% {
+    filter:
+      drop-shadow(0 0 0 rgba(59, 130, 246, 0));
+  }
+}
+
+@keyframes rocket {
+0%, 100% {
+  transform: scale(1);
+}
+50% {
+  transform: scale(1.1);
+}
+}
+
+.rocket {
+  width: 110px;
+
+  filter:
+    drop-shadow(0 10px 25px rgba(59, 130, 246, 0.35)) drop-shadow(0 0 30px rgba(255, 255, 255, 0.12));
+
+  transform-origin: center bottom;
+
+  animation:
+    rocketFloat 5s ease-in-out infinite,
+    rocketTilt 6s ease-in-out infinite;
+}
+
+/* Gerakan naik turun lebih smooth */
+@keyframes rocketFloat {
+
+  0% {
+    transform:
+      translateY(0px) translateX(0px);
+  }
+
+  25% {
+    transform:
+      translateY(-12px) translateX(2px);
+  }
+
+  50% {
+    transform:
+      translateY(-22px) translateX(0px);
+  }
+
+  75% {
+    transform:
+      translateY(-10px) translateX(-2px);
+  }
+
+  100% {
+    transform:
+      translateY(0px) translateX(0px);
+  }
+}
+
+/* Sedikit miring natural seperti melayang */
+@keyframes rocketTilt {
+
+  0% {
+    rotate: -2deg;
+  }
+
+  50% {
+    rotate: 2deg;
+  }
+
+  100% {
+    rotate: -2deg;
+  }
+}
+
+.card {
+background-color: rgba(233, 233, 233, 0.2);
+color: #fff;
+}
+
+.card img {
+width: 150px;
+border-radius: 50%;
+justify-content: center;
+align-items: center;
+box-sizing: border-box;
+margin: auto;
+}
+
+.bg-name {
+width: 250px;
+justify-content: center;
+align-items: center;
+}
+
+.bg-job {
+width: 250px;
+justify-content: center;
+align-items: center;
+}
+
+.bio {
+font-weight: bold;
+padding: 15px;
+width: 90%;
+margin: auto;
+}
+
+.bio h3 {
+font-size: 1.1em;
+}
+
+.bi-box-arrow-up-right {
+border-radius: 5px;
+padding: 5px;
+background-color: rgba(233, 233, 233, 0.2);
+box-shadow: 1px 1px 1px #000;
+color: #fff;
+}
+
+.article-image:hover {
+transition: transform 0.3s ease-in-out;
+transform: scale(0.97);
+} 
+
+.article-image {
+position: relative;
+}
+
+.article img {
+margin-left: auto;
+margin-right: auto;
+display: block;
+width: 100%;
+height: 185px;
+object-fit: cover; 
+border-radius: 10px;
+box-shadow: 1px 1px 5px #000;
+}
+
+.article h3 {
+position: absolute;
+bottom: 0;
+left: 50%;
+transform: translateX(-50%);
+width: 100%;
+padding: 10px;
+margin: 0;
+color: #fff;
+font-weight: bold;
+}
+
+.tools:hover {
+transition: transform 0.3s ease-in-out;
+transform: scale(0.97);
+} 
+
+.element-font {
+font-size: 19px;
+color: #ffffff;
+text-shadow: 2px 1px 2px #000;
+}
