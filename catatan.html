@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catatan</title>
-    <!-- Google Material Icons -->
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <style>
         * {
             box-sizing: border-box;
@@ -45,8 +46,6 @@
             background: white;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            max-width: 100%;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
@@ -54,7 +53,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 800px;
+            min-width: 600px;
         }
 
         th,
@@ -77,23 +76,12 @@
         .total-row {
             background: linear-gradient(135deg, #e8f4f8 0%, #d5f4e6 100%) !important;
             font-weight: 700;
-            font-size: 1.05em;
-            position: sticky;
-            top: 60px;
-            z-index: 9;
         }
 
         .grand-total {
             background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
             font-weight: 800;
-            font-size: 1.15em;
-            position: sticky;
-            top: 40px;
-            z-index: 11;
-        }
-
-        .grand-total td:first-child {
-            text-align: left;
+            font-size: 1.05rem;
         }
 
         .header-row input {
@@ -104,7 +92,7 @@
             text-align: center;
             font-size: 14px;
             background: white;
-            transition: border-color 0.3s;
+            transition: .3s;
         }
 
         .header-row input:focus {
@@ -120,8 +108,8 @@
             border-radius: 6px;
             text-align: center;
             font-size: 16px;
-            transition: border-color 0.3s;
             background: white;
+            transition: .3s;
         }
 
         .data-row input:focus {
@@ -137,8 +125,7 @@
             padding: 8px 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s;
+            transition: .3s;
         }
 
         .delete-btn:hover {
@@ -160,9 +147,9 @@
             padding: 12px 24px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
-            transition: all 0.3s;
+            transition: .3s;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -178,179 +165,332 @@
         }
 
         @media (max-width: 768px) {
+
             body {
                 padding: 10px;
             }
 
             th,
             td {
-                padding: 12px 8px;
-                font-size: 14px;
+                padding: 10px 6px;
             }
 
             .data-row input {
-                width: 70px;
-                height: 36px;
+                width: 65px;
                 font-size: 14px;
-            }
-
-            .header-row input {
-                height: 36px;
-                font-size: 13px;
             }
         }
     </style>
 </head>
 
 <body>
+
     <div class="container">
-        <h1><span class="material-icons">inventory_2</span>Catatan</h1>
+
+        <h1>
+            <span class="material-icons">inventory_2</span>
+            Catatan
+        </h1>
 
         <div class="controls">
+
             <button class="btn" onclick="addRow()">
                 <span class="material-icons">add</span>
                 Tambah Baris
             </button>
+
+            <button class="btn" onclick="addColumn()">
+                <span class="material-icons">view_column</span>
+                Tambah Kolom
+            </button>
+
             <button class="btn btn-danger" onclick="clearAllData()">
                 <span class="material-icons">delete_forever</span>
                 Hapus Semua
             </button>
+
         </div>
 
-        <div class="table-wrapper" id="tableWrapper">
+        <div class="table-wrapper">
+
             <table id="stockTable">
-                <thead id="tableHead">
-                    <!-- Header akan di-generate via JS -->
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Data rows akan ditambahkan via JS -->
-                </tbody>
+
+                <thead id="tableHead"></thead>
+
+                <tbody id="tableBody"></tbody>
+
             </table>
+
         </div>
+
     </div>
 
     <script>
-        const STORAGE_KEY = 'stockData_v2';
-        let data = []; // Array of objects: [{headers: ['Barang1',''], data: [123,123,...]}, ...]
-        let headers = ['Barang 1', 'Barang 2', 'Barang 3', 'Barang 4', 'Barang 5', 'Barang 6'];
 
-        // Load data dari localStorage
+        const STORAGE_KEY = 'stockData_v5';
+
+        // DEFAULT 4 KOLOM
+        const DEFAULT_HEADERS = [
+            'Barang 1',
+            'Barang 2',
+            'Barang 3',
+            'Barang 4'
+        ];
+
+        let headers = [...DEFAULT_HEADERS];
+
+        let data = [];
+
+        // LOAD
         function loadData() {
+
             const saved = localStorage.getItem(STORAGE_KEY);
+
             if (saved) {
+
                 const parsed = JSON.parse(saved);
+
+                headers = parsed.headers || [...DEFAULT_HEADERS];
+
                 data = parsed.data || [];
-                headers = parsed.headers || headers;
             }
+
             renderTable();
         }
 
-        // Simpan data
+        // SAVE
         function saveData() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({ headers, data }));
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify({
+                    headers,
+                    data
+                })
+            );
         }
 
-        // Render tabel lengkap
+        // RENDER TABLE
         function renderTable() {
+
             renderHeader();
 
             const tbody = document.getElementById('tableBody');
+
             tbody.innerHTML = '';
 
-            // Grand total (jumlah semua kolom dari semua baris)
+            // GRAND TOTAL
             const grandTotals = new Array(headers.length).fill(0);
+
             data.forEach(item => {
+
                 item.data.forEach((val, col) => {
+
                     grandTotals[col] += parseFloat(val) || 0;
+
                 });
+
             });
+
+            const grandTotal = grandTotals.reduce((a, b) => a + b, 0);
+
             const grandTotalRow = document.createElement('tr');
+
             grandTotalRow.className = 'grand-total';
+
             grandTotalRow.innerHTML = `
-                <td colspan="${headers.length}"><strong>TOTAL SEMUA: ${grandTotals.reduce((a, b) => a + b, 0).toLocaleString()}</strong></td>
+                <td colspan="${headers.length + 1}">
+                    TOTAL SEMUA: ${grandTotal.toLocaleString()}
+                </td>
             `;
+
             tbody.appendChild(grandTotalRow);
 
-            // Total per kolom
-            const colTotals = new Array(headers.length).fill(0);
-            data.forEach(item => {
-                item.data.forEach((val, col) => {
-                    colTotals[col] += parseFloat(val) || 0;
-                });
-            });
+            // TOTAL PER KOLOM
             const totalRow = document.createElement('tr');
+
             totalRow.className = 'total-row';
-            totalRow.innerHTML = colTotals.map(total => `<td>${total.toLocaleString()}</td>`).join('');
+
+            let totalHTML = '';
+
+            grandTotals.forEach(total => {
+
+                totalHTML += `<td>${total.toLocaleString()}</td>`;
+
+            });
+
+            totalHTML += `<td>Total</td>`;
+
+            totalRow.innerHTML = totalHTML;
+
             tbody.appendChild(totalRow);
 
-            // Data rows
+            // DATA
             data.forEach((item, rowIndex) => {
+
                 const tr = document.createElement('tr');
+
                 tr.className = 'data-row';
+
                 let html = '';
+
                 item.data.forEach((val, colIndex) => {
-                    html += `<td><input type="number" value="${val || ''}" onchange="updateCell(${rowIndex}, ${colIndex}, this.value)" min="0" step="0.01"></td>`;
+
+                    html += `
+                        <td>
+                            <input
+                                type="number"
+                                value="${val || ''}"
+                                min="0"
+                                step="0.01"
+                                onchange="updateCell(${rowIndex}, ${colIndex}, this.value)"
+                            >
+                        </td>
+                    `;
                 });
-                html += `<td><button class="delete-btn" onclick="deleteRow(${rowIndex})"><span class="material-icons" style="font-size:16px;vertical-align:middle;">delete</span></button></td>`;
+
+                html += `
+                    <td>
+                        <button class="delete-btn" onclick="deleteRow(${rowIndex})">
+                            <span class="material-icons" style="font-size:16px;">
+                                delete
+                            </span>
+                        </button>
+                    </td>
+                `;
+
                 tr.innerHTML = html;
+
                 tbody.appendChild(tr);
+
             });
+
         }
 
-        // Render header yang editable
+        // RENDER HEADER
         function renderHeader() {
+
             const thead = document.getElementById('tableHead');
+
             const tr = document.createElement('tr');
+
             tr.className = 'header-row';
+
             let html = '';
+
             headers.forEach((header, colIndex) => {
-                html += `<th><input type="text" value="${header}" onchange="updateHeader(${colIndex}, this.value)" placeholder="Nama Barang"></th>`;
+
+                html += `
+                    <th>
+                        <input
+                            type="text"
+                            value="${header}"
+                            placeholder="Nama Barang"
+                            onchange="updateHeader(${colIndex}, this.value)"
+                        >
+                    </th>
+                `;
             });
+
+            html += `<th>Aksi</th>`;
+
             tr.innerHTML = html;
+
             thead.innerHTML = '';
+
             thead.appendChild(tr);
+
         }
 
-        // Update nama header
+        // UPDATE HEADER
         function updateHeader(colIndex, value) {
+
             headers[colIndex] = value || `Barang ${colIndex + 1}`;
+
             saveData();
+
             renderTable();
         }
 
-        // Update sel data
+        // UPDATE CELL
         function updateCell(rowIndex, colIndex, value) {
-            data[rowIndex].data[colIndex] = value === '' ? 0 : parseFloat(value);
+
+            data[rowIndex].data[colIndex] =
+                value === '' ? 0 : parseFloat(value);
+
             saveData();
+
             renderTable();
         }
 
-        // Hapus baris
-        function deleteRow(rowIndex) {
-            data.splice(rowIndex, 1);
-            saveData();
-            renderTable();
-        }
-
-        // Tambah baris baru
+        // TAMBAH BARIS
         function addRow() {
-            data.push({ data: new Array(headers.length).fill('') });
+
+            data.push({
+                data: new Array(headers.length).fill('')
+            });
+
             saveData();
+
             renderTable();
         }
 
-        // Hapus semua
-        function clearAllData() {
-            if (confirm('Yakin hapus semua data?')) {
-                data = [];
-                localStorage.removeItem(STORAGE_KEY);
-                renderTable();
-            }
+        // TAMBAH KOLOM
+        function addColumn() {
+
+            const newColumnNumber = headers.length + 1;
+
+            headers.push(`Barang ${newColumnNumber}`);
+
+            data.forEach(item => {
+
+                item.data.push('');
+
+            });
+
+            saveData();
+
+            renderTable();
         }
 
-        // Load saat start
+        // HAPUS BARIS
+        function deleteRow(rowIndex) {
+
+            data.splice(rowIndex, 1);
+
+            saveData();
+
+            renderTable();
+        }
+
+        // RESET SEMUA
+        function clearAllData() {
+
+            const confirmDelete = confirm(
+                'Semua data dan kolom tambahan akan dihapus.\n\nTabel akan kembali ke default 4 kolom.\n\nLanjutkan?'
+            );
+
+            if (!confirmDelete) return;
+
+            // Reset data
+            data = [];
+
+            // Reset header default
+            headers = [...DEFAULT_HEADERS];
+
+            // Hapus localStorage
+            localStorage.removeItem(STORAGE_KEY);
+
+            saveData();
+
+            renderTable();
+        }
+
+        // START
         loadData();
+
     </script>
+
 </body>
 
 </html>
