@@ -19,9 +19,9 @@ body {
   background-size:
     cover,
     cover,
-    400% 400%;
+    100% 100%;
 
-  animation: gradientMove 12s ease infinite;
+  animation: gradientMove 15s ease infinite;
 
   color: white;
 }
@@ -93,7 +93,7 @@ transform: scale(0.97);
     medsosFloat 6s ease-in-out infinite,
     medsosPulse 5s ease-in-out infinite;
 
-  transition: 0.3s ease;
+  transition: 4s ease;
 }
 
 /* Floating smooth */
@@ -162,8 +162,8 @@ transform: scale(0.97);
   transform-origin: center bottom;
 
   animation:
-    rocketFloat 3.5s ease-in-out infinite,
-    rocketTilt 5s ease-in-out infinite;
+    rocketFloat 5s ease-in-out infinite,
+    rocketTilt 6s ease-in-out infinite;
 }
 
 /* Gerakan naik turun lebih smooth */
