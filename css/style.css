@@ -1,28 +1,66 @@
 body {
-background: linear-gradient(-45deg, #020222, #00506a, #020222, #00506a);
-background-size: 400% 400%;
-animation: gradient 9s ease infinite;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(circle at top left,
+      rgba(59, 130, 246, 0.22),
+      transparent 30%),
+
+    radial-gradient(circle at bottom right,
+      rgba(34, 197, 94, 0.18),
+      transparent 30%),
+
+    linear-gradient(-45deg,
+      #020617,
+      #0f172a,
+      #082f49,
+      #111827);
+
+  background-size:
+    cover,
+    cover,
+    400% 400%;
+
+  animation: gradientMove 12s ease infinite;
+
+  color: white;
 }
 
-@keyframes gradient {
+@keyframes gradientMove {
+
   0% {
-    background-position: 0% 50%;
+    background-position:
+      top left,
+      bottom right,
+      0% 50%;
   }
 
   25% {
-    background-position: 50% 100%;
+    background-position:
+      top center,
+      bottom center,
+      50% 100%;
   }
 
   50% {
-    background-position: 100% 50%;
+    background-position:
+      center top,
+      center bottom,
+      100% 50%;
   }
 
   75% {
-    background-position: 50% 0%;
+    background-position:
+      left center,
+      right center,
+      50% 0%;
   }
 
   100% {
-    background-position: 0% 50%;
+    background-position:
+      top left,
+      bottom right,
+      0% 50%;
   }
 }
 
@@ -41,21 +79,69 @@ transform: scale(0.97);
 }
 
 .medsos {
-margin: auto;
-font-size: 20px;
-animation: medsos-animation 3s ease infinite;
-transform-origin: 50% 50%;
+  margin: auto;
+
+  font-size: 1.25rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transform-origin: center;
+
+  animation:
+    medsosFloat 4s ease-in-out infinite,
+    medsosPulse 3s ease-in-out infinite;
+
+  transition: 0.3s ease;
 }
 
-@keyframes medsos-animation {
-0% { transform:translate(0,0) }
-1.78571% { transform:translate(3px,0) }
-3.57143% { transform:translate(0,0) }
-5.35714% { transform:translate(3px,0) }
-7.14286% { transform:translate(0,0) }
-8.92857% { transform:translate(3px,0) }
-10.71429% { transform:translate(0,0) }
-100% { transform:translate(0,0) }
+/* Floating smooth */
+@keyframes medsosFloat {
+
+  0% {
+    transform:
+      translateY(0px) rotate(0deg);
+  }
+
+  25% {
+    transform:
+      translateY(-4px) rotate(-1deg);
+  }
+
+  50% {
+    transform:
+      translateY(-8px) rotate(1deg);
+  }
+
+  75% {
+    transform:
+      translateY(-4px) rotate(-1deg);
+  }
+
+  100% {
+    transform:
+      translateY(0px) rotate(0deg);
+  }
+}
+
+/* Pulse halus */
+@keyframes medsosPulse {
+
+  0% {
+    filter:
+      drop-shadow(0 0 0 rgba(59, 130, 246, 0));
+  }
+
+  50% {
+    filter:
+      drop-shadow(0 0 14px rgba(59, 130, 246, 0.35));
+  }
+
+  100% {
+    filter:
+      drop-shadow(0 0 0 rgba(59, 130, 246, 0));
+  }
 }
 
 @keyframes rocket {
@@ -68,8 +154,61 @@ transform-origin: 50% 50%;
 }
 
 .rocket {
-width: 100px;
-animation: rocket 1s infinite alternate ease-in-out; 
+  width: 110px;
+
+  filter:
+    drop-shadow(0 10px 25px rgba(59, 130, 246, 0.35)) drop-shadow(0 0 30px rgba(255, 255, 255, 0.12));
+
+  transform-origin: center bottom;
+
+  animation:
+    rocketFloat 3.5s ease-in-out infinite,
+    rocketTilt 5s ease-in-out infinite;
+}
+
+/* Gerakan naik turun lebih smooth */
+@keyframes rocketFloat {
+
+  0% {
+    transform:
+      translateY(0px) translateX(0px);
+  }
+
+  25% {
+    transform:
+      translateY(-12px) translateX(2px);
+  }
+
+  50% {
+    transform:
+      translateY(-22px) translateX(0px);
+  }
+
+  75% {
+    transform:
+      translateY(-10px) translateX(-2px);
+  }
+
+  100% {
+    transform:
+      translateY(0px) translateX(0px);
+  }
+}
+
+/* Sedikit miring natural seperti melayang */
+@keyframes rocketTilt {
+
+  0% {
+    rotate: -2deg;
+  }
+
+  50% {
+    rotate: 2deg;
+  }
+
+  100% {
+    rotate: -2deg;
+  }
 }
 
 .card {
