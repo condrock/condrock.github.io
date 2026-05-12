@@ -1,22 +1,32 @@
+html,
 body {
-  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  overflow-x: hidden;
 
   background:
     radial-gradient(circle at top left,
-      rgba(59, 130, 246, 0.12),
+      rgba(59, 130, 246, .10),
       transparent 25%),
 
     radial-gradient(circle at bottom right,
-      rgba(34, 197, 94, 0.10),
+      rgba(34, 197, 94, .08),
       transparent 25%),
 
     linear-gradient(135deg,
       #020617,
       #0f172a);
 
-  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
 
-  color: white;
+  color: #fff;
+
+  font-family: 'Roboto', sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -29,23 +39,33 @@ a {
 }
 
 /* Hover ringan */
-.card .layanan:hover,
+.layanan:hover,
 .tools:hover,
 .article-image:hover {
-  transform: scale(0.98);
-  transition: transform .25s ease;
+  transform: translateY(-2px);
+
+  transition:
+    transform .2s ease,
+    opacity .2s ease;
+
+  opacity: .95;
+}
+
+.tools {
+  transition:
+    transform .2s ease,
+    opacity .2s ease;
+
+  text-decoration: none;
 }
 
 /* Medsos */
 .medsos {
   margin: auto;
-
   font-size: 1.25rem;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   animation: medsosFloat 6s ease-in-out infinite;
 }
 
@@ -63,12 +83,9 @@ a {
 
 /* Rocket */
 .rocket {
-
   width: 110px;
-
-  animation: rocketFloat 6s ease-in-out infinite;
-
-  will-change: transform;
+  animation: rocketFloat 5s ease-in-out infinite;
+  transform: translateZ(0);
 }
 
 @keyframes rocketFloat {
@@ -87,46 +104,45 @@ a {
 
 /* Card */
 .card {
-
-  background-color: rgba(255, 255, 255, .08);
-
+  background: rgba(15, 23, 42, 0.92);
   color: #fff;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 16px;
 
-  border: 1px solid rgba(255, 255, 255, .06);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, .25);
 
-  backdrop-filter: blur(4px);
+  overflow: hidden;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
 }
 
 /* Image */
 .card img {
-
   width: 150px;
-
   border-radius: 50%;
-
   display: block;
-
   margin: auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 .bg-name,
 .bg-job {
-
   width: 250px;
-
   display: block;
-
   margin: auto;
 }
 
 .bio {
-
   font-weight: bold;
-
   padding: 15px;
-
   width: 90%;
-
   margin: auto;
 }
 
@@ -136,13 +152,9 @@ a {
 
 /* Icon */
 .bi-box-arrow-up-right {
-
   border-radius: 5px;
-
   padding: 5px;
-
   background-color: rgba(255, 255, 255, .12);
-
   color: #fff;
 }
 
@@ -152,44 +164,27 @@ a {
 }
 
 .article img {
-
   display: block;
-
   width: 100%;
-
   height: 185px;
-
   object-fit: cover;
-
   border-radius: 10px;
 }
 
 .article h3 {
-
   position: absolute;
-
   bottom: 0;
-
   left: 50%;
-
   transform: translateX(-50%);
-
   width: 100%;
-
   padding: 10px;
-
   margin: 0;
-
   color: #fff;
-
   font-weight: bold;
 }
 
 .element-font {
-
   font-size: 19px;
-
   color: #ffffff;
-
   text-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
 }
