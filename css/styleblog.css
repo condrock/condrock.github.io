@@ -1,40 +1,135 @@
-a {
-    text-decoration: none;
+html,
+body {
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at top left,
+            rgba(59, 130, 246, .12),
+            transparent 30%),
+
+        linear-gradient(135deg,
+            #020617,
+            #0f172a);
+
+    color: #fff;
+
+    font-family: 'Inter', sans-serif;
 }
 
-.header-top {
-    background-color: #fff;
-    position: sticky;
-    top: 0;
-    z-index: 1;
+body {
+    min-height: 100vh;
 }
 
-.nav-item {
-    text-decoration: none;
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
 }
 
-.cent {
-    font-size: 20px;
+.glass-card {
+    background: rgba(15, 23, 42, .85);
+
+    border: 1px solid rgba(255, 255, 255, .08);
+
+    border-radius: 24px;
+
+    backdrop-filter: blur(0px);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, .25);
 }
 
-.list-unstyled {
-    font-weight: bold;
-    text-align: left;
+.hero {
+    padding:
+        100px 20px 80px;
+
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: clamp(2.3rem, 5vw, 4rem);
+
+    font-weight: 900;
+
+    line-height: 1.1;
+}
+
+.hero p {
+    color: rgba(255, 255, 255, .75);
+
+    max-width: 700px;
+
     margin: auto;
-    display: inline-block;
 }
 
-.fa-square-check {
-    color: green;
-    font-weight: bold;
+.btn-primary {
+    background:
+        linear-gradient(135deg, #2563eb, #06b6d4);
+
+    border: none;
+
+    border-radius: 14px;
+
+    padding: 14px 28px;
+
+    font-weight: 700;
 }
 
-.fa-square-xmark {
-    color: red;
-    font-weight: bold;
+.btn-primary:hover {
+    transform: translateY(-2px);
+
+    transition: .2s ease;
 }
 
-.fa-clock {
-    color: blue;
-    font-weight: bold;
+.feature-card {
+    padding: 24px;
+
+    height: 100%;
+}
+
+.feature-card i {
+    font-size: 2rem;
+
+    margin-bottom: 16px;
+
+    color: #38bdf8;
+}
+
+.pricing-card {
+    color: #fff;
+    transition:
+        transform .25s ease,
+        border-color .25s ease;
+
+    border-radius: 24px;
+
+    overflow: hidden;
+}
+
+.pricing-card:hover {
+    transform: translateY(-6px);
+}
+
+.popular {
+    border: 2px solid #38bdf8;
+
+    transform: scale(1.03);
+}
+
+.badge-popular {
+    background: #38bdf8;
+
+    color: #000;
+
+    font-weight: 700;
+
+    border-radius: 999px;
+
+    padding: 6px 14px;
+
+    font-size: .8rem;
+}
+
+footer {
+    border-top:
+        1px solid rgba(255, 255, 255, .08);
 }
