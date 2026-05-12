@@ -90,8 +90,8 @@ transform: scale(0.97);
   transform-origin: center;
 
   animation:
-    medsosFloat 4s ease-in-out infinite,
-    medsosPulse 3s ease-in-out infinite;
+    medsosFloat 6s ease-in-out infinite,
+    medsosPulse 5s ease-in-out infinite;
 
   transition: 0.3s ease;
 }
