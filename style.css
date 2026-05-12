@@ -3,81 +3,40 @@ body {
 
   background:
     radial-gradient(circle at top left,
-      rgba(59, 130, 246, 0.22),
-      transparent 30%),
+      rgba(59, 130, 246, 0.12),
+      transparent 25%),
 
     radial-gradient(circle at bottom right,
-      rgba(34, 197, 94, 0.18),
-      transparent 30%),
+      rgba(34, 197, 94, 0.10),
+      transparent 25%),
 
-    linear-gradient(-45deg,
+    linear-gradient(135deg,
       #020617,
-      #0f172a,
-      #082f49,
-      #111827);
+      #0f172a);
 
-  background-size:
-    cover,
-    cover,
-    400% 400%;
-
-  animation: gradientMove 12s ease infinite;
+  background-attachment: fixed;
 
   color: white;
 }
 
-@keyframes gradientMove {
-
-  0% {
-    background-position:
-      top left,
-      bottom right,
-      0% 50%;
-  }
-
-  25% {
-    background-position:
-      top center,
-      bottom center,
-      50% 100%;
-  }
-
-  50% {
-    background-position:
-      center top,
-      center bottom,
-      100% 50%;
-  }
-
-  75% {
-    background-position:
-      left center,
-      right center,
-      50% 0%;
-  }
-
-  100% {
-    background-position:
-      top left,
-      bottom right,
-      0% 50%;
-  }
-}
-
 a {
-text-decoration: none;
+  text-decoration: none;
 }
 
 .container {
-max-width: 700px;
-margin: 0 auto;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.card .layanan:hover {
-transition: transform 0.3s ease-in-out;
-transform: scale(0.97);
+/* Hover ringan */
+.card .layanan:hover,
+.tools:hover,
+.article-image:hover {
+  transform: scale(0.98);
+  transition: transform .25s ease;
 }
 
+/* Medsos */
 .medsos {
   margin: auto;
 
@@ -87,214 +46,150 @@ transform: scale(0.97);
   align-items: center;
   justify-content: center;
 
-  transform-origin: center;
-
-  animation:
-    medsosFloat 6s ease-in-out infinite,
-    medsosPulse 5s ease-in-out infinite;
-
-  transition: 4s ease;
+  animation: medsosFloat 6s ease-in-out infinite;
 }
 
-/* Floating smooth */
 @keyframes medsosFloat {
 
-  0% {
-    transform:
-      translateY(0px) rotate(0deg);
-  }
-
-  25% {
-    transform:
-      translateY(-4px) rotate(-1deg);
+  0%,
+  100% {
+    transform: translateY(0);
   }
 
   50% {
-    transform:
-      translateY(-8px) rotate(1deg);
-  }
-
-  75% {
-    transform:
-      translateY(-4px) rotate(-1deg);
-  }
-
-  100% {
-    transform:
-      translateY(0px) rotate(0deg);
+    transform: translateY(-5px);
   }
 }
 
-/* Pulse halus */
-@keyframes medsosPulse {
-
-  0% {
-    filter:
-      drop-shadow(0 0 0 rgba(59, 130, 246, 0));
-  }
-
-  50% {
-    filter:
-      drop-shadow(0 0 14px rgba(59, 130, 246, 0.35));
-  }
-
-  100% {
-    filter:
-      drop-shadow(0 0 0 rgba(59, 130, 246, 0));
-  }
-}
-
-@keyframes rocket {
-0%, 100% {
-  transform: scale(1);
-}
-50% {
-  transform: scale(1.1);
-}
-}
-
+/* Rocket */
 .rocket {
+
   width: 110px;
 
-  filter:
-    drop-shadow(0 10px 25px rgba(59, 130, 246, 0.35)) drop-shadow(0 0 30px rgba(255, 255, 255, 0.12));
+  animation: rocketFloat 6s ease-in-out infinite;
 
-  transform-origin: center bottom;
-
-  animation:
-    rocketFloat 5s ease-in-out infinite,
-    rocketTilt 6s ease-in-out infinite;
+  will-change: transform;
 }
 
-/* Gerakan naik turun lebih smooth */
 @keyframes rocketFloat {
 
-  0% {
+  0%,
+  100% {
     transform:
-      translateY(0px) translateX(0px);
-  }
-
-  25% {
-    transform:
-      translateY(-12px) translateX(2px);
+      translateY(0px) rotate(-1deg);
   }
 
   50% {
     transform:
-      translateY(-22px) translateX(0px);
-  }
-
-  75% {
-    transform:
-      translateY(-10px) translateX(-2px);
-  }
-
-  100% {
-    transform:
-      translateY(0px) translateX(0px);
+      translateY(-14px) rotate(1deg);
   }
 }
 
-/* Sedikit miring natural seperti melayang */
-@keyframes rocketTilt {
-
-  0% {
-    rotate: -2deg;
-  }
-
-  50% {
-    rotate: 2deg;
-  }
-
-  100% {
-    rotate: -2deg;
-  }
-}
-
+/* Card */
 .card {
-background-color: rgba(233, 233, 233, 0.2);
-color: #fff;
+
+  background-color: rgba(255, 255, 255, .08);
+
+  color: #fff;
+
+  border: 1px solid rgba(255, 255, 255, .06);
+
+  backdrop-filter: blur(4px);
 }
 
+/* Image */
 .card img {
-width: 150px;
-border-radius: 50%;
-justify-content: center;
-align-items: center;
-box-sizing: border-box;
-margin: auto;
+
+  width: 150px;
+
+  border-radius: 50%;
+
+  display: block;
+
+  margin: auto;
 }
 
-.bg-name {
-width: 250px;
-justify-content: center;
-align-items: center;
-}
-
+.bg-name,
 .bg-job {
-width: 250px;
-justify-content: center;
-align-items: center;
+
+  width: 250px;
+
+  display: block;
+
+  margin: auto;
 }
 
 .bio {
-font-weight: bold;
-padding: 15px;
-width: 90%;
-margin: auto;
+
+  font-weight: bold;
+
+  padding: 15px;
+
+  width: 90%;
+
+  margin: auto;
 }
 
 .bio h3 {
-font-size: 1.1em;
+  font-size: 1.1em;
 }
 
+/* Icon */
 .bi-box-arrow-up-right {
-border-radius: 5px;
-padding: 5px;
-background-color: rgba(233, 233, 233, 0.2);
-box-shadow: 1px 1px 1px #000;
-color: #fff;
+
+  border-radius: 5px;
+
+  padding: 5px;
+
+  background-color: rgba(255, 255, 255, .12);
+
+  color: #fff;
 }
 
-.article-image:hover {
-transition: transform 0.3s ease-in-out;
-transform: scale(0.97);
-} 
-
+/* Article */
 .article-image {
-position: relative;
+  position: relative;
 }
 
 .article img {
-margin-left: auto;
-margin-right: auto;
-display: block;
-width: 100%;
-height: 185px;
-object-fit: cover; 
-border-radius: 10px;
-box-shadow: 1px 1px 5px #000;
+
+  display: block;
+
+  width: 100%;
+
+  height: 185px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
 }
 
 .article h3 {
-position: absolute;
-bottom: 0;
-left: 50%;
-transform: translateX(-50%);
-width: 100%;
-padding: 10px;
-margin: 0;
-color: #fff;
-font-weight: bold;
+
+  position: absolute;
+
+  bottom: 0;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 100%;
+
+  padding: 10px;
+
+  margin: 0;
+
+  color: #fff;
+
+  font-weight: bold;
 }
 
-.tools:hover {
-transition: transform 0.3s ease-in-out;
-transform: scale(0.97);
-} 
-
 .element-font {
-font-size: 19px;
-color: #ffffff;
-text-shadow: 2px 1px 2px #000;
+
+  font-size: 19px;
+
+  color: #ffffff;
+
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
 }
