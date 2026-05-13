@@ -28,14 +28,30 @@
             box-sizing: border-box
         }
 
+        html,
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            min-height: 100vh;
+
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            overflow-x: hidden;
             background:
-                radial-gradient(circle at top left, rgba(124, 58, 237, .28), transparent 30%),
-                radial-gradient(circle at top right, rgba(6, 182, 212, .24), transparent 28%),
-                linear-gradient(160deg, var(--bg1), var(--bg2));
+                linear-gradient(160deg,
+                    var(--bg1),
+                    var(--bg2));
+
+            background-color: #0b1020;
             color: var(--text);
+            font-family:
+                'Inter',
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                'Segoe UI',
+                sans-serif;
+
+            -webkit-font-smoothing:
+                antialiased;
         }
 
         .page-wrap {
@@ -43,12 +59,12 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, rgba(124, 58, 237, .18), rgba(6, 182, 212, .12));
-            border: 1px solid var(--border);
-            backdrop-filter: blur(16px);
+            background: rgba(17, 24, 39, 0.96);
+            border: 1px solid rgba(255, 255, 255, .08);
             border-radius: 24px;
             padding: 28px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, .28);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+            overflow: hidden;
         }
 
         .hero-badge {
@@ -68,19 +84,27 @@
         }
 
         .pay-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid rgba(255, 255, 255, .08);
             border-radius: 22px;
             overflow: hidden;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, .22);
-            transition: transform .2s ease, border-color .2s ease, background .2s ease;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+            transition:
+                transform .2s ease,
+                border-color .2s ease,
+                background .2s ease;
         }
 
         .pay-card:hover {
             transform: translateY(-2px);
             border-color: rgba(255, 255, 255, .2);
             background: rgba(255, 255, 255, .1)
+        }
+
+        .hero,
+        .pay-card,
+        .page-wrap {
+            transform: translateZ(0);
         }
 
         .bank-icon {
