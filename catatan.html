@@ -76,12 +76,13 @@
         .total-row {
             background: linear-gradient(135deg, #e8f4f8 0%, #d5f4e6 100%) !important;
             font-weight: 700;
+            font-size: 1.6rem;
         }
 
         .grand-total {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%) !important;
-            font-weight: 800;
-            font-size: 1.05rem;
+            background: white;
+            font-weight: 700;
+            font-size: 2rem;
         }
 
         .header-row input {
@@ -90,7 +91,7 @@
             border: 2px solid #bdc3c7;
             border-radius: 6px;
             text-align: center;
-            font-size: 14px;
+            font-size: 18px;
             background: white;
             transition: .3s;
         }
@@ -102,12 +103,12 @@
         }
 
         .data-row input {
-            width: 80px;
-            height: 40px;
+            width: 120px;
+            height: 50px;
             border: 2px solid #bdc3c7;
             border-radius: 6px;
             text-align: center;
-            font-size: 16px;
+            font-size: 18px;
             background: white;
             transition: .3s;
         }
@@ -177,7 +178,7 @@
 
             .data-row input {
                 width: 65px;
-                font-size: 14px;
+                font-size: 16px;
             }
         }
     </style>
@@ -231,15 +232,23 @@
 
         // DEFAULT 4 KOLOM
         const DEFAULT_HEADERS = [
-            'Barang 1',
-            'Barang 2',
-            'Barang 3',
-            'Barang 4'
+            'Helm 1',
+            'Helm 2',
+            'Helm 3'
         ];
+
+        // DEFAULT 4 BARIS
+        function createDefaultRows(total = 6) {
+
+            return Array.from({ length: total }, () => ({
+                data: new Array(DEFAULT_HEADERS.length).fill('')
+            }));
+
+        }
 
         let headers = [...DEFAULT_HEADERS];
 
-        let data = [];
+        let data = createDefaultRows();
 
         // LOAD
         function loadData() {
@@ -252,7 +261,10 @@
 
                 headers = parsed.headers || [...DEFAULT_HEADERS];
 
-                data = parsed.data || [];
+                data = parsed.data?.length
+                    ? parsed.data
+                    : createDefaultRows();
+
             }
 
             renderTable();
@@ -300,7 +312,7 @@
 
             grandTotalRow.innerHTML = `
                 <td colspan="${headers.length + 1}">
-                    TOTAL SEMUA: ${grandTotal.toLocaleString()}
+                    ${grandTotal.toLocaleString()}
                 </td>
             `;
 
@@ -405,7 +417,7 @@
         // UPDATE HEADER
         function updateHeader(colIndex, value) {
 
-            headers[colIndex] = value || `Barang ${colIndex + 1}`;
+            headers[colIndex] = value || `Helm ${colIndex + 1}`;
 
             saveData();
 
@@ -440,7 +452,7 @@
 
             const newColumnNumber = headers.length + 1;
 
-            headers.push(`Barang ${newColumnNumber}`);
+            headers.push(`Helm ${newColumnNumber}`);
 
             data.forEach(item => {
 
@@ -467,18 +479,18 @@
         function clearAllData() {
 
             const confirmDelete = confirm(
-                'Semua data dan kolom tambahan akan dihapus.\n\nTabel akan kembali ke default 4 kolom.\n\nLanjutkan?'
+                'Semua data dan kolom tambahan akan dihapus.\n\nTabel akan kembali ke default 4 kolom dan 4 baris.\n\nLanjutkan?'
             );
 
             if (!confirmDelete) return;
 
             // Reset data
-            data = [];
+            data = createDefaultRows();
 
-            // Reset header default
+            // Reset header
             headers = [...DEFAULT_HEADERS];
 
-            // Hapus localStorage
+            // Hapus storage
             localStorage.removeItem(STORAGE_KEY);
 
             saveData();
