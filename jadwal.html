@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grup C - Status Kerja</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            background: #0b1220;
+            color: white;
+            font-family: Arial;
+            padding: 30px 10px;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 520px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .date {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .card {
+            text-align: center;
+            width: 95%;
+            max-width: 520px;
+        }
+
+        .icon {
+            font-size: 80px;
+            margin: 10px 0;
+        }
+
+        .big {
+            font-size: 92px;
+            font-weight: 900;
+        }
+
+        .work {
+            color: #22c55e;
+        }
+
+        .off {
+            color: #ef4444;
+        }
+
+        .sub {
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        .box {
+            margin-top: 22px;
+            background: #111827;
+            padding: 14px;
+            border-radius: 14px;
+            text-align: left;
+        }
+
+        .titleBox {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 15px;
+        }
+
+        .row i {
+            font-size: 18px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .auto-note {
+            margin-top: 18px;
+            font-size: 16px;
+            opacity: 0.8;
+            text-align: center;
+            max-width: 420px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <div class="card">
+
+            <!-- title -->
+            <div class="card-title">Magang Grup C </br> Cargloss MKM</div>
+
+            <!-- icon -->
+            <span id="icon" class="material-icons icon"></span>
+
+            <!-- tanggal -->
+            <div id="todayDate" class="date"></div>
+
+            <!-- hasil -->
+            <div id="status" class="big"></div>
+
+            <div id="sub" class="sub"></div>
+
+            <!-- preview -->
+            <div class="box">
+                <div class="titleBox">8 Hari Siklus</div>
+                <div id="preview"></div>
+            </div>
+
+        </div>
+
+        <!-- note bawah card -->
+        <div class="auto-note">
+            Jadwal ini dihasilkan otomatis secara realtime berdasarkan sistem 6 hari kerja dan 2 hari libur.
+            Data menyesuaikan tanggal perangkat Anda saat ini.
+        </div>
+
+    </div>
+
+    <script>
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const startCycle = new Date(today.getFullYear(), 5, 2); // 2 Juni
+        startCycle.setHours(0, 0, 0, 0);
+
+        const cycle = 8;
+
+        const diffDays = Math.floor((today - startCycle) / (1000 * 60 * 60 * 24));
+        const cycleDay = ((diffDays % cycle) + cycle) % cycle;
+
+        const isWork = cycleDay >= 0 && cycleDay <= 5;
+
+        // ===== TANGGAL =====
+        document.getElementById("todayDate").innerText =
+            "Hari ini: " + today.toLocaleDateString("id-ID", {
+                weekday: "long",
+                day: "2-digit",
+                month: "long",
+                year: "numeric"
+            });
+
+        // ===== STATUS =====
+        const status = document.getElementById("status");
+        const icon = document.getElementById("icon");
+        const sub = document.getElementById("sub");
+
+        if (isWork) {
+            status.innerText = "KERJA";
+            status.classList.add("work");
+
+            icon.innerText = "work";
+            icon.style.color = "#22c55e";
+
+            sub.innerText = "Hari kerja aktif dalam siklus";
+        } else {
+            status.innerText = "LIBUR";
+            status.classList.add("off");
+
+            icon.innerText = "beach_access";
+            icon.style.color = "#ef4444";
+
+            sub.innerText = "Hari istirahat dalam siklus";
+        }
+
+        // ===== PREVIEW =====
+        const preview = document.getElementById("preview");
+
+        let html = "";
+
+        for (let i = 0; i < 8; i++) {
+
+            let d = new Date(startCycle);
+            d.setDate(startCycle.getDate() + i);
+
+            let work = i <= 5;
+
+            html += `
+                <div class="row">
+                    <span>
+                        <i class="material-icons">${work ? "work" : "beach_access"}</i>
+                        ${d.toLocaleDateString('id-ID')}
+                    </span>
+                    <span style="color:${work ? '#22c55e' : '#ef4444'}; font-weight:bold;">
+                        ${work ? "KERJA" : "LIBUR"}
+                    </span>
+                </div>
+            `;
+        }
+
+        preview.innerHTML = html;
+    </script>
+
+</body>
+
+</html>
