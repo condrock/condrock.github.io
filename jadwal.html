@@ -153,12 +153,23 @@
         const startCycle = new Date(today.getFullYear(), 5, 2); // 2 Juni
         startCycle.setHours(0, 0, 0, 0);
 
-        const cycle = 8;
+        const cycleLength = 8;
+        const workDays = 6;
 
-        const diffDays = Math.floor((today - startCycle) / (1000 * 60 * 60 * 24));
-        const cycleDay = ((diffDays % cycle) + cycle) % cycle;
+        const ONE_DAY = 1000 * 60 * 60 * 24;
 
-        const isWork = cycleDay >= 0 && cycleDay <= 5;
+        const diffDays = Math.floor((today.getTime() - startCycle.getTime()) / ONE_DAY);
+
+        const positiveMod = (n, m) => ((n % m) + m) % m;
+
+        const cycleDay = positiveMod(diffDays, cycleLength);
+
+        const isWork = cycleDay < workDays;
+
+        const shiftOrder = ["SHIFT 1", "SHIFT 3", "SHIFT 2"];
+
+        const workIndex = Math.floor(cycleDay / workDays);
+        const shift = isWork ? shiftOrder[positiveMod(workIndex, shiftOrder.length)] : "";
 
         // ===== TANGGAL =====
         document.getElementById("todayDate").innerText =
@@ -174,6 +185,8 @@
         const icon = document.getElementById("icon");
         const sub = document.getElementById("sub");
 
+        status.classList.remove("work", "off");
+
         if (isWork) {
             status.innerText = "KERJA";
             status.classList.add("work");
@@ -181,7 +194,7 @@
             icon.innerText = "work";
             icon.style.color = "#22c55e";
 
-            sub.innerText = "Hari kerja aktif dalam siklus";
+            sub.innerText = shift ? `Hari kerja aktif dalam siklus • ${shift}` : "Hari kerja aktif dalam siklus";
         } else {
             status.innerText = "LIBUR";
             status.classList.add("off");
@@ -194,27 +207,27 @@
 
         // ===== PREVIEW =====
         const preview = document.getElementById("preview");
-
         let html = "";
 
-        for (let i = 0; i < 8; i++) {
-
+        for (let i = 0; i < cycleLength; i++) {
             let d = new Date(startCycle);
             d.setDate(startCycle.getDate() + i);
 
-            let work = i <= 5;
+            const work = i < workDays;
+            const previewShift = work ? shiftOrder[Math.floor(i / workDays)] : "";
 
             html += `
-                <div class="row">
-                    <span>
-                        <i class="material-icons">${work ? "work" : "beach_access"}</i>
-                        ${d.toLocaleDateString('id-ID')}
-                    </span>
-                    <span style="color:${work ? '#22c55e' : '#ef4444'}; font-weight:bold;">
-                        ${work ? "KERJA" : "LIBUR"}
-                    </span>
-                </div>
-            `;
+            <div class="row">
+                <span>
+                    <i class="material-icons">${work ? "work" : "beach_access"}</i>
+                    ${d.toLocaleDateString('id-ID')}
+                    ${work ? ` - ${previewShift}` : ""}
+                </span>
+                <span style="color:${work ? '#22c55e' : '#ef4444'}; font-weight:bold;">
+                    ${work ? "KERJA" : "LIBUR"}
+                </span>
+            </div>
+        `;
         }
 
         preview.innerHTML = html;
