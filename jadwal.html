@@ -5,67 +5,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grup C - Jadwal Kerja Magang Cargloss</title>
-    <meta name="description"
-        content="Jadwal kerja magang Grup C Cargloss yang diperbarui otomatis berdasarkan sistem 6 hari kerja dan 2 hari libur. Menampilkan status kerja atau libur hari ini secara realtime serta informasi siklus shift Grup C.">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            background: #0b1220;
-            color: white;
-            font-family: Arial;
-            padding: 30px 10px;
+            align-items: center;
+            padding: 12px;
+            background: #0f172a;
+            font-family: Inter, Arial, sans-serif;
+            color: #e5e7eb;
         }
 
         .wrapper {
             width: 100%;
             max-width: 520px;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card-title {
-            font-size: 25px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .date {
-            font-size: 18px;
-            margin-top: 10px;
         }
 
         .card {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 24px;
+            padding: 24px;
             text-align: center;
-            width: 95%;
-            max-width: 520px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 800;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .date {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 10px;
         }
 
         .icon {
-            font-size: 80px;
+            font-size: 82px;
             margin: 10px 0;
         }
 
-        .work-icon {
-            color: #22c55e;
-        }
-
-        .off-icon {
-            color: #ef4444;
-        }
-
         .big {
-            font-size: 92px;
+            font-size: 56px;
             font-weight: 900;
+            line-height: 1;
+            margin-bottom: 8px;
         }
 
         .work {
@@ -77,45 +74,93 @@
         }
 
         .sub {
-            font-size: 18px;
-            opacity: 0.8;
+            font-size: 15px;
+            color: #cbd5e1;
         }
 
         .box {
-            margin-top: 22px;
-            background: #111827;
-            padding: 14px;
-            border-radius: 14px;
-            text-align: left;
+            margin-top: 24px;
+            background: #0f172a;
+            border-radius: 18px;
+            padding: 16px;
         }
 
-        .titleBox {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            opacity: 0.9;
+        .box-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #fff;
         }
 
         .row {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
-            font-size: 15px;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            font-size: 14px;
         }
 
-        .row i {
-            font-size: 18px;
-            vertical-align: middle;
-            margin-right: 5px;
+        .row:last-child {
+            border-bottom: none;
         }
 
-        .auto-note {
-            margin-top: 18px;
-            font-size: 16px;
-            opacity: 0.8;
+        .row span:first-child {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tester {
+            margin-bottom: 12px;
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 18px;
+            padding: 14px;
             text-align: center;
-            max-width: 420px;
-            line-height: 1.4;
+        }
+
+        .tester input {
+            background: #0f172a;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+        .tester button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .tester button:hover {
+            opacity: .9;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
+                border-radius: 20px;
+            }
+
+            .big {
+                font-size: 48px;
+            }
+
+            .icon {
+                font-size: 72px;
+            }
+
+            .row {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -124,71 +169,73 @@
 
     <div class="wrapper">
 
+        <!-- TESTER -->
+        <div class="tester">
+            <div style="margin-bottom:8px;">Test Tanggal (opsional)</div>
+            <input type="date" id="testDate">
+            <button onclick="renderSchedule()">Update</button>
+        </div>
+
         <div class="card">
 
-            <!-- title -->
-            <div class="card-title">Magang Grup C </br> Cargloss MKM</div>
+            <div class="card-title">Magang Grup C<br>Cargloss MKM</div>
 
-            <!-- icon -->
             <span id="icon" class="material-icons icon"></span>
 
-            <!-- tanggal -->
             <div id="todayDate" class="date"></div>
 
-            <!-- hasil -->
             <div id="status" class="big"></div>
 
             <div id="sub" class="sub"></div>
 
-            <!-- preview -->
             <div class="box">
-                <div class="titleBox">8 Hari Siklus</div>
+                <div class="box-title">
+                    Jadwal 8 Hari Ke Depan
+                </div>
                 <div id="preview"></div>
             </div>
 
         </div>
 
-        <!-- note bawah card -->
-        <div class="auto-note">
-            Jadwal ini dihasilkan otomatis secara realtime berdasarkan sistem 6 hari kerja dan 2 hari libur.
-            Data menyesuaikan tanggal perangkat Anda saat ini.
-        </div>
-
     </div>
 
     <script>
-        function renderSchedule() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
+        function getTodayDate() {
+            const test = document.getElementById("testDate").value;
+            const date = test ? new Date(test) : new Date();
+            date.setHours(0, 0, 0, 0);
+            return date;
+        }
 
-            const anchor = new Date(today.getFullYear(), 5, 2); // 2 Juni
+        function positiveMod(n, m) {
+            return ((n % m) + m) % m;
+        }
+
+        function renderSchedule() {
+
+            const today = getTodayDate();
+
+            const anchor = new Date(2026, 5, 2); // 2 Juni 2026
             anchor.setHours(0, 0, 0, 0);
 
             const cycleLength = 8;
             const workDays = 6;
-            const ONE_DAY = 1000 * 60 * 60 * 24;
+            const ONE_DAY = 86400000;
 
             const shiftOrder = ["SHIFT 1", "SHIFT 3", "SHIFT 2"];
 
-            const positiveMod = (n, m) => ((n % m) + m) % m;
+            const diffDays = Math.floor((today - anchor) / ONE_DAY);
 
-            const diffDays = Math.floor((today.getTime() - anchor.getTime()) / ONE_DAY);
             const cycleDay = positiveMod(diffDays, cycleLength);
-            const isWorkToday = cycleDay < workDays;
-
             const cycleIndex = Math.floor(diffDays / cycleLength);
-            const currentShift = isWorkToday ? shiftOrder[positiveMod(cycleIndex, shiftOrder.length)] : "";
 
-            console.log({
-                diffDays,
-                cycleDay,
-                cycleIndex,
-                currentShift,
-                isWorkToday
-            });
+            const isWork = cycleDay < workDays;
+            const shift = isWork
+                ? shiftOrder[positiveMod(cycleIndex, shiftOrder.length)]
+                : "";
 
             document.getElementById("todayDate").innerText =
-                "Hari ini: " + today.toLocaleDateString("id-ID", {
+                today.toLocaleDateString("id-ID", {
                     weekday: "long",
                     day: "2-digit",
                     month: "long",
@@ -199,59 +246,55 @@
             const icon = document.getElementById("icon");
             const sub = document.getElementById("sub");
 
-            status.classList.remove("work", "off");
+            status.className = "big " + (isWork ? "work" : "off");
 
-            if (isWorkToday) {
+            if (isWork) {
                 status.innerText = "KERJA";
-                status.classList.add("work");
-
                 icon.innerText = "work";
                 icon.style.color = "#22c55e";
-
-                sub.innerText = `Hari kerja aktif dalam siklus • ${currentShift}`;
+                sub.innerText = "Aktif • " + shift;
             } else {
                 status.innerText = "LIBUR";
-                status.classList.add("off");
-
                 icon.innerText = "beach_access";
                 icon.style.color = "#ef4444";
-
-                sub.innerText = "Hari istirahat dalam siklus";
+                sub.innerText = "Hari istirahat";
             }
 
-            const preview = document.getElementById("preview");
             let html = "";
 
-            for (let i = 0; i < cycleLength; i++) {
+            for (let i = 0; i < 8; i++) {
+
                 const d = new Date(today);
                 d.setDate(today.getDate() + i);
 
-                const dayDiff = Math.floor((d.getTime() - anchor.getTime()) / ONE_DAY);
-                const dayCycle = positiveMod(dayDiff, cycleLength);
-                const work = dayCycle < workDays;
-                const previewShift = work ? shiftOrder[positiveMod(Math.floor(dayDiff / cycleLength), shiftOrder.length)] : "";
+                const dd = Math.floor((d - anchor) / ONE_DAY);
+                const cd = positiveMod(dd, cycleLength);
+                const wi = cd < workDays;
+
+                const sh = wi
+                    ? shiftOrder[positiveMod(Math.floor(dd / cycleLength), shiftOrder.length)]
+                    : "";
 
                 html += `
-                    <div class="row">
-                        <span>
-                            <i class="material-icons ${work ? 'work-icon' : 'off-icon'}">
-    ${work ? "work" : "beach_access"}
-</i>
-                            ${d.toLocaleDateString('id-ID')}
-                            ${work ? ` - ${previewShift}` : ""}
-                        </span>
-                        <span style="color:${work ? '#22c55e' : '#ef4444'}; font-weight:bold;">
-                            ${work ? "KERJA" : "LIBUR"}
-                        </span>
-                    </div>
-                `;
+            <div class="row">
+                <span>
+                    <i class="material-icons" style="color:${wi ? '#22c55e' : '#ef4444'}">
+                        ${wi ? "work" : "beach_access"}
+                    </i>
+                    ${d.toLocaleDateString("id-ID")}
+                    ${wi ? " - " + sh : ""}
+                </span>
+                <span style="color:${wi ? '#22c55e' : '#ef4444'};font-weight:bold;">
+                    ${wi ? "KERJA" : "LIBUR"}
+                </span>
+            </div>
+        `;
             }
 
-            preview.innerHTML = html;
+            document.getElementById("preview").innerHTML = html;
         }
 
         renderSchedule();
-        setInterval(renderSchedule, 60 * 1000);
     </script>
 
 </body>
