@@ -179,6 +179,14 @@
             const cycleIndex = Math.floor(diffDays / cycleLength);
             const currentShift = isWorkToday ? shiftOrder[positiveMod(cycleIndex, shiftOrder.length)] : "";
 
+            console.log({
+                diffDays,
+                cycleDay,
+                cycleIndex,
+                currentShift,
+                isWorkToday
+            });
+
             document.getElementById("todayDate").innerText =
                 "Hari ini: " + today.toLocaleDateString("id-ID", {
                     weekday: "long",
