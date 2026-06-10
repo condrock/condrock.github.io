@@ -149,90 +149,87 @@
     </div>
 
     <script>
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        function renderSchedule() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-        const startCycle = new Date(today.getFullYear(), 5, 2); // 2 Juni
-        startCycle.setHours(0, 0, 0, 0);
+            const anchor = new Date(today.getFullYear(), 5, 2); // 2 Juni
+            anchor.setHours(0, 0, 0, 0);
 
-        const cycleLength = 8;
-        const workDays = 6;
+            const cycleLength = 8;
+            const workDays = 6;
+            const ONE_DAY = 1000 * 60 * 60 * 24;
 
-        const ONE_DAY = 1000 * 60 * 60 * 24;
+            const positiveMod = (n, m) => ((n % m) + m) % m;
 
-        const diffDays = Math.floor((today.getTime() - startCycle.getTime()) / ONE_DAY);
+            const diffDays = Math.floor((today.getTime() - anchor.getTime()) / ONE_DAY);
+            const cycleDay = positiveMod(diffDays, cycleLength);
+            const isWorkToday = cycleDay < workDays;
 
-        const positiveMod = (n, m) => ((n % m) + m) % m;
+            const shiftOrder = ["SHIFT 1", "SHIFT 3", "SHIFT 2"];
 
-        const cycleDay = positiveMod(diffDays, cycleLength);
+            const currentShift = isWorkToday
+                ? shiftOrder[positiveMod(Math.floor(diffDays / 2), shiftOrder.length)]
+                : "";
 
-        const isWork = cycleDay < workDays;
+            document.getElementById("todayDate").innerText =
+                "Hari ini: " + today.toLocaleDateString("id-ID", {
+                    weekday: "long",
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric"
+                });
 
-        const shiftOrder = ["SHIFT 1", "SHIFT 3", "SHIFT 2"];
+            const status = document.getElementById("status");
+            const icon = document.getElementById("icon");
+            const sub = document.getElementById("sub");
 
-        const workIndex = Math.floor(cycleDay / workDays);
-        const shift = isWork ? shiftOrder[positiveMod(workIndex, shiftOrder.length)] : "";
+            status.classList.remove("work", "off");
 
-        // ===== TANGGAL =====
-        document.getElementById("todayDate").innerText =
-            "Hari ini: " + today.toLocaleDateString("id-ID", {
-                weekday: "long",
-                day: "2-digit",
-                month: "long",
-                year: "numeric"
-            });
+            if (isWorkToday) {
+                status.innerText = "KERJA";
+                status.classList.add("work");
+                icon.innerText = "work";
+                icon.style.color = "#22c55e";
+                sub.innerText = `Hari kerja aktif dalam siklus • ${currentShift}`;
+            } else {
+                status.innerText = "LIBUR";
+                status.classList.add("off");
+                icon.innerText = "beach_access";
+                icon.style.color = "#ef4444";
+                sub.innerText = "Hari istirahat dalam siklus";
+            }
 
-        // ===== STATUS =====
-        const status = document.getElementById("status");
-        const icon = document.getElementById("icon");
-        const sub = document.getElementById("sub");
+            const preview = document.getElementById("preview");
+            let html = "";
 
-        status.classList.remove("work", "off");
+            for (let i = 0; i < cycleLength; i++) {
+                const d = new Date(today);
+                d.setDate(today.getDate() + i);
 
-        if (isWork) {
-            status.innerText = "KERJA";
-            status.classList.add("work");
+                const dayDiff = Math.floor((d.getTime() - anchor.getTime()) / ONE_DAY);
+                const dayCycle = positiveMod(dayDiff, cycleLength);
+                const work = dayCycle < workDays;
 
-            icon.innerText = "work";
-            icon.style.color = "#22c55e";
+                html += `
+                    <div class="row">
+                        <span>
+                            <i class="material-icons">${work ? "work" : "beach_access"}</i>
+                            ${d.toLocaleDateString('id-ID')}
+                            ${work ? ` - ${currentShift}` : ""}
+                        </span>
+                        <span style="color:${work ? '#22c55e' : '#ef4444'}; font-weight:bold;">
+                            ${work ? "KERJA" : "LIBUR"}
+                        </span>
+                    </div>
+                `;
+            }
 
-            sub.innerText = shift ? `Hari kerja aktif dalam siklus • ${shift}` : "Hari kerja aktif dalam siklus";
-        } else {
-            status.innerText = "LIBUR";
-            status.classList.add("off");
-
-            icon.innerText = "beach_access";
-            icon.style.color = "#ef4444";
-
-            sub.innerText = "Hari istirahat dalam siklus";
+            preview.innerHTML = html;
         }
 
-        // ===== PREVIEW =====
-        const preview = document.getElementById("preview");
-        let html = "";
-
-        for (let i = 0; i < cycleLength; i++) {
-            let d = new Date(startCycle);
-            d.setDate(startCycle.getDate() + i);
-
-            const work = i < workDays;
-            const previewShift = work ? shiftOrder[Math.floor(i / workDays)] : "";
-
-            html += `
-            <div class="row">
-                <span>
-                    <i class="material-icons">${work ? "work" : "beach_access"}</i>
-                    ${d.toLocaleDateString('id-ID')}
-                    ${work ? ` - ${previewShift}` : ""}
-                </span>
-                <span style="color:${work ? '#22c55e' : '#ef4444'}; font-weight:bold;">
-                    ${work ? "KERJA" : "LIBUR"}
-                </span>
-            </div>
-        `;
-        }
-
-        preview.innerHTML = html;
+        renderSchedule();
+        setInterval(renderSchedule, 60 * 1000);
     </script>
 
 </body>
