@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <title>Kalkulator SPH Jumat – Cargloss</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg1: #020617;
+            --bg2: #0f172a;
+            --border: rgba(255, 255, 255, .12);
+            --border-out: #fff;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --accent: #34d399;
+            --accent2: #059669;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: linear-gradient(160deg, var(--bg1), var(--bg2));
+            background-color: #020617;
+            color: var(--text);
+            min-height: 100%;
+            font-family: 'Inter', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .shell {
+            max-width: 920px
+        }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+            overflow: hidden;
+        }
+
+        .hero {
+            padding: 28px
+        }
+
+        .badge-soft {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .45rem .8rem;
+            border-radius: 999px;
+            background: rgba(52, 211, 153, .12);
+            border: 1px solid rgba(52, 211, 153, .3);
+            color: #6ee7b7;
+            font-size: .92rem;
+        }
+
+        .title {
+            font-weight: 800;
+            letter-spacing: -.03em;
+        }
+
+        .sub {
+            color: var(--muted)
+        }
+
+        .input-lg,
+        .btn-lg {
+            border-radius: 14px
+        }
+
+        .input-lg {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: .9rem 1rem;
+        }
+
+        .input-lg:focus {
+            background: rgba(255, 255, 255, .07);
+            border-color: rgba(52, 211, 153, .55);
+            box-shadow: 0 0 0 .25rem rgba(52, 211, 153, .12);
+            color: var(--text);
+        }
+
+        .input-lg::placeholder {
+            color: #94a3b8
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border: none;
+            font-weight: 700;
+            box-shadow: 0 14px 30px rgba(52, 211, 153, .18);
+            color: #fff;
+        }
+
+        .btn-action:hover {
+            filter: brightness(1.08);
+            color: #fff
+        }
+
+        .table-wrap {
+            overflow: hidden;
+            border-radius: 18px;
+            border: 3px solid var(--border-out);
+        }
+
+        table {
+            margin-bottom: 0 !important;
+            color: #fff !important;
+            background: transparent !important;
+        }
+
+        thead th {
+            background: rgba(255, 255, 255, .08) !important;
+            color: #fff !important;
+            border-color: var(--border) !important;
+        }
+
+        tbody td {
+            background: rgba(255, 255, 255, .03) !important;
+            color: #fff !important;
+            border-color: var(--border) !important;
+        }
+
+        /* highlight half-hour rows */
+        tbody tr.half-hour td {
+            background: rgba(52, 211, 153, .08) !important;
+            color: #6ee7b7 !important;
+        }
+
+        .pill-half {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: .78rem;
+            font-weight: 600;
+            background: rgba(52, 211, 153, .15);
+            color: #6ee7b7;
+            border: 1px solid rgba(52, 211, 153, .3);
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .pill-full {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: .78rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, .07);
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, .12);
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        .empty-state {
+            color: var(--muted);
+            padding: 18px;
+            text-align: center;
+        }
+
+        .brand-link img {
+            max-width: 100px;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, .25));
+        }
+
+        .info-banner {
+            background: rgba(52, 211, 153, .07);
+            border: 1px solid rgba(52, 211, 153, .2);
+            border-radius: 14px;
+            padding: 14px 18px;
+            color: #6ee7b7;
+            font-size: .9rem;
+        }
+
+        @media (max-width:576px) {
+            .hero {
+                padding: 20px
+            }
+
+            .title {
+                font-size: 1.4rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container py-4 py-md-5 shell">
+
+        <!-- Header card -->
+        <div class="glass hero mb-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                    <div class="badge-soft mb-3">
+                        <i class="bi bi-calendar2-check"></i> Khusus Hari Jumat – 6.5 Jam
+                    </div>
+                    <h1 class="title h2 mb-2">Kalkulator SPH Jumat</h1>
+                    <p class="sub mb-0">Distribusi otomatis 8 slot: 3 slot ½ jam (slot 1, 5, 8) dan 5 slot jam penuh.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Info struktur -->
+            <div class="info-banner mb-4">
+                <i class="bi bi-info-circle me-2"></i>
+                <strong>Struktur 6.5 jam:</strong>
+                ½ jam → 1 jam → 1 jam → 1 jam → ½ jam → 1 jam → 1 jam → ½ jam
+            </div>
+
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-8">
+                    <label for="totalBarang" class="form-label fw-semibold">Total Barang</label>
+                    <input type="number" id="totalBarang" class="form-control form-control-lg input-lg" min="1"
+                        placeholder="Masukkan total barang">
+                </div>
+                <div class="col-12 col-md-4">
+                    <button class="btn btn-lg btn-action w-100" onclick="hitungDistribusi()">
+                        <i class="bi bi-lightning-charge me-1"></i> Hitung
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result card -->
+        <div class="glass p-3 p-md-4 mb-4">
+            <h2 class="h5 mb-3 fw-bold">Hasil Perhitungan SPH – Jumat</h2>
+            <div class="table-wrap">
+                <table class="table table-bordered align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Total Kumulatif</th>
+                            <th>SPH</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hasilDistribusi">
+                        <tr>
+                            <td colspan="2" class="empty-state">
+                                Belum ada hasil. Silakan masukkan total barang.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="https://condrock.eu.org/" target="_blank" class="brand-link">
+                <img src="images/condrock.png" alt="condrock">
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Slot structure for Friday 6.5 hours:
+        // Slot 1 = ½ jam, 2–4 = 1 jam, 5 = ½ jam, 6–7 = 1 jam, 8 = ½ jam
+        // Ratio: half : full = 1 : 2  →  total = 5x + 3(x/2) = 6.5x  →  x = total / 6.5
+
+        const SLOT_LABELS = ['1', '2', '3', '4', '5', '6', '7', '8'];
+        const HALF_SLOTS = [0, 4, 7]; // index of half-hour slots (slot 1, 5, 8)
+
+        function hitungDistribusi() {
+            const input = document.getElementById('totalBarang').value;
+            const totalBarang = parseInt(input);
+
+            if (isNaN(totalBarang) || totalBarang <= 0) {
+                alert('Masukkan jumlah barang yang valid!');
+                return;
+            }
+
+            // x = barang per jam penuh (rounded)
+            const jamPenuh = Math.round(totalBarang / 6.5);
+            const setengahJam = Math.round(jamPenuh / 2);
+
+            // Build raw distribution
+            let distribusi = [
+                setengahJam,   // slot 1 – ½ jam
+                jamPenuh,      // slot 2 – 1 jam
+                jamPenuh,      // slot 3 – 1 jam
+                jamPenuh,      // slot 4 – 1 jam
+                setengahJam,   // slot 5 – ½ jam
+                jamPenuh,      // slot 6 – 1 jam
+                jamPenuh,      // slot 7 – 1 jam
+                setengahJam,   // slot 8 – ½ jam
+            ];
+
+            // Adjust rounding error on last slot so sum == totalBarang
+            const rawSum = distribusi.reduce((a, b) => a + b, 0);
+            distribusi[7] += (totalBarang - rawSum);
+
+            // Render
+            let output = '';
+            let kumulatif = 0;
+            distribusi.forEach((jumlah, i) => {
+                kumulatif += jumlah;
+                const isHalf = HALF_SLOTS.includes(i);
+                const rowClass = isHalf ? 'half-hour' : '';
+                const pill = isHalf
+                    ? '<span class="pill-half">½ jam</span>'
+                    : '<span class="pill-full">1 jam</span>';
+
+                output += `
+                    <tr class="${rowClass}">
+                        <td><strong>${kumulatif}</strong></td>
+                        <td>${jumlah}</td>
+                    </tr>`;
+            });
+
+            document.getElementById('hasilDistribusi').innerHTML = output;
+        }
+
+        // Allow Enter key to trigger calculation
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') hitungDistribusi();
+        });
+    </script>
+
+    <script>
+        function disableSelection(e) { void 0 !== e.onselectstart ? e.onselectstart = function () { return !1 } : void 0 !== e.style.MozUserSelect ? e.style.MozUserSelect = "none" : e.onmousedown = function () { return !1 }, e.style.cursor = "default" }
+        function mousedwn(e) { try { if (2 == e.button || 3 == e.button) return !1 } catch (e) { if (3 == e.which) return !1 } }
+        window.onload = function () { disableSelection(document.body) };
+        document.oncontextmenu = function () { return !1 };
+        document.ondragstart = function () { return !1 };
+        document.onmousedown = mousedwn;
+        document.onkeydown = function (e) {
+            return !e.ctrlKey || 67 !== e.keyCode && 86 !== e.keyCode && 85 !== e.keyCode && 117 !== e.keyCode
+                ? 123 == e.keyCode || 18 == e.keyCode ? (e.preventDefault(), !1) : void 0
+                : (e.preventDefault(), !1);
+        };
+    </script>
+</body>
+
+</html>
