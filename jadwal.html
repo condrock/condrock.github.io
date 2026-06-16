@@ -4,21 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grup C - Jadwal Kerja Magang Cargloss</title>
-
+    <title>Jadwal Magang Cargloss</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <meta property="og:title" content="Jadwal Kerja Magang Cargloss">
     <meta property="og:description"
-        content="Informasi Jadwal Kerja Magang Cargloss terbaru, lengkap dengan jadwal shift, pembagian grup, dan terupdate untuk peserta Magang Cargloss.">
+        content="Informasi Jadwal Kerja Magang Cargloss Grup A, B, C, D lengkap dengan jadwal shift, pembagian grup, terupdate untuk peserta Magang Cargloss.">
     <meta property="og:image"
         content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEipy0KSTUrSLmKAc1lLZR49wTFwBqWlS_ng8dfVfEM-lR6_yhzUuN5uQ_L80h42uxFBrU_yPEPmOnXWWiuyztEw-wFWATdPPWqKkpHE5ajEBfZRu3HSk4bIbx5zsLtKutQ_1E5SLxLRSThShJv_zI3ZW3dMh3F2caW9oipFmxCdA0f5tTou6mo7Aa0r8uA/s1600/jadwal.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:url" content="https://condrock.eu.org/jadwal">
     <meta property="og:type" content="website">
-
     <style>
         * {
             box-sizing: border-box;
@@ -41,6 +38,40 @@
             max-width: 520px;
         }
 
+        /* ── Tester ── */
+        .tester {
+            margin-bottom: 12px;
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 18px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .tester input {
+            background: #0f172a;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+        .tester button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .tester button:hover {
+            opacity: .9;
+        }
+
+        /* ── Card ── */
         .card {
             background: #1e293b;
             border: 1px solid rgba(255, 255, 255, .08);
@@ -54,10 +85,54 @@
             font-size: 22px;
             font-weight: 800;
             line-height: 1.4;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             color: #fff;
         }
 
+        /* ── Group Selector ── */
+        .group-selector {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .group-btn {
+            background: #0f172a;
+            color: #94a3b8;
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 10px;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s;
+            letter-spacing: .5px;
+        }
+
+        .group-btn:hover {
+            border-color: #3b82f6;
+            color: #fff;
+        }
+
+        .group-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: #fff;
+        }
+
+        .group-btn:disabled {
+            opacity: .35;
+            cursor: not-allowed;
+        }
+
+        .group-btn:disabled:hover {
+            border-color: rgba(255, 255, 255, .1);
+            color: #94a3b8;
+        }
+
+        /* ── Status ── */
         .date {
             font-size: 14px;
             color: #94a3b8;
@@ -89,6 +164,7 @@
             color: #cbd5e1;
         }
 
+        /* ── Preview Box ── */
         .box {
             margin-top: 24px;
             background: #0f172a;
@@ -123,38 +199,6 @@
             gap: 8px;
         }
 
-        .tester {
-            margin-bottom: 12px;
-            background: #1e293b;
-            border: 1px solid rgba(255, 255, 255, .08);
-            border-radius: 18px;
-            padding: 14px;
-            text-align: center;
-        }
-
-        .tester input {
-            background: #0f172a;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, .1);
-            border-radius: 10px;
-            padding: 10px 12px;
-        }
-
-        .tester button {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 16px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-left: 6px;
-        }
-
-        .tester button:hover {
-            opacity: .9;
-        }
-
         @media (max-width: 480px) {
             .card {
                 padding: 20px;
@@ -177,137 +221,190 @@
 </head>
 
 <body>
-
     <div class="wrapper">
 
         <!-- TESTER -->
         <div class="tester">
             <div style="margin-bottom:8px;">Test Tanggal (opsional)</div>
             <input type="date" id="testDate">
-            <button onclick="renderSchedule()">Update</button>
+            <button onclick="render()">Update</button>
         </div>
 
+        <!-- CARD -->
         <div class="card">
+            <div class="card-title">Jadwal Magang<br>Cargloss MKM</div>
 
-            <div class="card-title">Magang Grup C<br>Cargloss MKM</div>
+            <!-- GROUP SELECTOR -->
+            <div class="group-selector" id="groupSelector"></div>
 
             <span id="icon" class="material-icons icon"></span>
-
             <div id="todayDate" class="date"></div>
-
             <div id="status" class="big"></div>
-
             <div id="sub" class="sub"></div>
 
             <div class="box">
-                <div class="box-title">
-                    Jadwal 8 Hari Ke Depan
-                </div>
+                <div class="box-title">Jadwal 8 Hari Ke Depan</div>
                 <div id="preview"></div>
             </div>
-
         </div>
 
     </div>
-
     <script>
-        function getTodayDate() {
-            const test = document.getElementById("testDate").value;
-            const date = test ? new Date(test) : new Date();
-            date.setHours(0, 0, 0, 0);
-            return date;
-        }
+        // ============================================================
+        //  DATA KONFIGURASI
+        //  Untuk menambah/mengubah grup, cukup edit bagian ini saja.
+        //  anchor : tanggal awal siklus (new Date(tahun, bulan-1, hari))
+        //  ready  : false = tombol disabled (data belum tersedia)
+        // ============================================================
+        const GROUPS = {
+            A: {
+                label: "Grup A",
+                anchor: null,          // ← isi nanti
+                ready: false,
+            },
+            B: {
+                label: "Grup B",
+                anchor: null,          // ← isi nanti
+                ready: false,
+            },
+            C: {
+                label: "Grup C",
+                anchor: new Date(2026, 5, 2), // 2 Juni 2026
+                ready: true,
+            },
+            D: {
+                label: "Grup D",
+                anchor: null,          // ← isi nanti
+                ready: false,
+            },
+        };
+
+        // ============================================================
+        //  ATURAN SIKLUS
+        //  Ubah di sini jika pola shift berubah secara global.
+        // ============================================================
+        const CYCLE = {
+            length: 8,                          // total hari per siklus
+            workDays: 6,                          // hari kerja per siklus
+            shifts: ["SHIFT 1", "SHIFT 3", "SHIFT 2"], // urutan rotasi shift
+        };
+
+        // ============================================================
+        //  STATE
+        // ============================================================
+        let activeGroup = "C";
+
+        // ============================================================
+        //  HELPERS
+        // ============================================================
+        const ONE_DAY = 86_400_000;
 
         function positiveMod(n, m) {
             return ((n % m) + m) % m;
         }
 
-        function renderSchedule() {
+        function getTestDate() {
+            const val = document.getElementById("testDate").value;
+            const d = val ? new Date(val) : new Date();
+            d.setHours(0, 0, 0, 0);
+            return d;
+        }
 
-            const today = getTodayDate();
-
-            const anchor = new Date(2026, 5, 2); // 2 Juni 2026
+        /** Hitung status kerja/libur dan shift untuk tanggal tertentu */
+        function calcStatus(date, groupKey) {
+            const group = GROUPS[groupKey];
+            const anchor = new Date(group.anchor);
             anchor.setHours(0, 0, 0, 0);
 
-            const cycleLength = 8;
-            const workDays = 6;
-            const ONE_DAY = 86400000;
-
-            const shiftOrder = ["SHIFT 1", "SHIFT 3", "SHIFT 2"];
-
-            const diffDays = Math.floor((today - anchor) / ONE_DAY);
-
-            const cycleDay = positiveMod(diffDays, cycleLength);
-            const cycleIndex = Math.floor(diffDays / cycleLength);
-
-            const isWork = cycleDay < workDays;
+            const diff = Math.floor((date - anchor) / ONE_DAY);
+            const cycleDay = positiveMod(diff, CYCLE.length);
+            const cycleIdx = Math.floor(diff / CYCLE.length);
+            const isWork = cycleDay < CYCLE.workDays;
             const shift = isWork
-                ? shiftOrder[positiveMod(cycleIndex, shiftOrder.length)]
-                : "";
+                ? CYCLE.shifts[positiveMod(cycleIdx, CYCLE.shifts.length)]
+                : null;
 
+            return { isWork, shift };
+        }
+
+        // ============================================================
+        //  RENDER
+        // ============================================================
+        function buildGroupSelector() {
+            const el = document.getElementById("groupSelector");
+            el.innerHTML = Object.entries(GROUPS).map(([key, g]) => `
+      <button
+        class="group-btn ${key === activeGroup ? "active" : ""}"
+        onclick="selectGroup('${key}')"
+        ${g.ready ? "" : "disabled"}
+        title="${g.ready ? g.label : g.label + " (segera hadir)"}">
+        ${key}
+      </button>
+    `).join("");
+        }
+
+        function render() {
+            buildGroupSelector();
+
+            const today = getTestDate();
+            const group = GROUPS[activeGroup];
+            const { isWork, shift } = calcStatus(today, activeGroup);
+
+            // Tanggal
             document.getElementById("todayDate").innerText =
                 today.toLocaleDateString("id-ID", {
-                    weekday: "long",
-                    day: "2-digit",
-                    month: "long",
-                    year: "numeric"
+                    weekday: "long", day: "2-digit",
+                    month: "long", year: "numeric",
                 });
 
-            const status = document.getElementById("status");
-            const icon = document.getElementById("icon");
-            const sub = document.getElementById("sub");
+            // Status utama
+            const statusEl = document.getElementById("status");
+            const iconEl = document.getElementById("icon");
+            const subEl = document.getElementById("sub");
 
-            status.className = "big " + (isWork ? "work" : "off");
+            statusEl.className = "big " + (isWork ? "work" : "off");
+            statusEl.innerText = isWork ? "KERJA" : "LIBUR";
 
-            if (isWork) {
-                status.innerText = "KERJA";
-                icon.innerText = "work";
-                icon.style.color = "#22c55e";
-                sub.innerText = "Aktif • " + shift;
-            } else {
-                status.innerText = "LIBUR";
-                icon.innerText = "beach_access";
-                icon.style.color = "#ef4444";
-                sub.innerText = "Hari istirahat";
-            }
+            iconEl.innerText = isWork ? "work" : "beach_access";
+            iconEl.style.color = isWork ? "#22c55e" : "#ef4444";
 
+            subEl.innerText = isWork
+                ? `Aktif • ${shift} • ${group.label}`
+                : `Hari istirahat • ${group.label}`;
+
+            // Preview 8 hari
             let html = "";
-
             for (let i = 0; i < 8; i++) {
-
                 const d = new Date(today);
                 d.setDate(today.getDate() + i);
-
-                const dd = Math.floor((d - anchor) / ONE_DAY);
-                const cd = positiveMod(dd, cycleLength);
-                const wi = cd < workDays;
-
-                const sh = wi
-                    ? shiftOrder[positiveMod(Math.floor(dd / cycleLength), shiftOrder.length)]
-                    : "";
+                const { isWork: w, shift: sh } = calcStatus(d, activeGroup);
 
                 html += `
-            <div class="row">
-                <span>
-                    <i class="material-icons" style="color:${wi ? '#22c55e' : '#ef4444'}">
-                        ${wi ? "work" : "beach_access"}
-                    </i>
-                    ${d.toLocaleDateString("id-ID")}
-                    ${wi ? " - " + sh : ""}
-                </span>
-                <span style="color:${wi ? '#22c55e' : '#ef4444'};font-weight:bold;">
-                    ${wi ? "KERJA" : "LIBUR"}
-                </span>
-            </div>
-        `;
+        <div class="row">
+          <span>
+            <i class="material-icons" style="color:${w ? "#22c55e" : "#ef4444"}">
+              ${w ? "work" : "beach_access"}
+            </i>
+            ${d.toLocaleDateString("id-ID")}
+            ${w ? " — " + sh : ""}
+          </span>
+          <span style="color:${w ? "#22c55e" : "#ef4444"};font-weight:bold;">
+            ${w ? "KERJA" : "LIBUR"}
+          </span>
+        </div>`;
             }
-
             document.getElementById("preview").innerHTML = html;
         }
 
-        renderSchedule();
-    </script>
+        function selectGroup(key) {
+            if (!GROUPS[key].ready) return;
+            activeGroup = key;
+            render();
+        }
 
+        // Init
+        render();
+    </script>
 </body>
 
 </html>
