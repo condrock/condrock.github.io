@@ -1,89 +1,238 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
-  <!-- Pengaturan meta untuk karakter set dan tampilan responsif -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Judul halaman -->
-  <title>Google Drive Direct Download Link Generator</title>
-  <!-- Pemuatan Bootstrap CSS dari CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <meta property="og:description" content="Cond Rock | Google Drive Direct Download Link Generator">
-  <meta property="og:image"
-    content="https://github.com/condrock/condrock.github.io/blob/main/images/cndrk.png?raw=true">
-  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-  <meta property="og:url" content="https://condrock.eu.org/">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drive Direct Link Generator</title>
+
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --card: #121826;
+      --text: #e6e6e6;
+      --muted: #9aa4b2;
+      --accent: #4f8cff;
+      --border: rgba(255, 255, 255, 0.08);
+      --success: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 40px 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 13px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    textarea,
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0f1624;
+      color: var(--text);
+      outline: none;
+      font-size: 14px;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+      font-size: 13px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button.secondary {
+      background: transparent;
+      color: var(--text);
+    }
+
+    .output {
+      margin-top: 14px;
+    }
+
+    .item {
+      background: #0f1624;
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 8px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .ok {
+      color: var(--success);
+    }
+  </style>
 </head>
 
-<body class="bg-dark">
+<body>
 
-  <div class="container mt-5">
-    <!-- Kartu utama yang membungkus semua elemen -->
-    <div class="card shadow p-3 panel panel-default panel-primary" id="mainpanel">
-      <!-- Bagian kepala kartu dengan judul -->
-      <div class="card-heading panel-heading">
-        <h1 class="p-2 fw-bold">Pembuat Tautan Unduh Langsung
-          Google Drive</h1>
+  <div class="container">
+    <div class="card">
+      <h1>Google Drive Direct Link Generator</h1>
+
+      <label>Single Link</label>
+      <input id="singleInput" placeholder="Paste Google Drive link..." />
+
+      <div class="row">
+        <button onclick="generateSingle()">Generate</button>
+        <button class="secondary" onclick="copySingle()">Copy</button>
       </div>
 
-      <!-- Isi kartu, berisi formulir dan elemen lainnya -->
-      <div class="panel-body">
-        <form>
-          <!-- Input untuk tautan berbagi -->
-          <div class="form-group mt-3">
-            <label for="sharelink" class="mb-1 fs-4">Input tautan berbagi</label>
-            <input type="text" class="form-control  fs-4" id="sharelink"
-              placeholder="https://drive.google.com/file/d/XX-X__XXXXX-XXXXXXXXXXXXXXXX/view?usp=sharing" autofocus>
-          </div>
+      <input id="singleOutput" readonly style="margin-top:10px;" />
 
-          <!-- Input untuk tautan unduhan -->
-          <div class="form-group py-3">
-            <label for="downloadlink" class="mb-1 fs-4">Tautan unduhan</label>
-            <div class="input-group">
-              <input type="text" class="form-control fs-4" id="downloadlink" readonly>
-              <span class="input-group-btn">
-                <!-- Tombol untuk menyalin tautan -->
-                <button id="copylinkbtn" class="btn btn-primary fs-4" type="button"
-                  data-clipboard-target="#downloadlink" disabled>Salin link</button>
-              </span>
-            </div>
-          </div>
-        </form>
+      <div class="status" id="status"></div>
 
-        <!-- Saran untuk mengubah setelan berbagi -->
-        <div class="alert alert-info mt-4" role="alert">
-          <strong>Pastikan:</strong> File yang ingin diunduh sudah diatur ke <b>"Siapa saja yang memiliki link dapat
-            melihat"</b>
-          agar bisa diakses oleh semua orang.
-        </div>
+      <hr style="margin:20px 0; border:1px solid rgba(255,255,255,0.05)" />
 
+      <label>Batch Mode (1 link per line)</label>
+      <textarea id="batchInput" placeholder="Paste multiple Google Drive links..."></textarea>
 
-        <!-- Elemen yang tersembunyi dan dapat dijatuhkan -->
-        <div class="collapse" id="collapseExample">
-          <br>
-          <!-- Elemen yang menampilkan gambar -->
-          <div class="well text-center">
-            <img src="https://drive.google.com/uc?export=download&id=0B-B__6JMBt-jb1MxWHY5UE5QUXM" alt="">
-          </div>
-        </div>
+      <div class="row">
+        <button onclick="generateBatch()">Generate Batch</button>
+        <button class="secondary" onclick="copyBatch()">Copy All</button>
       </div>
+
+      <div class="output" id="batchOutput"></div>
     </div>
   </div>
-  <!-- Pemuatan jQuery, Bootstrap JS, Clipboard.js, dan notifikasi Bootstrap dari CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.5/bootstrap-notify.min.js"></script>
-  <!-- Pemuatan skrip kustom -->
-  <script src="js/scriptgd.js"></script>
-  <!-- Skrip untuk memperbarui tahun saat ini di kaki halaman -->
 
-  <!-- script js -->
-  <script src="js/scriptgd.js"></script>
-  <!-- script js end -->
+  <script>
+    function extractId(url) {
+      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      return match ? match[1] : null;
+    }
+
+    function buildDirect(id) {
+      return `https://drive.google.com/uc?export=download&id=${id}`;
+    }
+
+    function setStatus(msg, ok = false) {
+      const el = document.getElementById('status');
+      el.textContent = msg;
+      el.className = ok ? 'status ok' : 'status';
+    }
+
+    function generateSingle() {
+      const input = document.getElementById('singleInput').value.trim();
+      const id = extractId(input);
+
+      if (!id) {
+        setStatus("Link tidak valid", false);
+        return;
+      }
+
+      const direct = buildDirect(id);
+      document.getElementById('singleOutput').value = direct;
+      setStatus("Generated successfully", true);
+    }
+
+    async function copySingle() {
+      const val = document.getElementById('singleOutput').value;
+      if (!val) return;
+
+      await navigator.clipboard.writeText(val);
+      setStatus("Copied to clipboard", true);
+    }
+
+    function generateBatch() {
+      const input = document.getElementById('batchInput').value.split("\n");
+      const out = document.getElementById('batchOutput');
+      out.innerHTML = "";
+
+      input.forEach(line => {
+        const id = extractId(line.trim());
+        if (!id) return;
+
+        const direct = buildDirect(id);
+
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `<span>${direct}</span>
+      <button onclick="navigator.clipboard.writeText('${direct}')">Copy</button>`;
+
+        out.appendChild(div);
+      });
+    }
+
+    async function copyBatch() {
+      const items = document.querySelectorAll('.item span');
+      let all = [];
+      items.forEach(i => all.push(i.textContent));
+      await navigator.clipboard.writeText(all.join("\n"));
+      setStatus("Batch copied", true);
+    }
+  </script>
 
 </body>
 
