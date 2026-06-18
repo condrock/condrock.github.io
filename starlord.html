@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STARLORD — Pattern Reflection</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --void: #07080f;
+            --card: #111320;
+            --card2: #141728;
+            --border: rgba(180, 160, 255, 0.13);
+            --gold: #c8a84b;
+            --gold2: #e8c96d;
+            --violet: #8b6fff;
+            --violet2: #b39dff;
+            --star: #f0eaff;
+            --muted: rgba(240, 234, 255, 0.45);
+            --dim: rgba(240, 234, 255, 0.25);
+        }
+
+        body {
+            background: var(--void);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            color: var(--star);
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(1px 1px at 15% 20%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
+                radial-gradient(1px 1px at 35% 60%, rgba(200, 168, 75, 0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 60% 15%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 80% 45%, rgba(179, 157, 255, 0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 90% 80%, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .app {
+            width: 100%;
+            max-width: 440px;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 36px 24px 28px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-eyebrow {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 3.5px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .header-title {
+            font-family: 'Cinzel', serif;
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: var(--star);
+            text-shadow: 0 0 40px rgba(139, 111, 255, 0.4);
+        }
+
+        .header-sub {
+            font-size: 15px;
+            margin-top: 8px;
+            letter-spacing: 1.5px;
+            font-weight: 300;
+        }
+
+        .input-section {
+            padding: 28px 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .input-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .name-input {
+            flex: 1;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 15px 18px;
+            font-family: 'Inter', sans-serif;
+            font-size: 17px;
+            color: var(--star);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .name-input::placeholder {
+            color: var(--dim);
+        }
+
+        .name-input:focus {
+            border-color: rgba(139, 111, 255, 0.5);
+        }
+
+        .btn-explore {
+            background: linear-gradient(135deg, #151321, #252044);
+            box-shadow:
+                0 0 18px rgba(139, 111, 255, 0.28),
+                inset 0 0 18px rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(200, 168, 75, 0.35);
+            border-radius: 12px;
+            padding: 15px 22px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.25s ease;
+        }
+
+        .btn-explore:disabled {
+            background: #2a2040;
+            cursor: default;
+        }
+
+        .btn-explore:not(:disabled):hover {
+            border-color: rgba(232, 201, 109, 0.7);
+            box-shadow:
+                0 0 25px rgba(139, 111, 255, 0.45),
+                0 0 45px rgba(200, 168, 75, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .btn-explore:not(:disabled):active {
+            transform: scale(0.96);
+        }
+
+        .loading {
+            padding: 48px 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading-ring {
+            width: 44px;
+            height: 44px;
+            border: 2px solid var(--border);
+            border-top-color: var(--violet);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        .loading-text {
+            font-size: 14px;
+            color: var(--muted);
+            letter-spacing: 1.5px;
+            font-weight: 300;
+        }
+
+        .error-card {
+            background: rgba(255, 80, 80, 0.07);
+            border: 1px solid rgba(255, 80, 80, 0.2);
+            border-radius: 14px;
+            padding: 18px 20px;
+            margin: 16px 20px 0;
+            font-size: 15px;
+            color: rgba(255, 160, 160, 0.9);
+            display: none;
+        }
+
+        .error-card.show {
+            display: block;
+        }
+
+        .empty-state {
+            padding: 52px 24px;
+            text-align: center;
+        }
+
+        .empty-glyph {
+            font-size: 40px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 15px;
+            color: var(--dim);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .results {
+            padding: 20px 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card.gold-border {
+            border-color: rgba(200, 168, 75, 0.25);
+        }
+
+        .card.violet-border {
+            border-color: rgba(139, 111, 255, 0.25);
+            background: linear-gradient(160deg, #111320, #0f1228);
+        }
+
+        .card-header {
+            padding: 14px 20px 12px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card.gold-border .card-header {
+            background: rgba(200, 168, 75, 0.06);
+        }
+
+        .card-icon {
+            font-size: 15px;
+        }
+
+        .card-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+
+        .card-body {
+            padding: 18px 20px 20px;
+        }
+
+        .card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--star);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .card-text {
+            font-size: 16px;
+            line-height: 1.72;
+            color: rgba(240, 234, 255, 0.82);
+            font-weight: 300;
+        }
+
+        .card-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card-list li {
+            font-size: 16px;
+            color: rgba(240, 234, 255, 0.82);
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .card-list li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 13px;
+            top: 3px;
+        }
+
+        .reflection-question {
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--violet2);
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .symbol-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .symbol-chip {
+            background: rgba(139, 111, 255, 0.12);
+            border: 1px solid rgba(139, 111, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 14px;
+            color: var(--violet2);
+        }
+
+        .compact-card {
+            background: var(--card);
+            border: 1px solid rgba(200, 168, 75, 0.2);
+            border-radius: 18px;
+            padding: 22px 20px;
+            margin: 20px 20px 0;
+            display: none;
+        }
+
+        .compact-card.show {
+            display: block;
+            animation: fadeUp 0.4s ease;
+        }
+
+        .compact-name {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gold2);
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .compact-section {
+            margin-bottom: 14px;
+        }
+
+        .compact-label {
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            font-weight: 600;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .compact-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: rgba(240, 234, 255, 0.8);
+            font-weight: 300;
+        }
+
+        .unlock-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .unlock-overlay.show {
+            opacity: 1;
+        }
+
+
+        .unlock-badge {
+            animation: fadeUp 0.35s ease;
+        }
+
+        .unlock-badge {
+            background: linear-gradient(135deg, #1a1530, #0d0f1c);
+            border: 1px solid rgba(200, 168, 75, 0.5);
+            border-radius: 20px;
+            padding: 24px 36px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(139, 111, 255, 0.3);
+        }
+
+        .unlock-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .unlock-title {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gold2);
+            letter-spacing: 1px;
+        }
+
+        .unlock-sub {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+
+        <div class="header">
+            <div class="header-eyebrow">Pattern Reflection</div>
+            <div class="header-title">Cσиd Røck <br> The Starlord</div>
+            <div class="header-sub">Bukan ramalan. Hanya refleksi kecil tentang pola unikmu. Anggap ini sebagai
+                perjalanan seru untuk melihat sisi lain dari
+                dirimu. Jika terasa cocok, mungkin ada bagian yang berhasil menggambarkanmu.</div>
+        </div>
+
+        <div class="input-section">
+            <span class="input-label">Nama Kamu</span>
+            <div class="input-row">
+                <input class="name-input" id="nameInput" type="text" placeholder="Tuliskan namamu..." maxlength="60">
+                <button class="btn-explore" id="btnExplore">👑 Explore</button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="loading-ring"></div>
+            <div class="loading-text">Membaca pola bintang...</div>
+        </div>
+
+        <div class="error-card" id="errorCard"></div>
+
+        <div class="empty-state" id="emptyState">
+            <div class="empty-glyph">✦</div>
+            <div class="empty-text">Masukkan nama untuk mulai<br>membaca pola tersembunyimu.</div>
+        </div>
+
+        <div class="compact-card" id="compactCard"></div>
+        <div class="results" id="results"></div>
+
+    </div>
+
+    <div class="unlock-overlay" id="unlockOverlay">
+        <div class="unlock-badge">
+            <div class="unlock-icon" id="unlockIcon">⭐</div>
+            <div class="unlock-title" id="unlockTitle"></div>
+            <div class="unlock-sub" id="unlockSub"></div>
+        </div>
+    </div>
+
+    <script>
+        const DATABASE = {
+
+            archetypes: [
+                "The Silent Builder",
+                "The Cosmic Explorer",
+                "The Hidden Strategist",
+                "The Vision Architect",
+                "The Quiet Leader",
+                "The Pattern Seeker",
+                "The Midnight Observer",
+                "The Reality Shaper"
+            ],
+
+
+            taglines: [
+                "bergerak dalam diam namun selalu membangun sesuatu yang bermakna.",
+                "selalu mencari pengalaman baru dan makna tersembunyi.",
+                "membaca pola sebelum mengambil keputusan besar.",
+                "membangun visi dari hal kecil yang sering diabaikan.",
+                "memiliki cara unik dalam memahami dunia."
+            ],
+
+
+            hidden: [
+                "kamu sering mengamati lebih banyak daripada berbicara.",
+                "kamu memiliki kecenderungan memahami sesuatu lebih dalam dari kebanyakan orang.",
+                "kamu menyimpan banyak ide sebelum menunjukkannya kepada dunia.",
+                "kekuatanmu muncul ketika kamu menemukan pola yang tidak terlihat."
+            ],
+
+
+            strengths: [
+                "Tenang menghadapi tekanan",
+                "Melihat detail yang sering dilewatkan",
+                "Mudah belajar dari pengalaman",
+                "Punya intuisi kuat",
+                "Berpikir jauh ke depan",
+                "Mudah beradaptasi",
+                "Kreatif melihat peluang",
+                "Konsisten mengejar tujuan"
+            ],
+
+
+            blind: [
+                "Terlalu banyak berpikir",
+                "Sulit membuka diri",
+                "Menunda keputusan",
+                "Terlalu mengejar kesempurnaan",
+                "Sulit meminta bantuan",
+                "Terlalu berhati-hati"
+            ],
+
+
+            symbols: [
+                "Bintang",
+                "Kompas",
+                "Bulan",
+                "Planet",
+                "Gunung",
+                "Api",
+                "Peta",
+                "Mata"
+            ]
+
+        };
+
+
+
+        let currentData = null;
+
+
+        function showUnlock(icon, title, sub) {
+
+            document.getElementById("unlockIcon").textContent = icon;
+
+            document.getElementById("unlockTitle").textContent = title;
+
+            document.getElementById("unlockSub").textContent = sub;
+
+
+            const overlay =
+                document.getElementById("unlockOverlay");
+
+
+            overlay.classList.add("show");
+
+
+            setTimeout(() => {
+
+                overlay.classList.remove("show");
+
+            }, 1500);
+
+        }
+
+
+
+        function doExplore() {
+
+            const name =
+                document.getElementById("nameInput")
+                    .value
+                    .trim();
+
+
+            if (!name) return;
+
+
+            document
+                .getElementById("emptyState")
+                .style.display = "none";
+
+
+            currentData = getPattern(name);
+
+
+
+            showUnlock(
+                "👑",
+                "Premium Pattern Unlocked",
+                "Full insight " + name + " berhasil dibuka"
+            );
+
+
+            renderCards(currentData, 7);
+
+        }
+
+
+
+
+        document
+            .getElementById("btnExplore")
+            .onclick = doExplore;
+
+
+
+        document
+            .getElementById("nameInput")
+            .onkeydown = function (e) {
+
+                if (e.key === "Enter") {
+
+                    doExplore();
+
+                }
+
+            };
+
+
+
+        function randomGenerator(name) {
+
+            let seed = 0;
+
+            for (let i = 0; i < name.length; i++) {
+
+                seed += name.charCodeAt(i) * (i + 1);
+
+            }
+
+
+            return function (max) {
+
+                seed = (seed * 9301 + 49297) % 233280;
+
+                return seed % max;
+
+            };
+
+        }
+
+
+
+
+        function getPattern(name) {
+
+
+            const random = randomGenerator(name);
+
+
+
+            return {
+
+
+                archetype: {
+
+                    name:
+                        name + " - " +
+                        DATABASE.archetypes[
+                        random(DATABASE.archetypes.length)
+                        ],
+
+
+                    tagline:
+                        name + ", " +
+                        DATABASE.taglines[
+                        random(DATABASE.taglines.length)
+                        ]
+
+                },
+
+
+                hidden_pattern: {
+
+
+                    title: "Pola Tersembunyi",
+
+
+                    content:
+                        name + ", " +
+                        DATABASE.hidden[
+                        random(DATABASE.hidden.length)
+                        ]
+
+                },
+
+
+
+                strengths: [
+
+                    DATABASE.strengths[random(DATABASE.strengths.length)],
+                    DATABASE.strengths[random(DATABASE.strengths.length)],
+                    DATABASE.strengths[random(DATABASE.strengths.length)],
+                    DATABASE.strengths[random(DATABASE.strengths.length)]
+
+                ],
+
+
+
+                blind_spots: [
+
+                    DATABASE.blind[random(DATABASE.blind.length)],
+                    DATABASE.blind[random(DATABASE.blind.length)],
+                    DATABASE.blind[random(DATABASE.blind.length)]
+
+                ],
+
+
+
+                life_theme:
+
+                    "Perjalanan " + name +
+                    " adalah tentang menemukan arah, membangun pengalaman, dan menciptakan sesuatu yang memiliki arti.",
+
+
+
+                reflection:
+
+                    name +
+                    ", apa sisi dirimu yang belum kamu berani eksplorasi?",
+
+
+
+                symbols: [
+
+                    DATABASE.symbols[random(DATABASE.symbols.length)],
+                    DATABASE.symbols[random(DATABASE.symbols.length)],
+                    DATABASE.symbols[random(DATABASE.symbols.length)]
+
+                ]
+
+
+            };
+
+        }
+
+
+
+
+
+        function renderCards(data, limit) {
+
+
+            const container = document.getElementById("results");
+
+
+            const cards = [
+
+
+                ["✦", "Archetype",
+                    `
+<div class="card-title">${data.archetype.name}</div>
+<div class="card-text">${data.archetype.tagline}</div>
+`,
+                    "gold-border"],
+
+
+
+                ["◈", "Hidden Pattern",
+                    `
+<div class="card-title">${data.hidden_pattern.title}</div>
+<div class="card-text">${data.hidden_pattern.content}</div>
+`,
+                    ""],
+
+
+
+                ["▲", "Strengths",
+                    `
+<ul class="card-list">
+
+${data.strengths.map(x => `<li>${x}</li>`).join("")}
+
+</ul>
+`,
+                    ""],
+
+
+
+                ["◇", "Reflection",
+                    `
+<div class="reflection-question">
+${data.reflection}
+</div>
+`,
+                    "violet-border"],
+
+
+
+                ["◉", "Blind Spots",
+                    `
+<ul class="card-list">
+
+${data.blind_spots.map(x => `<li>${x}</li>`).join("")}
+
+</ul>
+`,
+                    ""],
+
+
+
+                ["∞", "Life Theme",
+                    `
+<div class="card-text">
+${data.life_theme}
+</div>
+`,
+                    ""],
+
+
+
+                ["✧", "Symbolic Profile",
+                    `
+<div class="symbol-row">
+
+${data.symbols.map(x =>
+                        `<span class="symbol-chip">${x}</span>`
+                    ).join("")}
+
+</div>
+`,
+                    ""]
+
+            ];
+
+
+
+            let index =
+                limit <= 4
+                    ?
+                    [0, 1, 2, 3]
+                    :
+                    limit <= 6
+                        ?
+                        [0, 1, 2, 4, 5, 3]
+                        :
+                        [0, 1, 2, 4, 5, 6, 3];
+
+
+
+
+            container.innerHTML = index.map(i => `
+
+<div class="card ${cards[i][3]}">
+
+<div class="card-header">
+
+<span class="card-icon">
+${cards[i][0]}
+</span>
+
+
+<span class="card-label">
+${cards[i][1]}
+</span>
+
+
+</div>
+
+
+<div class="card-body">
+
+${cards[i][2]}
+
+</div>
+
+
+</div>
+
+
+`).join("");
+
+
+
+            container.querySelectorAll(".card")
+                .forEach((card, i) => {
+
+                    setTimeout(() => {
+
+                        card.classList.add("visible");
+
+                    }, i * 200);
+
+
+                });
+
+
+        }
+
+
+        document
+            .getElementById("btnExplore")
+            .onclick = doExplore;
+
+
+
+        document
+            .getElementById("nameInput")
+            .onkeydown = function (e) {
+
+                if (e.key === "Enter") {
+
+                    doExplore();
+
+                }
+
+            };
+    </script>
+</body>
+
+</html>
