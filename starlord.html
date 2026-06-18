@@ -94,6 +94,7 @@
             letter-spacing: 6px;
             color: var(--star);
             text-shadow: 0 0 40px rgba(139, 111, 255, 0.4);
+            overflow-wrap: break-word;
         }
 
         .header-sub {
@@ -121,6 +122,7 @@
         .input-row {
             display: flex;
             gap: 10px;
+            width: 100%;
         }
 
         .name-input {
@@ -151,7 +153,10 @@
                 inset 0 0 18px rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(200, 168, 75, 0.35);
             border-radius: 12px;
-            padding: 15px 22px;
+            padding: 15px 18px;
+            min-width: 95px;
+            flex-shrink: 0;
+            white-space: nowrap;
             font-family: 'Inter', sans-serif;
             font-size: 14px;
             font-weight: 600;
@@ -452,6 +457,45 @@
             font-size: 13px;
             color: var(--muted);
             margin-top: 4px;
+        }
+
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 380px) {
+
+            .header-title {
+                font-size: 28px;
+                letter-spacing: 4px;
+            }
+
+
+            .header-sub {
+                font-size: 13px;
+                letter-spacing: 1px;
+            }
+
+
+            .input-row {
+                gap: 8px;
+            }
+
+
+            .name-input {
+                font-size: 15px;
+                padding: 14px;
+            }
+
+
+            .btn-explore {
+                font-size: 12px;
+                padding: 14px 12px;
+            }
+
         }
     </style>
 </head>
