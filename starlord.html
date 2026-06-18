@@ -30,6 +30,13 @@
             --dim: rgba(240, 234, 255, 0.25);
         }
 
+        html,
+        body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             background: var(--void);
             min-height: 100vh;
@@ -38,13 +45,14 @@
             align-items: center;
             font-family: 'Inter', sans-serif;
             color: var(--star);
-            overflow-x: hidden;
             background-image:
                 radial-gradient(1px 1px at 15% 20%, rgba(255, 255, 255, 0.6) 0%, transparent 100%),
                 radial-gradient(1px 1px at 35% 60%, rgba(200, 168, 75, 0.4) 0%, transparent 100%),
                 radial-gradient(1px 1px at 60% 15%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
                 radial-gradient(1px 1px at 80% 45%, rgba(179, 157, 255, 0.5) 0%, transparent 100%),
                 radial-gradient(1px 1px at 90% 80%, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         @keyframes spin {
@@ -65,6 +73,18 @@
             }
         }
 
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
         .app {
             width: 100%;
             max-width: 440px;
@@ -72,9 +92,10 @@
             padding-bottom: 40px;
         }
 
+        /* ── HEADER ── */
         .header {
             text-align: center;
-            padding: 36px 24px 28px;
+            padding: 36px 24px 24px;
             border-bottom: 1px solid var(--border);
         }
 
@@ -89,21 +110,24 @@
 
         .header-title {
             font-family: 'Cinzel', serif;
-            font-size: 34px;
+            font-size: 30px;
             font-weight: 700;
-            letter-spacing: 6px;
+            letter-spacing: 3px;
             color: var(--star);
             text-shadow: 0 0 40px rgba(139, 111, 255, 0.4);
+            line-height: 1.25;
             overflow-wrap: break-word;
         }
 
         .header-sub {
-            font-size: 15px;
-            margin-top: 8px;
-            letter-spacing: 1.5px;
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 10px;
+            line-height: 1.65;
             font-weight: 300;
         }
 
+        /* ── INPUT ── */
         .input-section {
             padding: 28px 20px 24px;
             border-bottom: 1px solid var(--border);
@@ -127,6 +151,7 @@
 
         .name-input {
             flex: 1;
+            min-width: 0;
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -136,6 +161,8 @@
             color: var(--star);
             outline: none;
             transition: border-color 0.2s;
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         .name-input::placeholder {
@@ -147,16 +174,13 @@
         }
 
         .btn-explore {
+            flex-shrink: 0;
+            min-width: 80px;
             background: linear-gradient(135deg, #151321, #252044);
-            box-shadow:
-                0 0 18px rgba(139, 111, 255, 0.28),
-                inset 0 0 18px rgba(255, 255, 255, 0.03);
+            box-shadow: 0 0 18px rgba(139, 111, 255, 0.28), inset 0 0 18px rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(200, 168, 75, 0.35);
             border-radius: 12px;
             padding: 15px 18px;
-            min-width: 95px;
-            flex-shrink: 0;
-            white-space: nowrap;
             font-family: 'Inter', sans-serif;
             font-size: 14px;
             font-weight: 600;
@@ -169,13 +193,12 @@
         .btn-explore:disabled {
             background: #2a2040;
             cursor: default;
+            box-shadow: none;
         }
 
         .btn-explore:not(:disabled):hover {
             border-color: rgba(232, 201, 109, 0.7);
-            box-shadow:
-                0 0 25px rgba(139, 111, 255, 0.45),
-                0 0 45px rgba(200, 168, 75, 0.15);
+            box-shadow: 0 0 25px rgba(139, 111, 255, 0.45), 0 0 45px rgba(200, 168, 75, 0.15);
             transform: translateY(-1px);
         }
 
@@ -183,6 +206,7 @@
             transform: scale(0.96);
         }
 
+        /* ── LOADING ── */
         .loading {
             padding: 48px 20px;
             text-align: center;
@@ -210,6 +234,7 @@
             font-weight: 300;
         }
 
+        /* ── ERROR ── */
         .error-card {
             background: rgba(255, 80, 80, 0.07);
             border: 1px solid rgba(255, 80, 80, 0.2);
@@ -225,6 +250,7 @@
             display: block;
         }
 
+        /* ── EMPTY STATE ── */
         .empty-state {
             padding: 52px 24px;
             text-align: center;
@@ -243,6 +269,7 @@
             font-weight: 300;
         }
 
+        /* ── RESULT CARDS ── */
         .results {
             padding: 20px 20px 0;
             display: flex;
@@ -304,7 +331,7 @@
 
         .card-title {
             font-family: 'Cinzel', serif;
-            font-size: 22px;
+            font-size: 21px;
             font-weight: 600;
             color: var(--star);
             margin-bottom: 10px;
@@ -313,7 +340,7 @@
 
         .card-text {
             font-size: 16px;
-            line-height: 1.72;
+            line-height: 1.75;
             color: rgba(240, 234, 255, 0.82);
             font-weight: 300;
         }
@@ -367,49 +394,76 @@
             color: var(--violet2);
         }
 
-        .compact-card {
-            background: var(--card);
-            border: 1px solid rgba(200, 168, 75, 0.2);
-            border-radius: 18px;
-            padding: 22px 20px;
-            margin: 20px 20px 0;
+        /* ── SCREENSHOT BUTTON ── */
+        .screenshot-wrap {
+            padding: 20px 20px 0;
             display: none;
         }
 
-        .compact-card.show {
+        .screenshot-wrap.show {
             display: block;
-            animation: fadeUp 0.4s ease;
         }
 
-        .compact-name {
-            font-family: 'Cinzel', serif;
-            font-size: 20px;
-            font-weight: 600;
+        .btn-screenshot {
+            width: 100%;
+            background: linear-gradient(135deg, #0f1228, #1a1530);
+            border: 1px solid rgba(200, 168, 75, 0.3);
+            border-radius: 14px;
+            padding: 14px 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
             color: var(--gold2);
-            margin-bottom: 14px;
-            text-align: center;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            letter-spacing: 0.5px;
         }
 
-        .compact-section {
-            margin-bottom: 14px;
+        .btn-screenshot:hover {
+            border-color: rgba(200, 168, 75, 0.6);
+            box-shadow: 0 0 20px rgba(200, 168, 75, 0.1);
         }
 
-        .compact-label {
-            font-size: 10px;
-            letter-spacing: 2.5px;
-            font-weight: 600;
-            color: var(--gold);
-            text-transform: uppercase;
-            margin-bottom: 6px;
+        .btn-screenshot:active {
+            transform: scale(0.98);
         }
 
-        .compact-text {
-            font-size: 15px;
-            line-height: 1.6;
-            color: rgba(240, 234, 255, 0.8);
-            font-weight: 300;
+        .btn-screenshot.loading-ss {
+            opacity: 0.6;
+            cursor: default;
+            animation: pulse 1s infinite;
         }
 
+        /* ── SCREENSHOT TOAST ── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(17, 19, 32, 0.97);
+            border: 1px solid rgba(200, 168, 75, 0.4);
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 13px;
+            color: var(--gold2);
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 200;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ── UNLOCK OVERLAY ── */
         .unlock-overlay {
             position: fixed;
             inset: 0;
@@ -426,12 +480,8 @@
             opacity: 1;
         }
 
-
         .unlock-badge {
             animation: fadeUp 0.35s ease;
-        }
-
-        .unlock-badge {
             background: linear-gradient(135deg, #1a1530, #0d0f1c);
             border: 1px solid rgba(200, 168, 75, 0.5);
             border-radius: 20px;
@@ -459,62 +509,47 @@
             margin-top: 4px;
         }
 
-        html,
-        body {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
+        /* ── RESPONSIVE ── */
         @media (max-width: 380px) {
-
             .header-title {
-                font-size: 28px;
-                letter-spacing: 4px;
+                font-size: 24px;
+                letter-spacing: 2px;
             }
-
 
             .header-sub {
-                font-size: 13px;
-                letter-spacing: 1px;
+                font-size: 12px;
             }
-
-
-            .input-row {
-                gap: 8px;
-            }
-
 
             .name-input {
                 font-size: 15px;
-                padding: 14px;
+                padding: 13px 14px;
             }
-
 
             .btn-explore {
                 font-size: 12px;
-                padding: 14px 12px;
+                padding: 13px 12px;
+                min-width: 70px;
             }
-
         }
     </style>
 </head>
 
 <body>
-    <div class="app">
+
+    <div class="app" id="appRoot">
 
         <div class="header">
             <div class="header-eyebrow">Pattern Reflection</div>
-            <div class="header-title">Cσиd Røck <br> The Starlord</div>
+            <div class="header-title">Cσиd Røck<br>The Starlord</div>
             <div class="header-sub">Bukan ramalan. Hanya refleksi kecil tentang pola unikmu. Anggap ini sebagai
-                perjalanan seru untuk melihat sisi lain dari
-                dirimu. Jika terasa cocok, mungkin ada bagian yang berhasil menggambarkanmu.</div>
+                perjalanan seru untuk melihat sisi lain dari dirimu.</div>
         </div>
 
         <div class="input-section">
             <span class="input-label">Nama Kamu</span>
             <div class="input-row">
-                <input class="name-input" id="nameInput" type="text" placeholder="Tuliskan namamu..." maxlength="60">
+                <input class="name-input" id="nameInput" type="text" placeholder="Tuliskan namamu..." maxlength="60"
+                    autocomplete="off">
                 <button class="btn-explore" id="btnExplore">👑 See</button>
             </div>
         </div>
@@ -531,11 +566,18 @@
             <div class="empty-text">Masukkan nama untuk mulai<br>membaca pola tersembunyimu.</div>
         </div>
 
-        <div class="compact-card" id="compactCard"></div>
         <div class="results" id="results"></div>
+
+        <!-- Screenshot button muncul setelah ada hasil -->
+        <div class="screenshot-wrap" id="screenshotWrap">
+            <button class="btn-screenshot" id="btnScreenshot">
+                <span>📸</span> Simpan Hasil sebagai Gambar
+            </button>
+        </div>
 
     </div>
 
+    <!-- UNLOCK OVERLAY -->
     <div class="unlock-overlay" id="unlockOverlay">
         <div class="unlock-badge">
             <div class="unlock-icon" id="unlockIcon">⭐</div>
@@ -544,446 +586,365 @@
         </div>
     </div>
 
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- html2canvas (gratis, CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <script>
-        const DATABASE = {
+        // ═══════════════════════════════════════════════════
+        //  PROTEKSI SUMBER KODE
+        // ═══════════════════════════════════════════════════
+        (function () {
+            // Blokir klik kanan
+            document.addEventListener("contextmenu", function (e) { e.preventDefault(); return false; });
 
-            archetypes: [
-                "The Silent Builder",
-                "The Cosmic Explorer",
-                "The Hidden Strategist",
-                "The Vision Architect",
-                "The Quiet Leader",
-                "The Pattern Seeker",
-                "The Midnight Observer",
-                "The Reality Shaper"
-            ],
+            // Blokir keyboard shortcuts berbahaya
+            document.addEventListener("keydown", function (e) {
+                const k = e.key.toLowerCase();
+                const ctrl = e.ctrlKey || e.metaKey;
+                // Ctrl+U (view source), Ctrl+S (save), Ctrl+A (select all), Ctrl+C saat tidak di input
+                // F12, Ctrl+Shift+I/J/C (devtools), Ctrl+Shift+K (Firefox console)
+                if (ctrl && (k === "u" || k === "s")) { e.preventDefault(); return false; }
+                if (ctrl && e.shiftKey && (k === "i" || k === "j" || k === "c" || k === "k")) { e.preventDefault(); return false; }
+                if (e.key === "F12") { e.preventDefault(); return false; }
+            });
 
+            // Deteksi DevTools terbuka lewat perubahan ukuran window (heuristik ringan)
+            var _w = window.outerWidth, _h = window.outerHeight;
+            setInterval(function () {
+                if (
+                    window.outerWidth - window.innerWidth > 160 ||
+                    window.outerHeight - window.innerHeight > 160
+                ) {
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#c8a84b;font-size:16px;text-align:center;background:#07080f;padding:40px">✦ Akses developer tools dinonaktifkan ✦</div>';
+                }
+            }, 1000);
 
-            taglines: [
-                "bergerak dalam diam namun selalu membangun sesuatu yang bermakna.",
-                "selalu mencari pengalaman baru dan makna tersembunyi.",
-                "membaca pola sebelum mengambil keputusan besar.",
-                "membangun visi dari hal kecil yang sering diabaikan.",
-                "memiliki cara unik dalam memahami dunia."
-            ],
+            // Disable text selection kecuali di input
+            document.addEventListener("selectstart", function (e) {
+                if (e.target.tagName !== "INPUT" && e.target.tagName !== "TEXTAREA") {
+                    e.preventDefault(); return false;
+                }
+            });
 
+            // Disable drag
+            document.addEventListener("dragstart", function (e) { e.preventDefault(); });
+        })();
 
-            hidden: [
-                "kamu sering mengamati lebih banyak daripada berbicara.",
-                "kamu memiliki kecenderungan memahami sesuatu lebih dalam dari kebanyakan orang.",
-                "kamu menyimpan banyak ide sebelum menunjukkannya kepada dunia.",
-                "kekuatanmu muncul ketika kamu menemukan pola yang tidak terlihat."
-            ],
+        // ═══════════════════════════════════════════════════
+        //  DATABASE
+        // ═══════════════════════════════════════════════════
+        var _d = (function () {
+            var a = [
+                { n: "The Silent Builder", e: "membangun dalam diam, hasil berbicara lebih keras dari kata-kata" },
+                { n: "The Cosmic Explorer", e: "selalu mencari makna di balik setiap pengalaman yang dilalui" },
+                { n: "The Hidden Strategist", e: "membaca peta sebelum melangkah, tapi langkahnya selalu tepat" },
+                { n: "The Vision Architect", e: "melihat gambaran besar di mana orang lain hanya melihat potongan kecil" },
+                { n: "The Quiet Observer", e: "memahami orang lebih dalam dari yang mereka bayangkan" },
+                { n: "The Pattern Seeker", e: "menemukan koneksi tersembunyi yang tidak terlihat oleh kebanyakan" },
+                { n: "The Midnight Thinker", e: "pikiran terdalam justru muncul saat dunia sedang diam" },
+                { n: "The Reality Shaper", e: "tidak hanya mengikuti realita — ikut membentuknya" },
+                { n: "The Inner Compass", e: "punya arah tersendiri meski jalur yang ditempuh tidak selalu lurus" },
+                { n: "The Depth Diver", e: "tidak pernah puas dengan permukaan — selalu ingin menyelami lebih dalam" },
+                { n: "The Storm Navigator", e: "justru menemukan fokus di tengah kekacauan yang mengelilingi" },
+                { n: "The Ember Keeper", e: "menyimpan semangat dalam diam, lalu menyalakannya di waktu yang tepat" },
+                { n: "The Shadow Cartographer", e: "memetakan sisi diri yang belum dijelajahi sebagian besar orang" },
+                { n: "The Slow Burn Visioner", e: "tidak terburu-buru, tapi setiap langkah membawa ke tujuan yang lebih jelas" },
+                { n: "The Signal Reader", e: "menangkap sinyal kecil dari lingkungan jauh sebelum orang lain menyadarinya" },
+            ];
+            var h = [
+                { t: "Pola Pengamat Dalam", b: "kamu memproses lebih banyak dari yang kamu tunjukkan. Keheninganmu bukan kekosongan — itu laboratorium tempat ide-ide dimatangkan." },
+                { t: "Arus Bawah Tanah", b: "ada energi yang bergerak di bawah permukaan dirimu. Orang-orang merasakannya, tapi jarang bisa menjelaskannya." },
+                { t: "Pola Pembangun Diam", b: "kamu cenderung membangun sesuatu dalam jangka panjang tanpa banyak bicara. Hasilmu sering mengejutkan orang yang tidak memperhatikan prosesnya." },
+                { t: "Frekuensi Tersembunyi", b: "kamu beroperasi pada frekuensi yang tidak semua orang bisa tangkap. Mereka yang memahaminya akan menjadi koneksi paling bermakna dalam hidupmu." },
+                { t: "Lapisan Ketiga", b: "di balik apa yang kamu ucapkan, ada lapisan pemikiran yang lebih dalam. Kamu sering menyaring banyak hal sebelum memutuskan apa yang layak dibagikan." },
+                { t: "Radar Tersembunyi", b: "kamu memiliki kemampuan membaca situasi dan orang dengan akurasi tinggi — sesuatu yang sering kamu anggap biasa tapi sebenarnya tidak semua orang punya." },
+                { t: "Api Yang Dijaga", b: "ada visi atau keyakinan yang kamu jaga dengan hati-hati. Bukan karena takut — tapi karena kamu tahu tidak semua orang siap menerimanya." },
+                { t: "Pola Waktu Panjang", b: "kamu berpikir dalam skala waktu yang lebih panjang dari kebanyakan orang. Ini membuatmu kadang terlihat lambat, padahal sebenarnya kamu sedang membangun fondasi." },
+                { t: "Resonansi Mendalam", b: "hal-hal yang menyentuhmu tidak mudah kamu lupakan. Kamu menyimpan pengalaman secara mendalam dan menggunakannya sebagai panduan tanpa disadari." },
+                { t: "Kutub Tersembunyi", b: "ada bagian dirimu yang berlawanan dengan citra yang kamu tampilkan. Kontradiksi itu bukan kelemahan — itu sumber kreativitas dan adaptasimu." },
+            ];
+            var s = [
+                "Tenang menghadapi tekanan yang membuat orang lain panik",
+                "Melihat detail penting yang sering terlewat orang lain",
+                "Belajar cepat dari pengalaman langsung",
+                "Intuisi kuat dalam membaca situasi",
+                "Berpikir beberapa langkah ke depan sebelum bertindak",
+                "Mudah beradaptasi ketika kondisi berubah tiba-tiba",
+                "Menemukan peluang di tempat yang tidak terduga",
+                "Konsisten mengejar tujuan meski prosesnya lambat",
+                "Mampu mempertahankan fokus di tengah kebisingan",
+                "Memiliki daya tahan mental yang tidak terlihat dari luar",
+                "Bisa memahami sudut pandang orang lain dengan cepat",
+                "Kreatif dalam memecahkan masalah yang tidak punya solusi jelas",
+                "Membangun kepercayaan secara perlahan tapi kuat",
+                "Tidak mudah terpengaruh tekanan sosial yang tidak sejalan",
+                "Mampu menyederhanakan hal kompleks menjadi mudah dipahami",
+                "Punya kepekaan tinggi terhadap perubahan atmosfer di sekitarnya",
+            ];
+            var b = [
+                "Terlalu lama menganalisis sebelum mengambil tindakan",
+                "Sulit membuka diri bahkan kepada orang yang dipercaya",
+                "Menunda keputusan kecil karena ingin kondisi sempurna",
+                "Standar tinggi yang kadang menjadi beban tersendiri",
+                "Enggan meminta bantuan meski situasinya membutuhkan",
+                "Terlalu berhati-hati sampai melewatkan momentum",
+                "Menyimpan terlalu banyak hal sendirian tanpa berbagi",
+                "Sulit melepaskan ekspektasi yang sudah terbentuk",
+                "Mudah kelelahan ketika terlalu lama berada di lingkungan yang salah",
+                "Mengabaikan sinyal tubuh ketika sedang terfokus pada sesuatu",
+                "Perfeksionisme yang memperlambat penyelesaian",
+                "Terkadang lebih mengerti orang lain daripada mengerti diri sendiri",
+            ];
+            var lt = [
+                "Perjalananmu adalah tentang menemukan kedalaman, bukan kecepatan — dan kamu memang sedang menuju ke sana.",
+                "Hidupmu bergerak dalam ritme tersendiri. Bukan lambat, bukan cepat — tapi tepat waktu menurut versimu sendiri.",
+                "Kamu sedang dalam proses membangun sesuatu yang belum semua orang bisa lihat. Tapi kamu tahu ke mana arahnya.",
+                "Tema hidupmu adalah transformasi yang tenang — bukan perubahan dramatis, tapi pergeseran yang nyata dan dalam.",
+                "Perjalananmu bukan tentang menjadi orang lain, tapi tentang semakin jelas menjadi dirimu sendiri.",
+                "Hidupmu penuh dengan persimpangan yang tidak ada di peta. Dan justru di situlah kamu paling hidup.",
+                "Kamu sedang belajar bahwa kekuatanmu bukan hanya tentang apa yang kamu lakukan, tapi bagaimana kamu hadir.",
+                "Tema terbesarmu adalah menemukan keberanian untuk menunjukkan sisi diri yang selama ini kamu jaga rapat.",
+            ];
+            var r = [
+                "Bagian mana dari dirimu yang selama ini paling kamu lindungi — dan apa yang akan terjadi jika kamu membiarkannya dilihat?",
+                "Jika kamu tidak takut gagal, langkah apa yang akan kamu ambil besok?",
+                "Cerita apa tentang dirimu yang kamu ulangi terus — dan apakah itu masih benar?",
+                "Apa yang orang terdekatmu lihat dalam dirimu yang belum kamu akui sendiri?",
+                "Kapan terakhir kali kamu bertindak sesuai intuisi — dan apa yang terjadi?",
+                "Hal apa yang kamu tahu harus kamu lepaskan, tapi belum juga kamu lakukan?",
+                "Jika versi terbaik dirimu bisa berbicara kepadamu sekarang, apa yang pertama kali akan ia katakan?",
+                "Apa yang kamu kejar selama ini — dan apakah itu benar-benar milikmu, atau milik ekspektasi orang lain?",
+                "Di mana kamu merasa paling hidup — dan sudah berapa lama kamu tidak berada di sana?",
+                "Apa yang akan berbeda dalam hidupmu jika kamu mulai mempercayai dirimu sendiri sepenuhnya?",
+            ];
+            var sy = [
+                "Bintang Utara", "Kompas Tersembunyi", "Bulan Separuh", "Cincin Saturnus",
+                "Peta Tak Bernama", "Api Abadi", "Mata Badai", "Akar Dalam",
+                "Mercusuar", "Kedalaman Laut", "Gerhana", "Langit Fajar",
+                "Batu Fondasi", "Sayap Tersimpan", "Cermin Retak", "Benih Tersembunyi",
+            ];
+            var st = {
+                cosmic: { p: "Dari perspektif semesta,", c: "pola ini menunjukkan bahwa" },
+                sage: { p: "Dalam keheningan kebijaksanaan,", c: "tersimpan kebenaran bahwa" },
+                philosopher: { p: "Jika ditilik lebih dalam,", c: "ada pola logis yang menunjukkan" },
+                storyteller: { p: "Dalam kisahmu,", c: "ada bab yang belum selesai di mana" },
+                wanderer: { p: "Di malam yang panjang,", c: "ada suara pelan yang berkata bahwa" },
+                starlord: { p: "Dari titik pengamatanku,", c: "polamu menunjukkan bahwa" },
+            };
+            return { a: a, h: h, s: s, b: b, lt: lt, r: r, sy: sy, st: st };
+        })();
 
+        // ═══════════════════════════════════════════════════
+        //  SEEDED RANDOM
+        // ═══════════════════════════════════════════════════
+        function _rng(name) {
+            var seed = 0;
+            for (var i = 0; i < name.length; i++) seed += name.charCodeAt(i) * (i + 1) * 31;
+            return function (max) {
+                seed = (seed * 9301 + 49297) % 233280;
+                return seed % max;
+            };
+        }
 
-            strengths: [
-                "Tenang menghadapi tekanan",
-                "Melihat detail yang sering dilewatkan",
-                "Mudah belajar dari pengalaman",
-                "Punya intuisi kuat",
-                "Berpikir jauh ke depan",
-                "Mudah beradaptasi",
-                "Kreatif melihat peluang",
-                "Konsisten mengejar tujuan"
-            ],
+        function _pick(arr, n, rng) {
+            var pool = arr.slice(), res = [];
+            while (res.length < n && pool.length > 0) {
+                var idx = rng(pool.length);
+                res.push(pool.splice(idx, 1)[0]);
+            }
+            return res;
+        }
 
+        // ═══════════════════════════════════════════════════
+        //  GENERATE
+        // ═══════════════════════════════════════════════════
+        function _gen(name, style) {
+            var rng = _rng(name + style);
+            var arch = _d.a[rng(_d.a.length)];
+            var hidd = _d.h[rng(_d.h.length)];
+            var them = _d.lt[rng(_d.lt.length)];
+            var refl = _d.r[rng(_d.r.length)];
+            var st = _d.st[style] || _d.st.starlord;
+            var str = _pick(_d.s, 4, rng);
+            var bln = _pick(_d.b, 3, rng);
+            var sym = _pick(_d.sy, 3, rng);
+            return {
+                archetype: { name: arch.n, tagline: name + " " + arch.e + "." },
+                hidden_pattern: { title: hidd.t, content: st.p + " " + name + ", " + st.c + " " + hidd.b },
+                strengths: str,
+                blind_spots: bln,
+                life_theme: name + " \u2014 " + them,
+                reflection: name + ", " + refl,
+                symbols: sym
+            };
+        }
 
-            blind: [
-                "Terlalu banyak berpikir",
-                "Sulit membuka diri",
-                "Menunda keputusan",
-                "Terlalu mengejar kesempurnaan",
-                "Sulit meminta bantuan",
-                "Terlalu berhati-hati"
-            ],
+        // ═══════════════════════════════════════════════════
+        //  STATE & UI HELPERS
+        // ═══════════════════════════════════════════════════
+        var currentData = null;
 
-
-            symbols: [
-                "Bintang",
-                "Kompas",
-                "Bulan",
-                "Planet",
-                "Gunung",
-                "Api",
-                "Peta",
-                "Mata"
-            ]
-
-        };
-
-
-
-        let currentData = null;
-
+        function _$id(id) { return document.getElementById(id); }
 
         function showUnlock(icon, title, sub) {
-
-            document.getElementById("unlockIcon").textContent = icon;
-
-            document.getElementById("unlockTitle").textContent = title;
-
-            document.getElementById("unlockSub").textContent = sub;
-
-
-            const overlay =
-                document.getElementById("unlockOverlay");
-
-
-            overlay.classList.add("show");
-
-
-            setTimeout(() => {
-
-                overlay.classList.remove("show");
-
-            }, 1500);
-
+            _$id("unlockIcon").textContent = icon;
+            _$id("unlockTitle").textContent = title;
+            _$id("unlockSub").textContent = sub;
+            var el = _$id("unlockOverlay");
+            el.classList.add("show");
+            setTimeout(function () { el.classList.remove("show"); }, 1600);
         }
 
-
-
-        function doExplore() {
-
-            const name =
-                document.getElementById("nameInput")
-                    .value
-                    .trim();
-
-
-            if (!name) return;
-
-
-            document
-                .getElementById("emptyState")
-                .style.display = "none";
-
-
-            currentData = getPattern(name);
-
-
-
-            showUnlock(
-                "👑",
-                "Premium Pattern Unlocked",
-                "Full insight " + name + " berhasil dibuka"
-            );
-
-
-            renderCards(currentData, 7);
-
+        function showToast(msg) {
+            var t = _$id("toast");
+            t.textContent = msg;
+            t.classList.add("show");
+            setTimeout(function () { t.classList.remove("show"); }, 2800);
         }
 
-
-
-
-        document
-            .getElementById("btnExplore")
-            .onclick = doExplore;
-
-
-
-        document
-            .getElementById("nameInput")
-            .onkeydown = function (e) {
-
-                if (e.key === "Enter") {
-
-                    doExplore();
-
-                }
-
-            };
-
-
-
-        function randomGenerator(name) {
-
-            let seed = 0;
-
-            for (let i = 0; i < name.length; i++) {
-
-                seed += name.charCodeAt(i) * (i + 1);
-
-            }
-
-
-            return function (max) {
-
-                seed = (seed * 9301 + 49297) % 233280;
-
-                return seed % max;
-
-            };
-
-        }
-
-
-
-
-        function getPattern(name) {
-
-
-            const random = randomGenerator(name);
-
-
-
-            return {
-
-
-                archetype: {
-
-                    name:
-                        name + " - " +
-                        DATABASE.archetypes[
-                        random(DATABASE.archetypes.length)
-                        ],
-
-
-                    tagline:
-                        name + ", " +
-                        DATABASE.taglines[
-                        random(DATABASE.taglines.length)
-                        ]
-
-                },
-
-
-                hidden_pattern: {
-
-
-                    title: "Pola Tersembunyi",
-
-
-                    content:
-                        name + ", " +
-                        DATABASE.hidden[
-                        random(DATABASE.hidden.length)
-                        ]
-
-                },
-
-
-
-                strengths: [
-
-                    DATABASE.strengths[random(DATABASE.strengths.length)],
-                    DATABASE.strengths[random(DATABASE.strengths.length)],
-                    DATABASE.strengths[random(DATABASE.strengths.length)],
-                    DATABASE.strengths[random(DATABASE.strengths.length)]
-
-                ],
-
-
-
-                blind_spots: [
-
-                    DATABASE.blind[random(DATABASE.blind.length)],
-                    DATABASE.blind[random(DATABASE.blind.length)],
-                    DATABASE.blind[random(DATABASE.blind.length)]
-
-                ],
-
-
-
-                life_theme:
-
-                    "Perjalanan " + name +
-                    " adalah tentang menemukan arah, membangun pengalaman, dan menciptakan sesuatu yang memiliki arti.",
-
-
-
-                reflection:
-
-                    name +
-                    ", apa sisi dirimu yang belum kamu berani eksplorasi?",
-
-
-
-                symbols: [
-
-                    DATABASE.symbols[random(DATABASE.symbols.length)],
-                    DATABASE.symbols[random(DATABASE.symbols.length)],
-                    DATABASE.symbols[random(DATABASE.symbols.length)]
-
-                ]
-
-
-            };
-
-        }
-
-
-
-
-
-        function renderCards(data, limit) {
-
-
-            const container = document.getElementById("results");
-
-
-            const cards = [
-
-
-                ["✦", "Archetype",
-                    `
-<div class="card-title">${data.archetype.name}</div>
-<div class="card-text">${data.archetype.tagline}</div>
-`,
-                    "gold-border"],
-
-
-
-                ["◈", "Hidden Pattern",
-                    `
-<div class="card-title">${data.hidden_pattern.title}</div>
-<div class="card-text">${data.hidden_pattern.content}</div>
-`,
-                    ""],
-
-
-
-                ["▲", "Strengths",
-                    `
-<ul class="card-list">
-
-${data.strengths.map(x => `<li>${x}</li>`).join("")}
-
-</ul>
-`,
-                    ""],
-
-
-
-                ["◇", "Reflection",
-                    `
-<div class="reflection-question">
-${data.reflection}
-</div>
-`,
-                    "violet-border"],
-
-
-
-                ["◉", "Blind Spots",
-                    `
-<ul class="card-list">
-
-${data.blind_spots.map(x => `<li>${x}</li>`).join("")}
-
-</ul>
-`,
-                    ""],
-
-
-
-                ["∞", "Life Theme",
-                    `
-<div class="card-text">
-${data.life_theme}
-</div>
-`,
-                    ""],
-
-
-
-                ["✧", "Symbolic Profile",
-                    `
-<div class="symbol-row">
-
-${data.symbols.map(x =>
-                        `<span class="symbol-chip">${x}</span>`
-                    ).join("")}
-
-</div>
-`,
-                    ""]
-
+        // ═══════════════════════════════════════════════════
+        //  RENDER CARDS
+        // ═══════════════════════════════════════════════════
+        function renderCards(data) {
+            var container = _$id("results");
+            var cards = [
+                ["✦", "Archetype", "gold-border",
+                    '<div class="card-title">' + data.archetype.name + '</div><div class="card-text">' + data.archetype.tagline + '</div>'],
+                ["◈", "Hidden Pattern", "",
+                    '<div class="card-title">' + data.hidden_pattern.title + '</div><div class="card-text">' + data.hidden_pattern.content + '</div>'],
+                ["▲", "Strengths", "",
+                    '<ul class="card-list">' + data.strengths.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul>"],
+                ["◉", "Blind Spots", "",
+                    '<ul class="card-list">' + data.blind_spots.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul>"],
+                ["∞", "Life Theme", "",
+                    '<div class="card-text">' + data.life_theme + '</div>'],
+                ["◇", "Reflection", "violet-border",
+                    '<div class="reflection-question">' + data.reflection + '</div>'],
+                ["✧", "Symbolic Profile", "",
+                    '<div class="symbol-row">' + data.symbols.map(function (x) { return '<span class="symbol-chip">' + x + '</span>'; }).join("") + '</div>'],
             ];
 
+            container.style.display = "flex";
+            container.innerHTML = cards.map(function (c) {
+                return '<div class="card ' + c[2] + '">'
+                    + '<div class="card-header"><span class="card-icon">' + c[0] + '</span><span class="card-label">' + c[1] + '</span></div>'
+                    + '<div class="card-body">' + c[3] + '</div>'
+                    + '</div>';
+            }).join("");
 
+            container.querySelectorAll(".card").forEach(function (el, i) {
+                setTimeout(function () { el.classList.add("visible"); }, i * 200);
+            });
 
-            let index =
-                limit <= 4
-                    ?
-                    [0, 1, 2, 3]
-                    :
-                    limit <= 6
-                        ?
-                        [0, 1, 2, 4, 5, 3]
-                        :
-                        [0, 1, 2, 4, 5, 6, 3];
-
-
-
-
-            container.innerHTML = index.map(i => `
-
-<div class="card ${cards[i][3]}">
-
-<div class="card-header">
-
-<span class="card-icon">
-${cards[i][0]}
-</span>
-
-
-<span class="card-label">
-${cards[i][1]}
-</span>
-
-
-</div>
-
-
-<div class="card-body">
-
-${cards[i][2]}
-
-</div>
-
-
-</div>
-
-
-`).join("");
-
-
-
-            container.querySelectorAll(".card")
-                .forEach((card, i) => {
-
-                    setTimeout(() => {
-
-                        card.classList.add("visible");
-
-                    }, i * 200);
-
-
-                });
-
-
+            // Tampilkan tombol screenshot
+            _$id("screenshotWrap").classList.add("show");
         }
 
+        // ═══════════════════════════════════════════════════
+        //  EXPLORE
+        // ═══════════════════════════════════════════════════
+        function doExplore() {
+            var name = _$id("nameInput").value.trim();
+            if (!name) { _$id("nameInput").focus(); return; }
+            var style = _$id("styleSelect").value;
 
-        document
-            .getElementById("btnExplore")
-            .onclick = doExplore;
+            _$id("emptyState").style.display = "none";
+            _$id("errorCard").classList.remove("show");
+            _$id("results").innerHTML = "";
+            _$id("screenshotWrap").classList.remove("show");
+            _$id("loading").classList.add("show");
+            _$id("btnExplore").disabled = true;
 
-
-
-        document
-            .getElementById("nameInput")
-            .onkeydown = function (e) {
-
-                if (e.key === "Enter") {
-
-                    doExplore();
-
+            setTimeout(function () {
+                try {
+                    currentData = _gen(name, style);
+                    _$id("loading").classList.remove("show");
+                    showUnlock("✦", "Pola Ditemukan", "Membaca karakter " + name);
+                    renderCards(currentData);
+                } catch (e) {
+                    _$id("loading").classList.remove("show");
+                    var ec = _$id("errorCard");
+                    ec.textContent = "Terjadi kesalahan. Coba lagi.";
+                    ec.classList.add("show");
+                } finally {
+                    _$id("btnExplore").disabled = false;
                 }
+            }, 900);
+        }
 
-            };
+        // ═══════════════════════════════════════════════════
+        //  SCREENSHOT — pakai html2canvas
+        // ═══════════════════════════════════════════════════
+        function doScreenshot() {
+            if (!currentData) return;
+            var btn = _$id("btnScreenshot");
+            btn.classList.add("loading-ss");
+            btn.innerHTML = "<span>⏳</span> Memproses...";
+
+            var target = _$id("appRoot");
+
+            html2canvas(target, {
+                backgroundColor: "#07080f",
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                // Jangan capture tombol screenshot itu sendiri
+                ignoreElements: function (el) {
+                    return el.id === "screenshotWrap";
+                }
+            }).then(function (canvas) {
+                var name = _$id("nameInput").value.trim() || "pola";
+                var link = document.createElement("a");
+                link.download = "starlord-" + name.toLowerCase().replace(/\s+/g, "-") + ".png";
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                btn.classList.remove("loading-ss");
+                btn.innerHTML = "<span>📸</span> Simpan Hasil sebagai Gambar";
+                showToast("✦ Gambar berhasil disimpan!");
+            }).catch(function () {
+                btn.classList.remove("loading-ss");
+                btn.innerHTML = "<span>📸</span> Simpan Hasil sebagai Gambar";
+                showToast("Gagal menyimpan. Coba lagi.");
+            });
+        }
+
+        // ═══════════════════════════════════════════════════
+        //  STYLE SELECTOR (hidden, hanya host yang tahu)
+        // ═══════════════════════════════════════════════════
+        // Selector disembunyikan di DOM tapi tetap berfungsi
+        // Host bisa akses via konsol: setStyle('sage') — tapi konsol sudah diblokir utk umum
+        var _currentStyle = "starlord";
+        function setStyle(s) { _currentStyle = s; }
+
+        // Override getElementById untuk styleSelect agar tetap kerja
+        var _origGetEl = document.getElementById.bind(document);
+        Object.defineProperty(window, '_currentStyle', { writable: true });
+
+        // Inject style select tersembunyi
+        (function () {
+            var sel = document.createElement("select");
+            sel.id = "styleSelect";
+            sel.style.cssText = "position:fixed;bottom:8px;right:8px;opacity:0.01;width:1px;height:1px;pointer-events:none;z-index:-1;";
+            ["cosmic", "sage", "philosopher", "storyteller", "wanderer", "starlord"].forEach(function (v, i) {
+                var o = document.createElement("option");
+                o.value = v; o.textContent = v;
+                if (v === "starlord") o.selected = true;
+                sel.appendChild(o);
+            });
+            document.body.appendChild(sel);
+        })();
+
+        // ═══════════════════════════════════════════════════
+        //  EVENT LISTENERS
+        // ═══════════════════════════════════════════════════
+        _$id("btnExplore").addEventListener("click", doExplore);
+        _$id("nameInput").addEventListener("keydown", function (e) { if (e.key === "Enter") doExplore(); });
+        _$id("btnScreenshot").addEventListener("click", doScreenshot);
     </script>
+
 </body>
 
 </html>
