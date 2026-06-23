@@ -8,15 +8,17 @@
     <title>Kalkulator SPH Cargloss</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
     <style>
         :root {
             --bg1: #020617;
             --bg2: #0f172a;
-            --card: rgba(255, 255, 255, .07);
             --border: rgba(255, 255, 255, .12);
+            --border-out: #fff;
             --text: #e2e8f0;
             --muted: #94a3b8;
             --accent: #38bdf8;
@@ -24,32 +26,36 @@
         }
 
         * {
-            box-sizing: border-box;
+            box-sizing: border-box
         }
 
+        html,
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            min-height: 100vh;
-            background: radial-gradient(circle at top left, rgba(56, 189, 248, .18), transparent 30%),
-                radial-gradient(circle at top right, rgba(139, 92, 246, .18), transparent 30%),
-                linear-gradient(160deg, var(--bg1), var(--bg2));
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background: linear-gradient(160deg, var(--bg1), var(--bg2));
+            background-color: #020617;
             color: var(--text);
+            min-height: 100%;
+            font-family: 'Inter', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         .shell {
-            max-width: 920px;
+            max-width: 920px
         }
 
         .glass {
-            background: var(--card);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(16px);
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255, 255, 255, .08);
             border-radius: 24px;
-            box-shadow: 0 24px 80px rgba(0, 0, 0, .35);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+            overflow: hidden;
         }
 
         .hero {
-            padding: 28px 20px;
+            padding: 28px
         }
 
         .badge-soft {
@@ -70,7 +76,12 @@
         }
 
         .sub {
-            color: var(--muted);
+            color: var(--muted)
+        }
+
+        .input-lg,
+        .btn-lg {
+            border-radius: 14px
         }
 
         .input-lg {
@@ -78,7 +89,6 @@
             border: 1px solid var(--border);
             color: var(--text);
             padding: .9rem 1rem;
-            border-radius: 14px;
         }
 
         .input-lg:focus {
@@ -88,60 +98,110 @@
             color: var(--text);
         }
 
+        .input-lg::placeholder {
+            color: #94a3b8
+        }
+
+        /* inline table inputs — smaller, compact */
+        .input-cell {
+            background: rgba(255, 255, 255, .05);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 10px;
+            padding: .4rem .6rem;
+            width: 100%;
+            font-family: inherit;
+            font-size: .95rem;
+            text-align: center;
+        }
+
+        .input-cell:focus {
+            outline: none;
+            background: rgba(255, 255, 255, .08);
+            border-color: rgba(56, 189, 248, .55);
+            box-shadow: 0 0 0 .2rem rgba(56, 189, 248, .12);
+            color: var(--text);
+        }
+
         .btn-action {
             background: linear-gradient(135deg, var(--accent), var(--accent2));
             border: none;
             font-weight: 700;
             box-shadow: 0 14px 30px rgba(56, 189, 248, .18);
-            border-radius: 14px;
+            color: #fff;
         }
 
         .btn-action:hover {
             filter: brightness(1.05);
+            color: #fff
         }
 
         .table-wrap {
             overflow: hidden;
             border-radius: 18px;
-            border: 1px solid var(--border);
-            background: rgba(255, 255, 255, .03);
+            border: 3px solid var(--border-out);
         }
 
         table {
             margin-bottom: 0 !important;
             color: #fff !important;
+            background: transparent !important;
         }
 
         thead th {
             background: rgba(255, 255, 255, .08) !important;
             color: #fff !important;
             border-color: var(--border) !important;
+            font-size: .9rem;
+            text-transform: uppercase;
+            letter-spacing: .04em;
         }
 
         tbody td {
             background: rgba(255, 255, 255, .03) !important;
-            border-color: var(--border) !important;
             color: #fff !important;
+            border-color: var(--border) !important;
+            vertical-align: middle;
         }
 
         tfoot td {
-            background: rgba(255, 255, 255, .12) !important;
-            border-color: var(--border) !important;
+            background: rgba(255, 255, 255, .10) !important;
             color: #fff !important;
+            border-color: var(--border) !important;
+            font-weight: 700;
+        }
+
+        .hasil-val {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        .hasil-val.negative {
+            color: #f87171
+        }
+
+        .hasil-val.positive {
+            color: #86efac
         }
 
         .empty-state {
             color: var(--muted);
-            padding: 18px;
+            padding: 24px;
             text-align: center;
         }
 
         .nota {
-            background: rgba(255, 255, 255, .05);
+            background: rgba(255, 255, 255, .04);
             border: 1px solid var(--border);
             border-radius: 18px;
-            padding: 16px 20px;
-            font-size: .92rem;
+            padding: 18px 22px;
+            font-size: .88rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .nota i {
+            color: var(--accent)
         }
 
         .brand-link img {
@@ -152,11 +212,16 @@
 
         @media (max-width: 576px) {
             .hero {
-                padding: 20px;
+                padding: 20px
             }
 
             .title {
-                font-size: 1.4rem;
+                font-size: 1.4rem
+            }
+
+            .input-cell {
+                font-size: .85rem;
+                padding: .35rem .4rem
             }
         }
     </style>
@@ -164,186 +229,175 @@
 
 <body>
     <div class="container py-4 py-md-5 shell">
+
+        <!-- Header card -->
         <div class="glass hero mb-4">
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
-                <div>
-                    <div class="badge-soft mb-3">
-                        <i class="bi bi-calculator"></i>
-                        Kalkulator Standar Per Hour
-                    </div>
-                    <h1 class="title h2 mb-2">Kalkulator SPH Cargloss</h1>
-                    <p class="sub mb-0">
-                        Masukkan total barang untuk mendapatkan distribusi per jam, lalu isi NG/LINESTOP untuk melihat
-                        HASIL akhir.
-                    </p>
+            <div class="mb-3">
+                <div class="badge-soft mb-3">
+                    <i class="bi bi-calculator"></i> Kalkulator Standard Per Hour
                 </div>
+                <h1 class="title h2 mb-2">Kalkulator SPH Cargloss</h1>
+                <p class="sub mb-0">Masukkan total barang untuk mendapatkan distribusi per jam, lalu isi NG untuk
+                    melihat hasil akhir.</p>
             </div>
 
-            <div class="row g-3 align-items-end justify-content-center">
-                <div class="col-12 col-md-6">
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-md-8">
                     <label for="totalBarang" class="form-label fw-semibold">Total Barang</label>
                     <input type="number" id="totalBarang" class="form-control form-control-lg input-lg" min="1"
                         placeholder="Masukkan total barang">
                 </div>
-                <div class="col-12 col-md-6">
-                    <button class="btn btn-lg btn-action w-100 text-white" onclick="generateTable()">
+                <div class="col-12 col-md-4">
+                    <button class="btn btn-lg btn-action w-100" onclick="generateTable()">
                         <i class="bi bi-lightning-charge me-1"></i> Hitung SPH
                     </button>
                 </div>
             </div>
         </div>
 
-        <div class="glass mb-4">
+        <!-- Table card -->
+        <div class="glass p-3 p-md-4 mb-4">
+            <h2 class="h5 mb-3 fw-bold">Hasil Perhitungan SPH</h2>
             <div class="table-wrap">
                 <table class="table table-bordered align-middle mb-0">
                     <thead>
                         <tr>
-                            <th class="text-white">HASIL</th>
-                            <th class="text-white">NG</th>
-                            <th class="text-white text-center">SPH</th>
+                            <th>HASIL</th>
+                            <th style="width:28%">NG</th>
+                            <th style="width:28%">SPH</th>
                         </tr>
                     </thead>
                     <tbody id="dataBody">
                         <tr>
-                            <td colspan="3" class="empty-state">Klik tombol Hitung untuk generate tabel.</td>
+                            <td colspan="3" class="empty-state">
+                                <i class="bi bi-arrow-up-circle me-2"></i>Klik tombol Hitung untuk generate tabel.
+                            </td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td class="text-white fw-bold" id="totalHasilAkhir">0</td>
-                            <td class="text-white" id="totalNG">0</td>
-                            <td class="text-white" id="totalSPH">0</td>
+                            <td id="totalHasilAkhir">0</td>
+                            <td id="totalNG">0</td>
+                            <td id="totalSPH">0</td>
                         </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
 
-        <div class="nota mt-4">
-            *Pertama masukkan jumlah barang yang sudah Anda kerjakan.<br><br>
-            Untuk memasukkan LINESTOP, ubah nilai di kolom SPH.<br><br>
-            Secara otomatis, nilai di kolom HASIL akan menyesuaikan.<br><br>
-            Selain itu, jika Anda mengisi nilai di kolom NG, sistem akan menghitung ulang dan menampilkan hasil akhir di
-            kolom HASIL.
+        <!-- Nota -->
+        <div class="nota mb-4">
+            <p class="mb-2"><i class="bi bi-info-circle-fill me-2"></i><strong>Cara pakai:</strong></p>
+            <p class="mb-1">1. Masukkan jumlah total barang, lalu klik <strong>Hitung SPH</strong>.</p>
+            <p class="mb-1">2. Kolom <strong>SPH</strong> terisi otomatis. Jika ada linestop, kurangi nilai SPH
+                di jam yang bersangkutan sesuai barang yang tidak terproduksi.</p>
+            <p class="mb-0">3. Isi kolom <strong>NG</strong> jika ada barang NG di jam tersebut, kolom HASIL
+                akan otomatis terhitung (SPH − NG).</p>
+            <p class="mb-0">4. Baris total di bawah tabel merangkum keseluruhan SPH, NG,
+                dan HASIL akhir.</p>
         </div>
 
         <div class="text-center mt-4">
             <a href="https://condrock.eu.org/" target="_blank" class="brand-link">
-                <img src="images/condrock.png" alt="condrock">
+                <img src="/images/condrock.png" alt="condrock">
             </a>
         </div>
     </div>
 
     <script>
         function generateTable() {
-            let totalBarang = Number(document.getElementById("totalBarang").value);
+            const totalBarang = parseInt(document.getElementById('totalBarang').value);
             if (isNaN(totalBarang) || totalBarang <= 0) {
-                alert("Masukkan jumlah total barang yang valid.");
+                alert('Masukkan jumlah total barang yang valid.');
                 return;
             }
 
-            const jamTotal = 8;
             const jamPenuh = 6;
             const barangPerJamPenuh = Math.floor(totalBarang / 7);
             const sisa = totalBarang - (barangPerJamPenuh * jamPenuh);
             const barangJam1 = Math.floor(sisa / 2);
             const barangJam8 = sisa - barangJam1;
 
-            const initialRows = [barangJam1, ...Array(jamPenuh).fill(barangPerJamPenuh), barangJam8];
-            let tbody = document.getElementById("dataBody");
-            tbody.innerHTML = "";
-            let totalNG = 0;
-            let totalSPH = 0;
-            let totalAkhir = totalBarang;
+            const rows = [barangJam1, ...Array(jamPenuh).fill(barangPerJamPenuh), barangJam8];
+            const tbody = document.getElementById('dataBody');
+            tbody.innerHTML = '';
 
-            initialRows.forEach((value, index) => {
-                let tr = document.createElement("tr");
-                let tdKolom1 = document.createElement("td");
-                let tdKolom2 = document.createElement("td");
-                let tdKolom3 = document.createElement("td");
-                let inputKolom2 = document.createElement("input");
-                let inputKolom3 = document.createElement("input");
+            rows.forEach((value, index) => {
+                const tr = document.createElement('tr');
 
-                inputKolom2.type = "number";
-                inputKolom2.className = "form-control text-center w-75 mx-auto input-lg";
-                inputKolom2.value = 0;
-                inputKolom2.dataset.index = index;
+                // HASIL cell (read-only display)
+                const tdHasil = document.createElement('td');
+                tdHasil.id = `hasil-${index}`;
+                tdHasil.innerHTML = `<span class="hasil-val positive">${value}</span>`;
 
-                inputKolom3.type = "number";
-                inputKolom3.className = "form-control text-center w-75 mx-auto input-lg fw-bold";
-                inputKolom3.value = value;
-                inputKolom3.dataset.index = index;
+                // NG input
+                const tdNG = document.createElement('td');
+                const inputNG = document.createElement('input');
+                inputNG.type = 'number';
+                inputNG.className = 'input-cell';
+                inputNG.value = 0;
+                inputNG.min = 0;
+                inputNG.dataset.index = index;
+                inputNG.oninput = updateValues;
+                tdNG.appendChild(inputNG);
 
-                tdKolom1.textContent = value;
-                tdKolom1.id = `hasilAkhir-${index}`;
+                // SPH input
+                const tdSPH = document.createElement('td');
+                const inputSPH = document.createElement('input');
+                inputSPH.type = 'number';
+                inputSPH.className = 'input-cell fw-bold';
+                inputSPH.value = value;
+                inputSPH.min = 0;
+                inputSPH.dataset.index = index;
+                inputSPH.oninput = updateValues;
+                tdSPH.appendChild(inputSPH);
 
-                inputKolom2.oninput = updateValues;
-                inputKolom3.oninput = updateValues;
-
-                tdKolom2.appendChild(inputKolom2);
-                tdKolom3.appendChild(inputKolom3);
-                tr.appendChild(tdKolom1);
-                tr.appendChild(tdKolom2);
-                tr.appendChild(tdKolom3);
+                tr.appendChild(tdHasil);
+                tr.appendChild(tdNG);
+                tr.appendChild(tdSPH);
                 tbody.appendChild(tr);
-                totalSPH += value;
             });
 
-            document.getElementById("totalSPH").textContent = totalSPH;
-            document.getElementById("totalHasilAkhir").textContent = totalAkhir;
-            document.getElementById("totalNG").textContent = totalNG;
+            updateValues();
         }
 
         function updateValues() {
-            let totalNG = 0;
-            let totalSPH = 0;
-            let totalAkhir = 0;
-            let rows = document.querySelectorAll("#dataBody tr");
+            let totalNG = 0, totalSPH = 0, totalHasil = 0;
+            const rows = document.querySelectorAll('#dataBody tr');
 
             rows.forEach((row, index) => {
-                let ngValue = Number(row.children[1].firstChild.value);
-                let sphValue = Number(row.children[2].firstChild.value);
-                totalNG += ngValue;
-                totalSPH += sphValue;
-                let hasilAkhir = sphValue - ngValue;
-                document.getElementById(`hasilAkhir-${index}`).textContent = hasilAkhir;
-                totalAkhir += hasilAkhir;
+                const ng = Number(row.children[1].firstChild.value) || 0;
+                const sph = Number(row.children[2].firstChild.value) || 0;
+                const hasil = sph - ng;
+
+                totalNG += ng;
+                totalSPH += sph;
+                totalHasil += hasil;
+
+                const hasilCell = document.getElementById(`hasil-${index}`);
+                if (hasilCell) {
+                    const cls = hasil < 0 ? 'negative' : 'positive';
+                    hasilCell.innerHTML = `<span class="hasil-val ${cls}">${hasil}</span>`;
+                }
             });
 
-            document.getElementById("totalSPH").textContent = totalSPH;
-            document.getElementById("totalNG").textContent = totalNG;
-            document.getElementById("totalHasilAkhir").textContent = totalAkhir;
+            document.getElementById('totalSPH').textContent = totalSPH;
+            document.getElementById('totalNG').textContent = totalNG;
+            document.getElementById('totalHasilAkhir').textContent = totalHasil;
         }
     </script>
 
     <script>
-        function disableSelection(e) {
-            void 0 !== e.onselectstart
-                ? e.onselectstart = function () { return false; }
-                : void 0 !== e.style.MozUserSelect
-                    ? e.style.MozUserSelect = "none"
-                    : e.onmousedown = function () { return false; };
-            e.style.cursor = "default";
-        }
-        function mousedwn(e) {
-            try {
-                if (2 == e.button || 3 == e.button) return false;
-            } catch (e) {
-                if (3 == e.which) return false;
-            }
-        }
-        window.onload = function () {
-            disableSelection(document.body);
-        };
-        document.oncontextmenu = function () { return false; };
-        document.ondragstart = function () { return false; };
+        function disableSelection(e) { void 0 !== e.onselectstart ? e.onselectstart = function () { return !1 } : void 0 !== e.style.MozUserSelect ? e.style.MozUserSelect = "none" : e.onmousedown = function () { return !1 }, e.style.cursor = "default" }
+        function mousedwn(e) { try { if (2 == e.button || 3 == e.button) return !1 } catch (e) { if (3 == e.which) return !1 } }
+        window.onload = function () { disableSelection(document.body) };
+        document.oncontextmenu = function () { return !1 };
+        document.ondragstart = function () { return !1 };
         document.onmousedown = mousedwn;
         document.onkeydown = function (e) {
             return !e.ctrlKey || 67 !== e.keyCode && 86 !== e.keyCode && 85 !== e.keyCode && 117 !== e.keyCode
-                ? 123 == e.keyCode || 18 == e.keyCode
-                    ? (e.preventDefault(), false)
-                    : void 0
-                : (e.preventDefault(), false);
+                ? 123 == e.keyCode || 18 == e.keyCode ? (e.preventDefault(), !1) : void 0
+                : (e.preventDefault(), !1);
         };
     </script>
 </body>
