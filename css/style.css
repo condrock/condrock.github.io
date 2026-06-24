@@ -1,30 +1,22 @@
+/* ============================================================
+   Cond Rock | style.css
+   ============================================================ */
+
+/* ── Base ── */
 html,
 body {
   margin: 0;
   padding: 0;
   min-height: 100%;
   overflow-x: hidden;
-
   background:
-    radial-gradient(circle at top left,
-      rgba(59, 130, 246, .10),
-      transparent 25%),
-
-    radial-gradient(circle at bottom right,
-      rgba(34, 197, 94, .08),
-      transparent 25%),
-
-    linear-gradient(135deg,
-      #020617,
-      #0f172a);
-
+    radial-gradient(circle at top left, rgba(59, 130, 246, .10), transparent 25%),
+    radial-gradient(circle at bottom right, rgba(34, 197, 94, .08), transparent 25%),
+    linear-gradient(135deg, #020617, #0f172a);
   background-repeat: no-repeat;
   background-size: cover;
-
   color: #fff;
-
   font-family: 'Roboto', sans-serif;
-
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -38,28 +30,100 @@ a {
   margin: 0 auto;
 }
 
-/* Hover ringan */
-.layanan:hover,
-.tools:hover,
-.article-image:hover {
-  transform: translateY(-2px);
-
-  transition:
-    transform .2s ease,
-    opacity .2s ease;
-
-  opacity: .95;
+img {
+  max-width: 100%;
+  height: auto;
 }
 
-.tools {
-  transition:
-    transform .2s ease,
-    opacity .2s ease;
+/* ── Anchor Nav ── */
+.anchor-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 13, 30, 0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(13, 202, 240, 0.2);
+}
 
+.anchor-nav a {
+  color: #13caef;
+  font-size: .75rem;
   text-decoration: none;
+  padding: 8px 14px;
+  display: inline-block;
+  font-family: monospace;
+  letter-spacing: .04em;
+  transition: color .2s;
 }
 
-/* Medsos */
+.anchor-nav a:hover {
+  color: #fff;
+}
+
+/* ── Profil meta ── */
+.profil-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: .75rem;
+  font-family: monospace;
+}
+
+.profil-meta .divider {
+  opacity: .35;
+}
+
+/* ── Section header ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  font-size: .8rem;
+  font-family: monospace;
+  letter-spacing: .12em;
+  color: #13caef;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.section-header hr {
+  flex: 1;
+  border-color: rgba(13, 202, 240, 0.25);
+  margin: 0;
+}
+
+/* ── Card ── */
+.card {
+  background: rgba(15, 23, 42, 0.92);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+  overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card img {
+  width: 150px;
+  border-radius: 50%;
+  display: block;
+  margin: auto;
+}
+
+/* ── Profil misc ── */
+.bg-job {
+  width: 250px;
+  display: block;
+  margin: auto;
+}
+
+/* ── Medsos ── */
 .medsos {
   margin: auto;
   font-size: 1.25rem;
@@ -81,7 +145,7 @@ a {
   }
 }
 
-/* Rocket */
+/* ── Rocket ── */
 .rocket {
   width: 110px;
   animation: rocketFloat 5s ease-in-out infinite;
@@ -92,65 +156,127 @@ a {
 
   0%,
   100% {
-    transform:
-      translateY(0px) rotate(-1deg);
+    transform: translateY(0px) rotate(-1deg);
   }
 
   50% {
-    transform:
-      translateY(-14px) rotate(1deg);
+    transform: translateY(-14px) rotate(1deg);
   }
 }
 
-/* Card */
-.card {
-  background: rgba(15, 23, 42, 0.92);
+/* ── Layanan grid 2 kolom ── */
+.layanan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+@media (max-width: 480px) {
+  .layanan-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.layanan-item {
+  background: transparent;
+  border: 1px solid rgba(13, 202, 240, 0.35) !important;
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  transition: border-color .2s, background .2s;
+}
+
+.layanan-item:hover {
+  border-color: rgba(13, 202, 240, 0.75) !important;
+  background: rgba(13, 202, 240, 0.06);
+}
+
+.layanan-item .layanan-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .82rem;
+  color: #e0e0e0;
+  font-family: monospace;
+}
+
+.layanan-item .layanan-label i {
+  color: #13caef;
+  width: 16px;
+  text-align: center;
+}
+
+.layanan-item a {
+  color: #13caef;
+  font-size: .85rem;
+  flex-shrink: 0;
+}
+
+/* ── Produk digital grid 2 kolom ── */
+.produk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+@media (max-width: 480px) {
+  .produk-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Tools grid 3 kolom ── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+@media (max-width: 560px) {
+  .tools-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 360px) {
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tool-item {
+  background: rgba(13, 202, 240, 0.07);
+  border: 1px solid rgba(13, 202, 240, 0.25);
+  border-radius: 8px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #e0e0e0;
+  font-size: .72rem;
+  font-family: monospace;
+  text-align: center;
+  line-height: 1.3;
+  transition: border-color .2s, background .2s;
+}
+
+.tool-item:hover {
+  border-color: #13caef;
+  background: rgba(13, 202, 240, 0.14);
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, .08);
-  border-radius: 16px;
-
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, .25);
-
-  overflow: hidden;
-
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease;
 }
 
-/* Image */
-.card img {
-  width: 150px;
-  border-radius: 50%;
-  display: block;
-  margin: auto;
+.tool-item i {
+  font-size: 1.3rem;
+  color: #13caef;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-.bg-name,
-.bg-job {
-  width: 250px;
-  display: block;
-  margin: auto;
-}
-
-.bio {
-  font-weight: bold;
-  padding: 15px;
-  width: 90%;
-  margin: auto;
-}
-
-.bio h3 {
-  font-size: 1.1em;
-}
-
-/* Icon */
+/* ── Icon external link ── */
 .bi-box-arrow-up-right {
   border-radius: 5px;
   padding: 5px;
@@ -158,7 +284,7 @@ img {
   color: #fff;
 }
 
-/* Article */
+/* ── Artikel ── */
 .article-image {
   position: relative;
 }
@@ -183,8 +309,77 @@ img {
   font-weight: bold;
 }
 
+.article-image:hover {
+  transform: translateY(-2px);
+  transition: transform .2s ease, opacity .2s ease;
+  opacity: .95;
+}
+
 .element-font {
   font-size: 19px;
   color: #ffffff;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
+}
+
+/* ── WhatsApp Widget ── */
+.wa-widget {
+  position: fixed;
+  bottom: 20px;
+  right: calc((100vw - 700px) / 2);
+  z-index: 999;
+  font-family: Arial, sans-serif;
+}
+
+@media (max-width: 700px) {
+  .wa-widget {
+    right: 20px;
+  }
+}
+
+.wa-toggle {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
+}
+
+.wa-box {
+  display: none;
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  background: white;
+  width: 260px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, .1);
+  overflow: hidden;
+}
+
+.wa-header {
+  background: #25d366;
+  color: white;
+  padding: 12px 16px;
+  font-size: 15px;
+}
+
+.wa-body {
+  padding: 15px;
+  font-size: 13px;
+  color: #333;
+}
+
+.wa-body a {
+  display: inline-block;
+  margin-top: 10px;
+  background: #25d366;
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 13px;
 }
