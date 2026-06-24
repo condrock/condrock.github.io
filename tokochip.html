@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toko Chip — Top Up & Bongkar</title>
+    <meta name="description"
+        content="Toko Chip menyediakan layanan top up dan bongkar HGI, NEO, serta RD dengan proses cepat, aman, dan terpercaya.">
+
+    <meta property="og:image"
+        content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7R8IakRE3jj1VFyNe68m-IKX8NWm87YgTQBfw1tGRq7H6GphZT3i6NKFIzvvGgX1a7Ah_Y29kRbKaHYUiy7bUY0gievtnMn_R3jNEGCse1pWRrTJ0nfMYluFvkCRUqXzb4paJrd71tNtGOFr2KSzYrD31pbkNM9ZNIAKpGJbSYfGb8_ZOx6kNPZbFGpM/s1600/tokochip.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://condrock.eu.org/kalkulator-sph">
+    <meta property="og:type" content="website">
+
+    <style>
+        /* =============================================
+       RESET & BASE
+    ============================================= */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-deep: #07091a;
+            --bg-card: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 255, 255, 0.10);
+            --blue: #3b82f6;
+            --blue-glow: rgba(59, 130, 246, 0.35);
+            --purple: #7c3aed;
+            --gold: #f59e0b;
+            --gold-glow: rgba(245, 158, 11, 0.40);
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --radius: 18px;
+            --radius-sm: 10px;
+            --max-w: 420px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* =============================================
+       BACKGROUND — gradient + clouds (CSS only, GPU)
+    ============================================= */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59, 130, 246, 0.20) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(124, 58, 237, 0.15) 0%, transparent 60%),
+                linear-gradient(160deg, #07091a 0%, #0d1230 50%, #07091a 100%);
+            pointer-events: none;
+        }
+
+        /* Floating cloud blobs — pure CSS, transform only = lightweight */
+        .cloud {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: 0;
+            opacity: .45;
+        }
+
+        .cloud-1 {
+            width: 340px;
+            height: 180px;
+            background: #1e40af;
+            top: 5%;
+            left: -80px;
+            animation: drift1 18s ease-in-out infinite;
+        }
+
+        .cloud-2 {
+            width: 260px;
+            height: 140px;
+            background: #4c1d95;
+            top: 30%;
+            right: -60px;
+            animation: drift2 22s ease-in-out infinite;
+        }
+
+        .cloud-3 {
+            width: 200px;
+            height: 120px;
+            background: #1e3a8a;
+            bottom: 10%;
+            left: 20%;
+            animation: drift1 26s ease-in-out infinite reverse;
+        }
+
+        @keyframes drift1 {
+
+            0%,
+            100% {
+                transform: translateX(0) translateY(0)
+            }
+
+            50% {
+                transform: translateX(30px) translateY(-20px)
+            }
+        }
+
+        @keyframes drift2 {
+
+            0%,
+            100% {
+                transform: translateX(0) translateY(0)
+            }
+
+            50% {
+                transform: translateX(-25px) translateY(15px)
+            }
+        }
+
+        /* =============================================
+       LAYOUT WRAPPER
+    ============================================= */
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 24px 16px 48px;
+        }
+
+        /* =============================================
+       HEADER
+    ============================================= */
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px var(--blue-glow);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: var(--muted);
+            letter-spacing: .5px;
+        }
+
+        /* =============================================
+       CARD — glassmorphism
+    ============================================= */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        /* =============================================
+       FORM ELEMENTS
+    ============================================= */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 6px;
+            letter-spacing: .4px;
+        }
+
+        select,
+        input[type="text"],
+        input[type="tel"] {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-size: 14px;
+            padding: 11px 14px;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+            cursor: pointer;
+        }
+
+        select option {
+            background: #0d1230;
+            color: var(--text);
+        }
+
+        select:focus,
+        input:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px var(--blue-glow);
+        }
+
+        input::placeholder {
+            color: var(--muted);
+        }
+
+        /* =============================================
+       TAB SWITCH
+    ============================================= */
+        .tab-switch {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 4px;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .5px;
+            cursor: pointer;
+            transition: all .25s;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
+            box-shadow: 0 4px 14px var(--blue-glow);
+        }
+
+        /* =============================================
+       NOMINAL GRID
+    ============================================= */
+        .nominal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .nominal-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px 10px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform .18s, border-color .18s, background .18s, box-shadow .18s;
+            overflow: hidden;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nominal-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(59, 130, 246, 0.08);
+        }
+
+        .nominal-card:active {
+            transform: scale(0.97);
+        }
+
+        .nominal-card.selected {
+            border-color: var(--gold);
+            background: rgba(245, 158, 11, 0.10);
+            box-shadow: 0 0 18px var(--gold-glow), inset 0 0 18px rgba(245, 158, 11, 0.05);
+        }
+
+        /* Coin burst ring — CSS only, zero JS */
+        .nominal-card.selected::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--gold);
+            animation: burst .4s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes burst {
+            from {
+                opacity: .8;
+                transform: scale(.92);
+            }
+
+            to {
+                opacity: 0;
+                transform: scale(1.08);
+            }
+        }
+
+        .nominal-icon {
+            width: 38px;
+            height: 38px;
+            margin: 0 auto 8px;
+            display: block;
+        }
+
+        .nominal-label {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .nominal-card.selected .nominal-label {
+            color: var(--gold);
+        }
+
+        .nominal-sub {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* =============================================
+       SEND BUTTON
+    ============================================= */
+        .btn-send {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            color: #fff;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: .5px;
+            cursor: pointer;
+            transition: opacity .2s, transform .15s, box-shadow .2s;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-send:hover {
+            opacity: .92;
+            box-shadow: 0 8px 28px rgba(16, 185, 129, 0.5);
+        }
+
+        .btn-send:active {
+            transform: scale(0.98);
+        }
+
+        /* =============================================
+       VALIDATION TOAST
+    ============================================= */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #1e293b;
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 11px 20px;
+            border-radius: 50px;
+            white-space: nowrap;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s, transform .25s;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* =============================================
+       FOOTER
+    ============================================= */
+        .footer {
+            text-align: center;
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+
+        /* =============================================
+       DESKTOP CENTERING
+    ============================================= */
+        @media (min-width: 480px) {
+            .wrapper {
+                padding: 40px 0 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Decorative blobs -->
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <div class="wrapper">
+
+        <!-- ── HEADER ── -->
+        <header class="header">
+            <div class="logo-wrap">
+                <div class="logo-icon">
+                    <!-- SVG: game controller -->
+                    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="8" width="20" height="12" rx="6" fill="white" fill-opacity=".15" stroke="white"
+                            stroke-width="1.2" />
+                        <circle cx="18" cy="14" r="1.5" fill="#fbbf24" />
+                        <circle cx="21" cy="11.5" r="1.5" fill="#34d399" />
+                        <rect x="6" y="12.5" width="4" height="1.5" rx=".75" fill="white" />
+                        <rect x="7.25" y="11.25" width="1.5" height="4" rx=".75" fill="white" />
+                    </svg>
+                </div>
+                <span class="logo-text">TokoChip</span>
+            </div>
+            <p class="tagline">Top Up &amp; Bongkar Cepat • Aman • Terpercaya</p>
+        </header>
+
+        <!-- ── FORM DATA ── -->
+        <section class="card">
+            <p class="card-title">Masukan Data Akun</p>
+
+            <!-- Pilihan Game -->
+            <div class="form-group">
+                <label for="sel-game">Pilih Game</label>
+                <select id="sel-game">
+                    <option value="">— Pilih Game —</option>
+                    <option value="HGI">HGI</option>
+                    <option value="NEO">NEO</option>
+                    <option value="RD">RD</option>
+                </select>
+            </div>
+
+            <!-- ID Game -->
+            <div class="form-group">
+                <label for="inp-id">ID Game</label>
+                <input type="text" id="inp-id" placeholder="Masukkan ID Game kamu" autocomplete="off" />
+            </div>
+
+            <!-- Nomor WhatsApp -->
+            <div class="form-group">
+                <label for="inp-wa">Nomor WhatsApp</label>
+                <input type="tel" id="inp-wa" placeholder="Contoh: 08123456789" />
+            </div>
+        </section>
+
+        <!-- ── LAYANAN + NOMINAL ── -->
+        <section class="card">
+            <p class="card-title">Pilih Layanan &amp; Nominal</p>
+
+            <!-- Tab Switch -->
+            <div class="tab-switch" role="tablist">
+                <button class="tab-btn active" id="tab-topup" role="tab" aria-selected="true"
+                    onclick="switchTab('topup')">⬆ TOP UP</button>
+                <button class="tab-btn" id="tab-bongkar" role="tab" aria-selected="false"
+                    onclick="switchTab('bongkar')">⬇ BONGKAR</button>
+            </div>
+
+            <!-- Nominal Grid -->
+            <div class="nominal-grid" id="nominal-grid">
+                <!-- Diisi oleh JavaScript -->
+            </div>
+        </section>
+
+        <!-- ── TOMBOL KIRIM ── -->
+        <button class="btn-send" id="btn-send" onclick="kirimPesan()">
+            <!-- WhatsApp icon -->
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 1.667A8.333 8.333 0 0 0 2.5 13.75L1.667 18.333l4.583-.833A8.333 8.333 0 1 0 10 1.667Z"
+                    fill="#fff" fill-opacity=".2" stroke="white" stroke-width="1.2" />
+                <path
+                    d="M7.5 7.083c.139-.347.486-.625.833-.625.278 0 .556.278.694.556l.347.694c.139.278.07.625-.139.833l-.347.347c.347.694 1.042 1.389 1.736 1.736l.347-.347c.208-.208.555-.278.833-.14l.694.348c.278.138.556.416.556.694 0 1.041-1.042 1.735-2.083 1.389C8.75 11.945 7.222 10.416 7.5 8.125l-.139-.347c-.139-.348.07-.695.14-.695Z"
+                    fill="white" />
+            </svg>
+            Kirim ke WhatsApp Admin
+        </button>
+
+        <p class="footer">Hubungi admin setelah mengirim pesan • 24 jam</p>
+
+    </div><!-- /wrapper -->
+
+    <script>
+        /* =============================================
+           KONFIGURASI ADMIN
+        ============================================= */
+        const ADMIN_NUMBER = "628xxxxxxxxxx"; // ← Ganti dengan nomor WhatsApp admin
+
+        /* =============================================
+           STATE APLIKASI
+        ============================================= */
+        let state = {
+            layanan: "topup",   // "topup" | "bongkar"
+            nominal: null,      // string nominal terpilih
+        };
+
+        /* =============================================
+           DATA NOMINAL
+        ============================================= */
+        const nominalData = {
+            topup: [
+                "100M", "200M", "300M", "400M", "500M",
+                "600M", "700M", "800M", "900M", "1B"
+            ],
+            bongkar: [
+                "1B", "2B", "3B", "4B", "5B",
+                "6B", "7B", "8B", "9B", "10B"
+            ],
+        };
+
+        /* =============================================
+           SVG KOIN — inline, tidak butuh file tambahan
+           Dua varian: koin emas (top up) & koin ungu (bongkar)
+        ============================================= */
+        function coinSVG(type) {
+            const isTopup = type === "topup";
+            const outer = isTopup ? "#f59e0b" : "#7c3aed";
+            const inner = isTopup ? "#fcd34d" : "#a78bfa";
+            const shine = isTopup ? "#fef3c7" : "#ede9fe";
+            const symbol = isTopup ? "↑" : "↓";
+            return `
+        <svg class="nominal-icon" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Shadow -->
+          <ellipse cx="19" cy="35" rx="10" ry="3" fill="${outer}" fill-opacity=".18"/>
+          <!-- Coin body -->
+          <circle cx="19" cy="19" r="15" fill="${outer}"/>
+          <!-- Inner circle -->
+          <circle cx="19" cy="19" r="12" fill="${inner}"/>
+          <!-- Shine -->
+          <ellipse cx="15" cy="14" rx="4" ry="2.5" fill="${shine}" fill-opacity=".55" transform="rotate(-30 15 14)"/>
+          <!-- Symbol -->
+          <text x="19" y="24" text-anchor="middle" font-size="13" font-weight="900"
+                font-family="system-ui,sans-serif" fill="${outer}">${symbol}</text>
+          <!-- Rim detail -->
+          <circle cx="19" cy="19" r="15" stroke="${shine}" stroke-width="1" fill="none" stroke-opacity=".3"/>
+        </svg>`;
+        }
+
+        /* =============================================
+           RENDER NOMINAL GRID
+        ============================================= */
+        function renderNominal() {
+            const grid = document.getElementById("nominal-grid");
+            const items = nominalData[state.layanan];
+            grid.innerHTML = items.map(n => `
+        <div class="nominal-card${state.nominal === n ? " selected" : ""}"
+             onclick="pilihNominal('${n}')" role="button" tabindex="0"
+             aria-pressed="${state.nominal === n}">
+          ${coinSVG(state.layanan)}
+          <div class="nominal-label">${n}</div>
+          <div class="nominal-sub">${state.layanan === "topup" ? "Top Up" : "Bongkar"}</div>
+        </div>`
+            ).join("");
+        }
+
+        /* =============================================
+           SWITCH TAB
+        ============================================= */
+        function switchTab(tab) {
+            state.layanan = tab;
+            state.nominal = null; // reset pilihan saat ganti tab
+
+            document.getElementById("tab-topup").classList.toggle("active", tab === "topup");
+            document.getElementById("tab-bongkar").classList.toggle("active", tab === "bongkar");
+            document.getElementById("tab-topup").setAttribute("aria-selected", tab === "topup");
+            document.getElementById("tab-bongkar").setAttribute("aria-selected", tab === "bongkar");
+
+            renderNominal();
+        }
+
+        /* =============================================
+           PILIH NOMINAL
+        ============================================= */
+        function pilihNominal(n) {
+            state.nominal = n;
+            renderNominal();
+        }
+
+        /* =============================================
+           TOAST HELPER
+        ============================================= */
+        let toastTimer;
+        function showToast(msg) {
+            const el = document.getElementById("toast");
+            el.textContent = msg;
+            el.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.classList.remove("show"), 2800);
+        }
+
+        /* =============================================
+           KIRIM PESAN KE WHATSAPP
+        ============================================= */
+        function kirimPesan() {
+            const game = document.getElementById("sel-game").value.trim();
+            const id = document.getElementById("inp-id").value.trim();
+            const wa = document.getElementById("inp-wa").value.trim();
+
+            /* Validasi */
+            if (!game) { showToast("⚠️ Pilih game terlebih dahulu!"); return; }
+            if (!id) { showToast("⚠️ ID Game wajib diisi!"); return; }
+            if (!wa) { showToast("⚠️ Nomor WhatsApp wajib diisi!"); return; }
+            if (!state.nominal) { showToast("⚠️ Pilih nominal terlebih dahulu!"); return; }
+
+            /* Format pesan */
+            const jenis = state.layanan === "topup" ? "TOP UP" : "BONGKAR";
+            const pesan =
+                `Halo Admin\n` +
+                `Saya ingin melakukan layanan.\n\n` +
+                `Game       : ${game}\n` +
+                `Neo ID     : ${id}\n` +
+                `No WhatsApp: ${wa}\n` +
+                `Jenis Layanan: ${jenis}\n` +
+                `Nominal    : ${state.nominal}\n\n` +
+                `Mohon diproses.`;
+
+            /* Buka WhatsApp */
+            const url = `https://wa.me/${6285855559325}?text=${encodeURIComponent(pesan)}`;
+            window.open(url, "_blank", "noopener,noreferrer");
+        }
+
+        /* =============================================
+           KEYBOARD SUPPORT — nominal card (Enter/Space)
+        ============================================= */
+        document.addEventListener("keydown", e => {
+            if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("nominal-card")) {
+                e.preventDefault();
+                const label = e.target.querySelector(".nominal-label");
+                if (label) pilihNominal(label.textContent);
+            }
+        });
+
+        /* =============================================
+           INIT
+        ============================================= */
+        renderNominal();
+    </script>
+
+</body>
+
+</html>
