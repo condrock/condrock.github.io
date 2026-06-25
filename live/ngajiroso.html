@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ngaji Roso Engine</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --indigo-deep: #0d0f1e;
+            --indigo-mid: #131629;
+            --indigo-soft: #1c2040;
+            --gold: #c8a84b;
+            --gold-light: #e8c87a;
+            --gold-dim: #7a6229;
+            --cream: #f2ead8;
+            --cream-dim: #bfb49a;
+            --white: #ffffff;
+            --panel-bg: #111318;
+            --panel-border: #2a2d3a;
+            --btn-free: #2d4a2d;
+            --btn-kecil: #2d3a4a;
+            --btn-lumayan: #3a2d4a;
+            --btn-besar: #4a2d2d;
+            --btn-gede: #6b3a0f;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #080a10;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        /* ===== LAYOUT ===== */
+        .app {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* ===== LEFT PANEL ===== */
+        .left-panel {
+            width: 280px;
+            min-width: 240px;
+            background: var(--panel-bg);
+            border-right: 1px solid var(--panel-border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 16px;
+            gap: 16px;
+            overflow-y: auto;
+            z-index: 10;
+        }
+
+        .left-panel h2 {
+            color: #888;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--panel-border);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            color: #666;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .input-group input {
+            background: #1a1c25;
+            border: 1px solid #2e3245;
+            border-radius: 6px;
+            color: #ddd;
+            font-size: 14px;
+            padding: 9px 12px;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--gold-dim);
+        }
+
+        .input-group input::placeholder {
+            color: #444;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn-group label {
+            color: #666;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .ctrl-btn {
+            padding: 11px 14px;
+            border: 1px solid transparent;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: .5px;
+            text-align: left;
+            transition: filter .15s, transform .1s;
+            color: #ddd;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ctrl-btn::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            opacity: .6;
+        }
+
+        .ctrl-btn:hover {
+            filter: brightness(1.3);
+            transform: translateX(2px);
+        }
+
+        .ctrl-btn:active {
+            transform: translateX(1px) scale(.98);
+        }
+
+        .btn-free {
+            background: var(--btn-free);
+            border-color: #3a5e3a;
+        }
+
+        .btn-free::after {
+            background: #5af07a;
+        }
+
+        .btn-kecil {
+            background: var(--btn-kecil);
+            border-color: #3a4d6e;
+        }
+
+        .btn-kecil::after {
+            background: #5ab0f0;
+        }
+
+        .btn-lumayan {
+            background: var(--btn-lumayan);
+            border-color: #5a3a6e;
+        }
+
+        .btn-lumayan::after {
+            background: #b05af0;
+        }
+
+        .btn-besar {
+            background: var(--btn-besar);
+            border-color: #6e3a3a;
+        }
+
+        .btn-besar::after {
+            background: #f05a5a;
+        }
+
+        .btn-gede {
+            background: var(--btn-gede);
+            border-color: #8b5010;
+        }
+
+        .btn-gede::after {
+            background: #f0a030;
+        }
+
+        .status-bar {
+            margin-top: auto;
+            padding-top: 14px;
+            border-top: 1px solid var(--panel-border);
+            color: #444;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .status-bar span {
+            color: #666;
+        }
+
+        /* ===== RIGHT PANEL (DISPLAY STAGE) — CINEMATIC ===== */
+        .right-panel {
+            flex: 1;
+            background:
+                radial-gradient(ellipse 80% 70% at 50% 60%, #0e0820 0%, #05060f 55%, #000008 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Deep cinematic ambient layers */
+        .right-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 55% 45% at 50% 50%, rgba(110, 60, 200, .13) 0%, transparent 60%),
+                radial-gradient(ellipse 80% 40% at 15% 90%, rgba(40, 20, 140, .18) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 40% at 85% 10%, rgba(20, 10, 100, .12) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 50% at 50% 100%, rgba(80, 40, 160, .10) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Vignette overlay */
+        .right-panel::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(0, 0, 5, .65) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Particle canvas sits behind everything */
+        #particleCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: .55;
+        }
+
+        /* Corner decorations */
+        .corner {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border-color: rgba(200, 168, 75, .28);
+            border-style: solid;
+            z-index: 3;
+            transition: border-color .6s, opacity .6s;
+        }
+
+        .corner-tl {
+            top: 22px;
+            left: 22px;
+            border-width: 1.5px 0 0 1.5px;
+        }
+
+        .corner-tr {
+            top: 22px;
+            right: 22px;
+            border-width: 1.5px 1.5px 0 0;
+        }
+
+        .corner-bl {
+            bottom: 22px;
+            left: 22px;
+            border-width: 0 0 1.5px 1.5px;
+        }
+
+        .corner-br {
+            bottom: 22px;
+            right: 22px;
+            border-width: 0 1.5px 1.5px 0;
+        }
+
+        /* Broadcast label */
+        .broadcast-label {
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10px;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            color: rgba(200, 168, 75, .45);
+            font-weight: 700;
+            z-index: 3;
+        }
+
+        .broadcast-label::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #e03a3a;
+            box-shadow: 0 0 10px #e03a3a, 0 0 20px rgba(224, 58, 58, .4);
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .15;
+            }
+        }
+
+        /* Stage center */
+        .stage {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        /* ===== WAITING STATE ===== */
+        .state-waiting {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            animation: fadeIn .6s ease;
+        }
+
+        .waiting-symbol {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .waiting-symbol svg {
+            width: 100%;
+            height: 100%;
+            animation: slowSpin 20s linear infinite;
+            opacity: .5;
+        }
+
+        .waiting-symbol .inner-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 0 20px var(--gold), 0 0 40px rgba(200, 168, 75, .3);
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes slowSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px var(--gold), 0 0 40px rgba(200, 168, 75, .3);
+            }
+
+            50% {
+                box-shadow: 0 0 30px var(--gold), 0 0 70px rgba(200, 168, 75, .5);
+            }
+        }
+
+        .waiting-title {
+            color: var(--gold-light);
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        .waiting-sub {
+            color: var(--cream-dim);
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: .5;
+        }
+
+        .waiting-line {
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+        }
+
+        /* ===== LOADING STATE ===== */
+        .state-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+            animation: fadeIn .4s ease;
+        }
+
+        .loading-mandala {
+            position: relative;
+            width: 140px;
+            height: 140px;
+        }
+
+        .loading-mandala svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .ring {
+            transform-origin: 70px 70px;
+            fill: none;
+        }
+
+        .ring-1 {
+            animation: spinCW 1.2s linear infinite;
+        }
+
+        .ring-2 {
+            animation: spinCCW 1.8s linear infinite;
+        }
+
+        .ring-3 {
+            animation: spinCW 2.4s linear infinite;
+        }
+
+        @keyframes spinCW {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spinCCW {
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .loading-name {
+            color: var(--gold-light);
+            font-size: 22px;
+            font-family: Georgia, serif;
+            font-style: italic;
+            letter-spacing: 2px;
+            animation: fadeGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes fadeGlow {
+
+            0%,
+            100% {
+                opacity: .7;
+                text-shadow: 0 0 10px rgba(200, 168, 75, .3);
+            }
+
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 25px rgba(200, 168, 75, .7);
+            }
+        }
+
+        .loading-label {
+            color: var(--cream-dim);
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: .5;
+        }
+
+        /* ===== RESULT STATE ===== */
+        .state-result {
+            animation: revealCard .75s cubic-bezier(.16, 1, .3, 1);
+            width: min(600px, 90%);
+            position: relative;
+            z-index: 4;
+        }
+
+        @keyframes revealCard {
+            from {
+                opacity: 0;
+                transform: translateY(28px) scale(.955);
+                filter: blur(4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0px);
+            }
+        }
+
+        .result-card {
+            /* Glassmorphism base */
+            background:
+                linear-gradient(145deg,
+                    rgba(22, 18, 50, .82) 0%,
+                    rgba(14, 12, 36, .88) 50%,
+                    rgba(8, 7, 22, .90) 100%);
+            backdrop-filter: blur(18px) saturate(140%);
+            -webkit-backdrop-filter: blur(18px) saturate(140%);
+            border: 1px solid rgba(200, 168, 75, .22);
+            border-radius: 22px;
+            padding: 38px 44px 34px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px rgba(200, 168, 75, .04),
+                0 8px 32px rgba(0, 0, 3, .55),
+                0 32px 80px rgba(0, 0, 8, .70),
+                inset 0 1px 0 rgba(255, 255, 255, .06),
+                inset 0 -1px 0 rgba(0, 0, 0, .3);
+            transition: border-color .5s, box-shadow .5s;
+        }
+
+        /* Top shimmer line */
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 8%;
+            right: 8%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(200, 168, 75, .35), transparent);
+            transition: background .5s;
+        }
+
+        /* Inner ambient top glow */
+        .result-card::after {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: -80px;
+            right: -80px;
+            height: 220px;
+            background: radial-gradient(ellipse, rgba(200, 168, 75, .05) 0%, transparent 68%);
+            pointer-events: none;
+            transition: background .5s;
+        }
+
+        /* Shimmer sweep element — only active on .aura-divine */
+        .card-shimmer {
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .card-shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(105deg,
+                    transparent 30%,
+                    rgba(255, 220, 100, .07) 50%,
+                    rgba(255, 240, 160, .12) 55%,
+                    rgba(255, 220, 100, .07) 60%,
+                    transparent 70%);
+            transform: skewX(-15deg);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            gap: 16px;
+        }
+
+        .card-sender {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sender-label {
+            color: var(--gold-dim);
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .sender-name {
+            color: var(--gold-light);
+            font-size: 20px;
+            font-family: Georgia, serif;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .card-tier {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .tier-label {
+            color: var(--gold-dim);
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .tier-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Tier badge colors — new names */
+        .tier-awakening {
+            background: rgba(90, 240, 122, .12);
+            color: #5af07a;
+            border: 1px solid rgba(90, 240, 122, .30);
+        }
+
+        .tier-mana {
+            background: rgba(90, 176, 240, .12);
+            color: #5ab0f0;
+            border: 1px solid rgba(90, 176, 240, .30);
+        }
+
+        .tier-mystic {
+            background: rgba(176, 90, 240, .14);
+            color: #c87af0;
+            border: 1px solid rgba(176, 90, 240, .35);
+        }
+
+        .tier-celestial {
+            background: rgba(240, 90, 160, .12);
+            color: #f05ab0;
+            border: 1px solid rgba(240, 90, 160, .35);
+        }
+
+        .tier-divine {
+            background: rgba(240, 180, 48, .15);
+            color: #f0c030;
+            border: 1px solid rgba(240, 180, 48, .45);
+        }
+
+        /* ============================================================
+     TIER AURA VISUAL SYSTEM
+     AWAKENING   → flat minimal, barely-there green tint
+     MANA SPARK  → soft blue glow, gentle pulse
+     MYSTIC      → vivid purple gradient, alive border
+     CELESTIAL   → gold accent, warm subtle shimmer
+     DIVINE      → full gold shimmer sweep + aura pulse
+     ============================================================ */
+
+        /* AWAKENING — flat minimal */
+        .aura-awakening {
+            border-color: rgba(90, 240, 122, .22) !important;
+            box-shadow:
+                0 0 0 1px rgba(90, 240, 122, .05),
+                0 8px 32px rgba(0, 0, 3, .55),
+                0 32px 80px rgba(0, 0, 8, .68),
+                inset 0 1px 0 rgba(90, 240, 122, .08),
+                inset 0 -1px 0 rgba(0, 0, 0, .3);
+        }
+
+        .aura-awakening::before {
+            background: linear-gradient(90deg, transparent, rgba(90, 240, 122, .20), transparent) !important;
+        }
+
+        .aura-awakening::after {
+            background: radial-gradient(ellipse, rgba(90, 240, 122, .04) 0%, transparent 65%) !important;
+        }
+
+        /* MANA SPARK — soft glow, animate */
+        .aura-mana {
+            border-color: rgba(90, 176, 240, .30) !important;
+            box-shadow:
+                0 0 0 1px rgba(90, 176, 240, .07),
+                0 8px 32px rgba(0, 0, 3, .55),
+                0 32px 80px rgba(0, 0, 8, .68),
+                0 0 55px rgba(90, 176, 240, .12),
+                inset 0 1px 0 rgba(90, 176, 240, .13),
+                inset 0 -1px 0 rgba(0, 0, 0, .3);
+            animation: manaGlow 4s ease-in-out infinite;
+        }
+
+        .aura-mana::before {
+            background: linear-gradient(90deg, transparent, rgba(90, 176, 240, .28), transparent) !important;
+        }
+
+        .aura-mana::after {
+            background: radial-gradient(ellipse, rgba(90, 176, 240, .07) 0%, transparent 65%) !important;
+        }
+
+        @keyframes manaGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 1px rgba(90, 176, 240, .07), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .68), 0 0 55px rgba(90, 176, 240, .12), inset 0 1px 0 rgba(90, 176, 240, .13), inset 0 -1px 0 rgba(0, 0, 0, .3);
+            }
+
+            50% {
+                box-shadow: 0 0 0 1px rgba(90, 176, 240, .12), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .68), 0 0 80px rgba(90, 176, 240, .20), inset 0 1px 0 rgba(90, 176, 240, .20), inset 0 -1px 0 rgba(0, 0, 0, .3);
+            }
+        }
+
+        /* MYSTIC ESSENCE — gradient border + alive purple */
+        .aura-mystic {
+            border-color: rgba(176, 90, 240, .42) !important;
+            background:
+                linear-gradient(145deg,
+                    rgba(30, 16, 60, .88) 0%,
+                    rgba(18, 10, 42, .90) 50%,
+                    rgba(10, 6, 28, .92) 100%) !important;
+            box-shadow:
+                0 0 0 1px rgba(176, 90, 240, .10),
+                0 8px 32px rgba(0, 0, 3, .55),
+                0 32px 80px rgba(0, 0, 8, .70),
+                0 0 70px rgba(176, 90, 240, .18),
+                0 0 120px rgba(130, 60, 200, .08),
+                inset 0 1px 0 rgba(200, 120, 255, .16),
+                inset 0 -1px 0 rgba(0, 0, 0, .3);
+            animation: mysticBreath 5s ease-in-out infinite;
+        }
+
+        .aura-mystic::before {
+            background: linear-gradient(90deg, transparent, rgba(176, 90, 240, .40), transparent) !important;
+        }
+
+        .aura-mystic::after {
+            background: radial-gradient(ellipse, rgba(176, 90, 240, .10) 0%, transparent 62%) !important;
+        }
+
+        @keyframes mysticBreath {
+
+            0%,
+            100% {
+                border-color: rgba(176, 90, 240, .42) !important;
+            }
+
+            50% {
+                border-color: rgba(200, 110, 255, .62) !important;
+            }
+        }
+
+        /* CELESTIAL AURA — warm gold accent, richer presence */
+        .aura-celestial {
+            border-color: rgba(220, 170, 60, .48) !important;
+            background:
+                linear-gradient(145deg,
+                    rgba(30, 22, 10, .88) 0%,
+                    rgba(18, 14, 6, .90) 50%,
+                    rgba(10, 8, 4, .92) 100%) !important;
+            box-shadow:
+                0 0 0 1px rgba(220, 170, 60, .12),
+                0 8px 32px rgba(0, 0, 3, .55),
+                0 32px 80px rgba(0, 0, 8, .70),
+                0 0 70px rgba(200, 150, 40, .16),
+                0 0 130px rgba(180, 130, 30, .07),
+                inset 0 1px 0 rgba(255, 210, 80, .18),
+                inset 0 -1px 0 rgba(0, 0, 0, .35);
+            animation: celestialAura 5s ease-in-out infinite;
+        }
+
+        .aura-celestial::before {
+            background: linear-gradient(90deg, transparent, rgba(220, 175, 65, .48), transparent) !important;
+        }
+
+        .aura-celestial::after {
+            background: radial-gradient(ellipse, rgba(200, 160, 50, .09) 0%, transparent 60%) !important;
+        }
+
+        @keyframes celestialAura {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 1px rgba(220, 170, 60, .12), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .70), 0 0 70px rgba(200, 150, 40, .16), 0 0 130px rgba(180, 130, 30, .07), inset 0 1px 0 rgba(255, 210, 80, .18), inset 0 -1px 0 rgba(0, 0, 0, .35);
+            }
+
+            50% {
+                box-shadow: 0 0 0 1px rgba(220, 170, 60, .20), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .70), 0 0 95px rgba(200, 155, 45, .26), 0 0 170px rgba(180, 130, 30, .12), inset 0 1px 0 rgba(255, 220, 90, .28), inset 0 -1px 0 rgba(0, 0, 0, .35);
+            }
+        }
+
+        /* DIVINE ASCENSION — gold shimmer sweep + deep aura pulse */
+        .aura-divine {
+            border-color: rgba(240, 200, 55, .60) !important;
+            background:
+                linear-gradient(145deg,
+                    rgba(34, 26, 8, .90) 0%,
+                    rgba(22, 16, 4, .92) 50%,
+                    rgba(12, 9, 2, .94) 100%) !important;
+            box-shadow:
+                0 0 0 1px rgba(240, 200, 55, .20),
+                0 8px 32px rgba(0, 0, 3, .55),
+                0 32px 80px rgba(0, 0, 8, .72),
+                0 0 90px rgba(240, 185, 45, .28),
+                0 0 160px rgba(220, 165, 30, .14),
+                0 0 240px rgba(200, 145, 20, .06),
+                inset 0 1px 0 rgba(255, 230, 90, .30),
+                inset 0 -1px 0 rgba(0, 0, 0, .40);
+            animation: divineAuraPulse 3.5s ease-in-out infinite;
+        }
+
+        .aura-divine::before {
+            background: linear-gradient(90deg, transparent, rgba(240, 205, 65, .60), transparent) !important;
+        }
+
+        .aura-divine::after {
+            background: radial-gradient(ellipse, rgba(220, 175, 50, .13) 0%, transparent 55%) !important;
+        }
+
+        @keyframes divineAuraPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 1px rgba(240, 200, 55, .20), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .72), 0 0 90px rgba(240, 185, 45, .28), 0 0 160px rgba(220, 165, 30, .14), 0 0 240px rgba(200, 145, 20, .06), inset 0 1px 0 rgba(255, 230, 90, .30), inset 0 -1px 0 rgba(0, 0, 0, .40);
+            }
+
+            50% {
+                box-shadow: 0 0 0 1px rgba(240, 200, 55, .32), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .72), 0 0 120px rgba(240, 185, 45, .40), 0 0 210px rgba(220, 165, 30, .22), 0 0 300px rgba(200, 145, 20, .10), inset 0 1px 0 rgba(255, 235, 100, .45), inset 0 -1px 0 rgba(0, 0, 0, .40);
+            }
+        }
+
+        /* Shimmer sweep — only visible on divine tier (activated via JS) */
+        .card-shimmer.active {
+            opacity: 1;
+        }
+
+        .card-shimmer.active::before {
+            animation: shimmerSweep 3.2s ease-in-out infinite;
+            animation-delay: .8s;
+        }
+
+        @keyframes shimmerSweep {
+            0% {
+                left: -120%;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            45% {
+                left: 140%;
+                opacity: 1;
+            }
+
+            55% {
+                opacity: 0;
+                left: 140%;
+            }
+
+            100% {
+                left: 140%;
+                opacity: 0;
+            }
+        }
+
+        .card-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(200, 168, 75, .15), transparent);
+            margin-bottom: 26px;
+        }
+
+        /* Pesan Roso — the headline */
+        .pesan-roso {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .pesan-eyebrow {
+            color: var(--gold-dim);
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .pesan-text {
+            color: var(--cream);
+            font-size: 18px;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-style: italic;
+            line-height: 1.55;
+            letter-spacing: .3px;
+        }
+
+        /* Meta tags */
+        .card-meta {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .meta-chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid rgba(200, 168, 75, .12);
+            border-radius: 10px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .meta-chip-label {
+            color: var(--gold-dim);
+            font-size: 9px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .meta-chip-value {
+            color: var(--cream-dim);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: .3px;
+        }
+
+        /* Three sentences */
+        .three-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 10px;
+        }
+
+        .line-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+
+        .line-marker {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding-top: 2px;
+        }
+
+        .line-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            border: 1px solid var(--gold-dim);
+        }
+
+        .line-item:nth-child(1) .line-dot {
+            background: rgba(200, 168, 75, .3);
+        }
+
+        .line-item:nth-child(2) .line-dot {
+            background: rgba(200, 168, 75, .15);
+        }
+
+        .line-item:nth-child(3) .line-dot {
+            background: rgba(200, 168, 75, .05);
+        }
+
+        .line-connector {
+            flex: 1;
+            width: 1px;
+            background: rgba(200, 168, 75, .12);
+            min-height: 16px;
+        }
+
+        .line-role {
+            color: var(--gold-dim);
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .line-text {
+            color: var(--cream-dim);
+            font-size: 13.5px;
+            line-height: 1.6;
+            letter-spacing: .2px;
+        }
+
+        /* Card footer */
+        .card-footer {
+            margin-top: 26px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(200, 168, 75, .08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(200, 168, 75, .1));
+        }
+
+        .footer-line:last-child {
+            background: linear-gradient(90deg, rgba(200, 168, 75, .1), transparent);
+        }
+
+        .footer-brand {
+            color: rgba(200, 168, 75, .35);
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: Georgia, serif;
+            font-style: italic;
+        }
+
+        /* ===== UTILITIES ===== */
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- ==================== LEFT PANEL ==================== -->
+        <div class="left-panel">
+            <h2>🎙 Ngaji Roso — Control</h2>
+
+            <div class="input-group">
+                <label>Nama Pengirim</label>
+                <input type="text" id="inputNama" placeholder="Ketik nama..." autocomplete="off" />
+            </div>
+
+            <div class="btn-group">
+                <label>Pilih Tier Gift</label>
+                <button class="ctrl-btn btn-free" data-tier="awakening" onclick="generate(this)">AWAKENING</button>
+                <button class="ctrl-btn btn-kecil" data-tier="mana" onclick="generate(this)">MANA SPARK</button>
+                <button class="ctrl-btn btn-lumayan" data-tier="mystic" onclick="generate(this)">MYSTIC ESSENCE</button>
+                <button class="ctrl-btn btn-besar" data-tier="celestial" onclick="generate(this)">CELESTIAL
+                    AURA</button>
+                <button class="ctrl-btn btn-gede" data-tier="divine" onclick="generate(this)">DIVINE ASCENSION</button>
+            </div>
+
+            <div class="status-bar" id="statusBar">
+                Status: <span id="statusText">Menunggu input</span>
+            </div>
+        </div>
+
+        <!-- ==================== RIGHT PANEL (DISPLAY STAGE) ==================== -->
+        <div class="right-panel">
+            <canvas id="particleCanvas"></canvas>
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+            <div class="broadcast-label">LIVE</div>
+
+            <div class="stage" id="stage">
+
+                <!-- WAITING STATE -->
+                <div class="state-waiting" id="stateWaiting">
+                    <div class="waiting-symbol">
+                        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Outer petals -->
+                            <g stroke="#c8a84b" stroke-width="0.8" opacity="0.6">
+                                <circle cx="60" cy="20" r="4" />
+                                <circle cx="60" cy="100" r="4" />
+                                <circle cx="20" cy="60" r="4" />
+                                <circle cx="100" cy="60" r="4" />
+                                <circle cx="31.7" cy="31.7" r="4" />
+                                <circle cx="88.3" cy="88.3" r="4" />
+                                <circle cx="88.3" cy="31.7" r="4" />
+                                <circle cx="31.7" cy="88.3" r="4" />
+                            </g>
+                            <!-- Ring arcs -->
+                            <circle cx="60" cy="60" r="42" stroke="#c8a84b" stroke-width="0.5" stroke-dasharray="4 6"
+                                opacity="0.4" />
+                            <circle cx="60" cy="60" r="30" stroke="#c8a84b" stroke-width="0.8" stroke-dasharray="2 8"
+                                opacity="0.35" />
+                            <circle cx="60" cy="60" r="18" stroke="#c8a84b" stroke-width="1" stroke-dasharray="3 5"
+                                opacity="0.5" />
+                            <!-- Cross lines -->
+                            <line x1="60" y1="10" x2="60" y2="110" stroke="#c8a84b" stroke-width="0.3" opacity="0.2" />
+                            <line x1="10" y1="60" x2="110" y2="60" stroke="#c8a84b" stroke-width="0.3" opacity="0.2" />
+                            <line x1="18" y1="18" x2="102" y2="102" stroke="#c8a84b" stroke-width="0.3" opacity="0.2" />
+                            <line x1="102" y1="18" x2="18" y2="102" stroke="#c8a84b" stroke-width="0.3" opacity="0.2" />
+                        </svg>
+                        <div class="inner-dot"></div>
+                    </div>
+                    <div class="waiting-line"></div>
+                    <div class="waiting-title">Ngaji Roso</div>
+                    <div class="waiting-sub">Menunggu roso masuk</div>
+                </div>
+
+                <!-- LOADING STATE -->
+                <div class="state-loading hidden" id="stateLoading">
+                    <div class="loading-mandala">
+                        <svg viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Ring 3 - outer -->
+                            <circle class="ring ring-3" cx="70" cy="70" r="62" stroke="#c8a84b" stroke-width="1"
+                                stroke-dasharray="10 8" opacity="0.3" />
+                            <!-- Ring 2 - mid -->
+                            <circle class="ring ring-2" cx="70" cy="70" r="46" stroke="#c8a84b" stroke-width="1.5"
+                                stroke-dasharray="6 5" opacity="0.5" />
+                            <!-- Ring 1 - inner -->
+                            <circle class="ring ring-1" cx="70" cy="70" r="28" stroke="#e8c87a" stroke-width="2"
+                                stroke-dasharray="4 4" opacity="0.7" />
+                            <!-- Center glow -->
+                            <circle cx="70" cy="70" r="8" fill="rgba(200,168,75,0.15)" stroke="#c8a84b"
+                                stroke-width="1" />
+                            <circle cx="70" cy="70" r="3" fill="#c8a84b" />
+                        </svg>
+                    </div>
+                    <div class="loading-name" id="loadingName">—</div>
+                    <div class="loading-label">Sedang membaca roso...</div>
+                </div>
+
+                <!-- RESULT STATE -->
+                <div class="state-result hidden" id="stateResult">
+                    <div class="result-card">
+                        <!-- Shimmer overlay — activated on divine tier only -->
+                        <div class="card-shimmer" id="cardShimmer"></div>
+                        <!-- HEADER -->
+                        <div class="card-header">
+                            <div class="card-sender">
+                                <div class="sender-label">Dari</div>
+                                <div class="sender-name" id="resultNama">—</div>
+                            </div>
+                            <div class="card-tier">
+                                <div class="tier-label">Tier</div>
+                                <div class="tier-badge" id="resultTierBadge">—</div>
+                            </div>
+                        </div>
+
+                        <div class="card-divider"></div>
+
+                        <!-- PESAN ROSO -->
+                        <div class="pesan-roso">
+                            <div class="pesan-eyebrow">Pesan Roso</div>
+                            <div class="pesan-text" id="resultPesan">—</div>
+                        </div>
+
+                        <!-- META: ARCHETYPE & POLA -->
+                        <div class="card-meta">
+                            <div class="meta-chip">
+                                <div class="meta-chip-label">Archetype</div>
+                                <div class="meta-chip-value" id="resultArchetype">—</div>
+                            </div>
+                            <div class="meta-chip">
+                                <div class="meta-chip-label">Pola</div>
+                                <div class="meta-chip-value" id="resultPola">—</div>
+                            </div>
+                        </div>
+
+                        <!-- 3 KALIMAT -->
+                        <div class="three-lines">
+                            <div class="line-item">
+                                <div class="line-marker">
+                                    <div class="line-dot"></div>
+                                    <div class="line-connector"></div>
+                                </div>
+                                <div>
+                                    <div class="line-role">Opening</div>
+                                    <div class="line-text" id="resultOpening">—</div>
+                                </div>
+                            </div>
+                            <div class="line-item">
+                                <div class="line-marker">
+                                    <div class="line-dot"></div>
+                                    <div class="line-connector"></div>
+                                </div>
+                                <div>
+                                    <div class="line-role">Refleksi</div>
+                                    <div class="line-text" id="resultRefleksi">—</div>
+                                </div>
+                            </div>
+                            <div class="line-item">
+                                <div class="line-marker">
+                                    <div class="line-dot"></div>
+                                </div>
+                                <div>
+                                    <div class="line-role">Penutup</div>
+                                    <div class="line-text" id="resultPenutup">—</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FOOTER -->
+                        <div class="card-footer">
+                            <div class="footer-line"></div>
+                            <div class="footer-brand">Ngaji Roso Engine</div>
+                            <div class="footer-line"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ============================================================
+           NGAJI ROSO ENGINE v2 — Seed System + 5 Tier Aura Logic
+           Pure JS. No external libraries. No API calls.
+           ============================================================ */
+
+        // ============================================================
+        // SECTION 1: SEED SYSTEM
+        // Hash from: nama + current hour + tier mode
+        // Produces deterministic-per-slot results (same name + hour + tier = same card)
+        // ============================================================
+
+        function hashStr(str) {
+            let h = 2166136261; // FNV-1a 32bit offset basis
+            for (let i = 0; i < str.length; i++) {
+                h ^= str.charCodeAt(i);
+                h = (h * 16777619) >>> 0; // keep 32-bit unsigned
+            }
+            return h;
+        }
+
+        function buildSeed(nama, tier) {
+            const hour = new Date().getHours();
+            const raw = nama.toLowerCase().trim() + "|" + hour + "|" + tier;
+            return hashStr(raw);
+        }
+
+        // Seeded pseudo-random picker — advances seed state per call
+        function seededPick(arr, seedObj) {
+            // LCG step on seedObj.s (mutable object so state advances)
+            seedObj.s = (Math.imul(1664525, seedObj.s) + 1013904223) >>> 0;
+            return arr[seedObj.s % arr.length];
+        }
+
+        // ============================================================
+        // SECTION 2: DATA BANK (hardcoded)
+        // ============================================================
+
+        const DATA = {
+
+            // --- PESAN ROSO (25 entries) ---
+            pesanRoso: [
+                "Perasaan adalah bagian dirimu yang paling jujur — dengarkan ia.",
+                "Apa yang benar-benar kamu rasakan tidak bisa dibohongi oleh pikiran.",
+                "Hidup adalah perjalanan, dan perasaan adalah kompasnya.",
+                "Setiap air mata adalah doa yang tidak butuh kata-kata.",
+                "Orang yang takut pada perasaannya sendiri belum benar-benar merdeka.",
+                "Perasaan sejati tidak butuh penonton — hanya butuh ruang untuk hadir.",
+                "Di dalam diam yang dalam, ada sesuatu yang sedang bergerak.",
+                "Hati yang tulus tidak bisa disembunyikan selamanya.",
+                "Perasaan seperti api — dibiarkan padam ia melemah, dibiarkan liar ia membakar.",
+                "Setiap orang membawa luka yang berbeda, dan dari setiap luka tumbuh cahaya yang berbeda.",
+                "Melepaskan ego bukan berarti kalah — itu berarti berkembang.",
+                "Orang yang mengenal dirinya sendiri tidak perlu pengakuan dari siapa pun.",
+                "Kesabaran bukan sekadar diam — ia adalah memilih dengan bijak kapan harus bergerak.",
+                "Tidak semua suara perlu dijawab, tidak semua perasaan perlu diungkapkan.",
+                "Apa yang kamu tahan di dalam akan menemukan jalannya keluar dengan cara lain.",
+                "Hati yang bersih tetap memancarkan cahaya meski diguyur hujan.",
+                "Hidup sejati dimulai saat kamu berhenti melarikan diri dari dirimu sendiri.",
+                "Akar yang dalam tidak goyah oleh angin — belajarlah dari pohon.",
+                "Menerima bukan berarti menyerah — itu berarti mengangkat beban dari pundakmu.",
+                "Rasa kasih sayang bukan tanda kelemahan — justru itu yang paling kuat.",
+                "Jiwa yang tenang tidak lahir dari keadaan yang sempurna — ia lahir dari pilihan.",
+                "Setiap jalan yang kamu tempuh mengajarkan bahasa berbeda — bahasa rasa.",
+                "Tidak ada yang sia-sia jika kamu menerimanya dengan lapang dada.",
+                "Yang paling berharga sering tidak terlihat — seperti angin, seperti rasa.",
+                "Orang yang bisa menangis tanpa malu sudah memahami arti kekuatan yang sesungguhnya.",
+            ],
+
+            // --- ARCHETYPE (8 entries minimum, 12 total) ---
+            archetypes: [
+                "Sang Pencari",
+                "Penjaga Sunyi",
+                "Pejalan Batin",
+                "Pemikir Roso",
+                "Pengembara Hati",
+                "Pemantik Cahya",
+                "Pelaut Jiwa",
+                "Penyibak Kabut",
+                "Pendengar Dalam",
+                "Penghayat Malam",
+                "Pembawa Fajar",
+                "Penjaga Api Kecil",
+            ],
+
+            // --- POLA HIDUP (6 entries minimum, 10 total) ---
+            pola: [
+                "Surrender → Bangkit",
+                "Diam → Tumbuh",
+                "Luka → Cahya",
+                "Takut → Bebas",
+                "Goyah → Akar",
+                "Hilang → Temukan",
+                "Gelap → Fajar",
+                "Rusuh → Damai",
+                "Tutup → Buka",
+                "Ragu → Yakin",
+            ],
+
+            // --- REFLECTION BANK per tier (25+ entries total, 5 per tier × 3 slot = 15+) ---
+            // Opening, Refleksi, Penutup are keyed by tier name
+
+            opening: {
+                awakening: [
+                    "Ada sesuatu dalam dirimu yang sedang menunggu untuk didengar.",
+                    "Kamu datang bukan tanpa alasan — roso selalu punya pesan.",
+                    "Di balik kehadiranmu, ada getaran yang lebih dalam dari yang kamu sadari.",
+                    "Selamat datang dalam ruang yang tidak menghakimi.",
+                    "Roso-mu sudah tiba sebelum kata-katamu.",
+                    "Langkah pertama selalu yang paling berani — dan kamu sudah mengambilnya.",
+                ],
+                mana: [
+                    "Energi kecil yang jujur selalu lebih kuat dari ledakan yang dibuat-buat.",
+                    "Langkahmu sudah menyentuh sesuatu yang lebih besar dari yang kamu kira.",
+                    "Kehadiranmu membawa riak yang tidak selalu terlihat, tapi selalu terasa.",
+                    "Dalam setiap percikan kecil, ada potensi api yang besar.",
+                    "Terima kasih telah memilih untuk hadir lebih dekat ke sini.",
+                    "Niat yang tulus tidak pernah salah arah — ia menemukan tempatnya.",
+                ],
+                mystic: [
+                    "Frekuensimu sudah bergeser sejak kamu masuk ke ruang ini.",
+                    "Kamu membawa aura yang tidak semua orang punya akses ke sana.",
+                    "Ada lapisan yang sedang terbuka dalam dirimu — dan kamu mungkin sudah merasakannya.",
+                    "Roso-mu sedang bergerak ke frekuensi yang lebih dalam.",
+                    "Orang yang membawa energi seperti ini biasanya sedang dalam proses besar.",
+                    "Sesuatu dalam dirimu sudah siap mekar — dan ini adalah saatnya.",
+                ],
+                celestial: [
+                    "Cahaya yang kamu bawa hari ini akan terasa jauh ke depan.",
+                    "Kamu sedang di titik transformasi — dan di dalam dirimu, kamu sudah tahu itu.",
+                    "Keberanianmu untuk hadir sebesar ini adalah cermin dari jiwa yang sedang matang.",
+                    "Ada sesuatu dalam dirimu yang sudah siap untuk mekar sepenuhnya.",
+                    "Energi sebesar ini tidak datang dari kekosongan — ia datang dari tempat yang jujur.",
+                    "Kamu bukan kebetulan ada di sini — roso membawamu ke tempat yang tepat.",
+                ],
+                divine: [
+                    "Kamu tidak datang dari kekosongan — kamu datang dari tempat yang sangat penuh.",
+                    "Seseorang dengan energi seperti ini sedang berproses besar dalam senyap.",
+                    "Roso-mu sudah di level yang jarang bisa ditiru — hanya bisa dihidupi.",
+                    "Kehadiran seperti ini menggerakkan frekuensi semua orang yang ada di ruangan ini.",
+                    "Kamu adalah bukti hidup bahwa keberanian dan ketulusan bisa hadir bersamaan.",
+                    "Jiwa yang sudah sampai di sini bukan jiwa yang biasa — ini adalah jiwa yang memilih.",
+                ],
+            },
+
+            refleksi: {
+                awakening: [
+                    "Tanyakan pada dirimu: apa yang sebenarnya sedang kamu cari hari ini?",
+                    "Setiap orang yang datang ke sini membawa pertanyaan yang belum terucap.",
+                    "Kadang kita mampir di tempat yang tepat tanpa tahu kenapa — roso yang memimpin.",
+                    "Roso tidak pernah salah alamat — ia selalu menemukan tempatnya sendiri.",
+                    "Apa yang membuatmu bertahan sejauh ini layak untuk kamu akui dan rayakan.",
+                    "Awakening dimulai bukan dari jawaban, tapi dari keberanian bertanya.",
+                ],
+                mana: [
+                    "Pernahkah kamu perhatikan bahwa hal kecil yang konsisten mengubah segalanya?",
+                    "Kebaikan yang tidak berteriak sering kali lebih bertahan lama dari yang bergemuruh.",
+                    "Ada benih yang baru saja kamu tanam — kamu mungkin belum melihat pohonnya.",
+                    "Kehadiran yang tenang bukan berarti dampaknya kecil — justru sebaliknya.",
+                    "Kesederhanaan adalah bentuk keberanian yang tidak semua orang punya.",
+                    "Mana tumbuh perlahan, tapi ia tumbuh dalam — dan itu yang paling kuat.",
+                ],
+                mystic: [
+                    "Kamu sedang belajar mempercayai sinyal dari dalam — dan itu proses yang tidak mudah.",
+                    "Ada keseimbangan yang sedang kamu bangun antara roso dan akal — keduanya perlu.",
+                    "Roso yang sudah mulai bergerak tidak bisa dihentikan oleh logika semata.",
+                    "Di tengah semua yang ramai, kamu memilih untuk mencari makna — itu bukan hal biasa.",
+                    "Proses yang kamu jalani sekarang sedang membentuk versi dirimu yang lebih jujur.",
+                    "Orang yang bisa diam di tengah keramaian sedang belajar bahasa paling dalam.",
+                ],
+                celestial: [
+                    "Jiwa yang sedang bertumbuh sering kali merasa paling kesepian — tapi itu tanda kemajuan.",
+                    "Kamu tidak sedang berlebihan. Kamu sedang menjadi lebih utuh dari sebelumnya.",
+                    "Pergolakan yang kamu rasakan adalah tanda bahwa lapisan lama sedang rontok.",
+                    "Orang yang bisa memberi dengan tulus biasanya sudah melewati sesuatu yang berat.",
+                    "Apa yang terasa berat hari ini adalah yang akan kamu syukuri paling dalam nanti.",
+                    "Celestial bukan berarti sempurna — ia berarti berani bersinar meski retak.",
+                ],
+                divine: [
+                    "Tidak semua orang bisa hadir di level yang kamu hadir — dan itu bukan kebetulan.",
+                    "Kamu mungkin sedang membawa beban yang bukan sepenuhnya milikmu — saatnya pilah.",
+                    "Jiwa yang sebesar ini butuh ruang yang juga besar — jangan perkecil dirimu.",
+                    "Kamu adalah penghubung bagi orang-orang di sekitarmu, sadar atau tidak.",
+                    "Energi yang kamu bawa adalah akumulasi perjalanan panjang yang tidak mudah.",
+                    "Divine bukan soal menjadi sempurna — ia soal menjadi sangat sadar dan tetap memilih baik.",
+                ],
+            },
+
+            penutup: {
+                awakening: [
+                    "Terus dengarkan roso-mu — ia lebih tahu dari yang kamu pikir.",
+                    "Kamu sudah di tempat yang tepat. Teruskan perjalananmu.",
+                    "Semoga hari ini kamu pulang dengan satu hal yang lebih jelas dari sebelumnya.",
+                    "Roso sudah menitip pesan — tugasmu tinggal mendengarkan dan melangkah.",
+                    "Terima kasih sudah hadir. Kehadiranmu adalah bentuk doa yang berjalan.",
+                    "Awakening tidak terjadi sekali — ia terjadi setiap kali kamu memilih untuk sadar.",
+                ],
+                mana: [
+                    "Jadikan ini pengingat bahwa niat baikmu selalu menemukan jalannya.",
+                    "Energimu hari ini adalah benih — rawat ia dengan kesabaran dan konsistensi.",
+                    "Terus hadir dengan cara yang paling jujur bagimu.",
+                    "Dari yang kecil, sesuatu yang besar selalu bermula.",
+                    "Semoga mana yang kamu keluarkan hari ini kembali padamu berlipat ganda.",
+                    "Percikkan terus — karena api besar dimulai dari satu titik yang tidak menyerah.",
+                ],
+                mystic: [
+                    "Kamu sudah membuktikan bahwa kedalaman dan ketulusan bisa berjalan bersama.",
+                    "Teruskan perjalanan ke dalam — kamu lebih dekat dari yang kamu rasakan.",
+                    "Semoga setiap langkahmu hari ini meninggalkan jejak yang bermakna.",
+                    "Roso yang kamu jaga hari ini adalah warisan terbaikmu untuk dirimu sendiri.",
+                    "Terima kasih telah memilih untuk lebih dalam — dunia butuh lebih banyak jiwa sepertimu.",
+                    "Mystic bukan ilmu yang dipelajari — ia hidup yang dihayati sepenuhnya.",
+                ],
+                celestial: [
+                    "Kamu sudah memberi bukti bahwa jiwa besar tidak perlu berteriak.",
+                    "Semoga energi yang kamu bawa hari ini kembali padamu dalam bentuk kedamaian mendalam.",
+                    "Tetaplah setia pada roso-mu, bahkan ketika dunia menawarkan jalan yang lebih mudah.",
+                    "Cahaya yang kamu nyalakan hari ini akan terus menyala bahkan setelah kamu pergi.",
+                    "Terima kasih telah hadir seutuhnya — itu adalah hadiah terbesar yang bisa diberikan.",
+                    "Celestial tidak selalu terlihat dari luar — tapi selalu terasa oleh yang peka.",
+                ],
+                divine: [
+                    "Kamu adalah bukti hidup bahwa transformasi sejati itu nyata dan bisa dicapai.",
+                    "Semoga perjalananmu terus membawa kamu lebih dekat pada versi dirimu yang paling jujur.",
+                    "Energi seperti milikmu adalah langka — jagalah ia dengan hidup yang selaras.",
+                    "Terima kasih telah membawa sebesar ini ke ruang ini — kamu sudah mengubah frekuensinya.",
+                    "Jangan berhenti di sini — ini baru awal dari sesuatu yang jauh lebih besar.",
+                    "Divine Ascension bukan puncak — ia adalah pemahaman bahwa perjalanan tidak pernah selesai.",
+                ],
+            },
+        };
+
+        // ============================================================
+        // SECTION 3: TIER CONFIGURATION
+        // Visual aura, badge, label — NOT content depth
+        // ============================================================
+
+        const TIER_CONFIG = {
+            awakening: {
+                label: "Awakening",
+                badge: "tier-awakening",
+                aura: "aura-awakening",
+                loadColor: "#5af07a",
+            },
+            mana: {
+                label: "Mana Spark",
+                badge: "tier-mana",
+                aura: "aura-mana",
+                loadColor: "#5ab0f0",
+            },
+            mystic: {
+                label: "Mystic Essence",
+                badge: "tier-mystic",
+                aura: "aura-mystic",
+                loadColor: "#c87af0",
+            },
+            celestial: {
+                label: "Celestial Aura",
+                badge: "tier-celestial",
+                aura: "aura-celestial",
+                loadColor: "#f05ab0",
+            },
+            divine: {
+                label: "Divine Ascension",
+                badge: "tier-divine",
+                aura: "aura-divine",
+                loadColor: "#f0c030",
+            },
+        };
+
+        // All aura classes for cleanup
+        const ALL_AURAS = ["aura-awakening", "aura-mana", "aura-mystic", "aura-celestial", "aura-divine"];
+
+        // ============================================================
+        // SECTION 4: STATE MANAGER
+        // ============================================================
+
+        function setState(id) {
+            ["stateWaiting", "stateLoading", "stateResult"].forEach(s => {
+                const el = document.getElementById(s);
+                if (s === id) el.classList.remove("hidden");
+                else el.classList.add("hidden");
+            });
+        }
+
+        function setStatus(text) {
+            document.getElementById("statusText").textContent = text;
+        }
+
+        // ============================================================
+        // SECTION 5: AURA APPLICATOR
+        // Apply tier-specific glow/shadow to result-card only
+        // ============================================================
+
+        function applyAura(tier) {
+            const card = document.querySelector(".result-card");
+            const shimmer = document.getElementById("cardShimmer");
+            ALL_AURAS.forEach(a => card.classList.remove(a));
+            card.classList.add(TIER_CONFIG[tier].aura);
+            // Shimmer sweep active only for divine tier
+            if (tier === "divine") {
+                shimmer.classList.add("active");
+            } else {
+                shimmer.classList.remove("active");
+            }
+        }
+
+        // ============================================================
+        // SECTION 6: MAIN GENERATE FUNCTION
+        // ============================================================
+
+        let isGenerating = false;
+
+        function generate(btn) {
+            if (isGenerating) return;
+
+            const tier = btn.dataset.tier;
+            const nama = document.getElementById("inputNama").value.trim() || "Anonim";
+            const tcfg = TIER_CONFIG[tier];
+
+            isGenerating = true;
+            setStatus("Membaca roso " + nama + "...");
+
+            // Update loading name
+            document.getElementById("loadingName").textContent = nama;
+            setState("stateLoading");
+
+            // Build seed from nama + hour + tier
+            const seed = buildSeed(nama, tier);
+            const seedObj = { s: seed };
+
+            // Delay: 900ms–1500ms (slightly longer for higher tiers = feels more dramatic)
+            const tierDelays = { awakening: 900, mana: 1000, mystic: 1100, celestial: 1250, divine: 1500 };
+            const delay = tierDelays[tier] + Math.floor((seed % 400));
+
+            setTimeout(() => {
+                // --- Pick content via seeded RNG (same nama+hour+tier = same result) ---
+                const pesan = seededPick(DATA.pesanRoso, seedObj);
+                const archetype = seededPick(DATA.archetypes, seedObj);
+                const pola = seededPick(DATA.pola, seedObj);
+                const opening = seededPick(DATA.opening[tier], seedObj);
+                const refleksi = seededPick(DATA.refleksi[tier], seedObj);
+                const penutup = seededPick(DATA.penutup[tier], seedObj);
+
+                // --- Inject into DOM (structure unchanged) ---
+                document.getElementById("resultNama").textContent = nama;
+                document.getElementById("resultPesan").textContent = pesan;
+                document.getElementById("resultArchetype").textContent = archetype;
+                document.getElementById("resultPola").textContent = pola;
+                document.getElementById("resultOpening").textContent = opening;
+                document.getElementById("resultRefleksi").textContent = refleksi;
+                document.getElementById("resultPenutup").textContent = penutup;
+
+                // --- Badge ---
+                const badge = document.getElementById("resultTierBadge");
+                badge.textContent = tcfg.label;
+                badge.className = "tier-badge " + tcfg.badge;
+
+                // --- Apply tier aura to card ---
+                applyAura(tier);
+
+                // --- Show result ---
+                setState("stateResult");
+                setStatus("Terakhir: " + nama + " · " + tcfg.label);
+                isGenerating = false;
+            }, delay);
+        }
+
+        // ============================================================
+        // SECTION 8: PARTICLE SYSTEM (floating ambient dots)
+        // Pure canvas, no libraries. Subtle, cinematic.
+        // ============================================================
+
+        (function initParticles() {
+            const canvas = document.getElementById("particleCanvas");
+            const ctx = canvas.getContext("2d");
+            let W, H, particles;
+
+            const COUNT = 55;
+
+            function resize() {
+                W = canvas.width = canvas.offsetWidth;
+                H = canvas.height = canvas.offsetHeight;
+            }
+
+            function mkParticle() {
+                const hues = [240, 260, 280, 210, 200, 50];
+                const h = hues[Math.floor(Math.random() * hues.length)];
+                return {
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    r: 0.4 + Math.random() * 1.4,
+                    vx: (Math.random() - .5) * 0.18,
+                    vy: -(0.05 + Math.random() * 0.22),
+                    alpha: 0.0,
+                    maxA: 0.08 + Math.random() * 0.22,
+                    phase: Math.random() * Math.PI * 2,
+                    spd: 0.003 + Math.random() * 0.005,
+                    h,
+                    s: 60 + Math.random() * 30,
+                    l: 55 + Math.random() * 35,
+                };
+            }
+
+            function initParticleArr() {
+                particles = Array.from({ length: COUNT }, () => {
+                    const p = mkParticle();
+                    p.alpha = Math.random() * p.maxA;
+                    return p;
+                });
+            }
+
+            function tick() {
+                ctx.clearRect(0, 0, W, H);
+                particles.forEach(p => {
+                    p.phase += p.spd;
+                    p.alpha = p.maxA * (0.5 + 0.5 * Math.sin(p.phase));
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.y < -6) { p.y = H + 4; p.x = Math.random() * W; }
+                    if (p.x < -6) { p.x = W + 4; }
+                    if (p.x > W + 6) { p.x = -4; }
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${p.h},${p.s}%,${p.l}%,${p.alpha})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(tick);
+            }
+
+            window.addEventListener("resize", resize);
+            resize();
+            initParticleArr();
+            requestAnimationFrame(tick);
+        })();
+    </script>
+</body>
+
+</html>
