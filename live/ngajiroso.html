@@ -214,43 +214,37 @@
             color: #666;
         }
 
-        /* ===== RIGHT PANEL (DISPLAY STAGE) — CINEMATIC ===== */
+        /* ===== RIGHT PANEL (DISPLAY STAGE) ===== */
+        /* OPT: Static background only. Removed animated gradients. */
         .right-panel {
             flex: 1;
-            background:
-                radial-gradient(ellipse 80% 70% at 50% 60%, #0e0820 0%, #05060f 55%, #000008 100%);
+            /* Single flat dark background — GPU-friendly, no animated layers */
+            background: #06050f;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            /* Promote to own compositor layer */
+            will-change: auto;
+            transform: translateZ(0);
         }
 
-        /* Deep cinematic ambient layers */
+        /* OPT: Merged ambient into one static pseudo-element (was 4 stacked radial-gradients) */
         .right-panel::before {
             content: '';
             position: absolute;
             inset: 0;
             background:
-                radial-gradient(ellipse 55% 45% at 50% 50%, rgba(110, 60, 200, .13) 0%, transparent 60%),
-                radial-gradient(ellipse 80% 40% at 15% 90%, rgba(40, 20, 140, .18) 0%, transparent 55%),
-                radial-gradient(ellipse 60% 40% at 85% 10%, rgba(20, 10, 100, .12) 0%, transparent 50%),
-                radial-gradient(ellipse 40% 50% at 50% 100%, rgba(80, 40, 160, .10) 0%, transparent 45%);
+                radial-gradient(ellipse 70% 60% at 50% 50%, rgba(80, 40, 160, .14) 0%, transparent 65%),
+                radial-gradient(ellipse 100% 100% at 50% 50%, transparent 45%, rgba(0, 0, 8, .70) 100%);
             pointer-events: none;
             z-index: 0;
         }
 
-        /* Vignette overlay */
-        .right-panel::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 40%, rgba(0, 0, 5, .65) 100%);
-            pointer-events: none;
-            z-index: 0;
-        }
+        /* OPT: Removed right-panel::after (vignette merged into ::before above) */
 
-        /* Particle canvas sits behind everything */
+        /* Particle canvas */
         #particleCanvas {
             position: absolute;
             inset: 0;
@@ -258,7 +252,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
-            opacity: .55;
+            opacity: .45;
         }
 
         /* Corner decorations */
@@ -266,10 +260,10 @@
             position: absolute;
             width: 48px;
             height: 48px;
-            border-color: rgba(200, 168, 75, .28);
+            border-color: rgba(200, 168, 75, .25);
             border-style: solid;
             z-index: 3;
-            transition: border-color .6s, opacity .6s;
+            /* OPT: removed transition — static decoration doesn't need to animate */
         }
 
         .corner-tl {
@@ -308,19 +302,21 @@
             font-size: 10px;
             letter-spacing: 3.5px;
             text-transform: uppercase;
-            color: rgba(200, 168, 75, .45);
+            color: rgba(200, 168, 75, .40);
             font-weight: 700;
             z-index: 3;
         }
 
+        /* OPT: blink uses opacity only (compositor-only, zero repaint) */
         .broadcast-label::before {
             content: '';
             width: 7px;
             height: 7px;
             border-radius: 50%;
             background: #e03a3a;
-            box-shadow: 0 0 10px #e03a3a, 0 0 20px rgba(224, 58, 58, .4);
-            animation: blink 1.5s ease-in-out infinite;
+            /* Removed box-shadow from blink — static shadow only */
+            box-shadow: 0 0 6px #e03a3a;
+            animation: blink 2s step-end infinite;
         }
 
         @keyframes blink {
@@ -331,7 +327,7 @@
             }
 
             50% {
-                opacity: .15;
+                opacity: .1;
             }
         }
 
@@ -352,7 +348,9 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            animation: fadeIn .6s ease;
+            animation: fadeIn .6s ease both;
+            /* Promote to layer to avoid repaints from parent */
+            will-change: opacity;
         }
 
         .waiting-symbol {
@@ -361,13 +359,16 @@
             height: 120px;
         }
 
+        /* OPT: slowSpin kept (transform only = GPU compositor) — no repaint */
         .waiting-symbol svg {
             width: 100%;
             height: 100%;
-            animation: slowSpin 20s linear infinite;
-            opacity: .5;
+            animation: slowSpin 30s linear infinite;
+            opacity: .45;
+            will-change: transform;
         }
 
+        /* OPT: pulse changed from box-shadow animation to opacity animation (compositor-only) */
         .waiting-symbol .inner-dot {
             position: absolute;
             top: 50%;
@@ -377,8 +378,10 @@
             height: 18px;
             border-radius: 50%;
             background: var(--gold);
-            box-shadow: 0 0 20px var(--gold), 0 0 40px rgba(200, 168, 75, .3);
-            animation: pulse 2.5s ease-in-out infinite;
+            /* Static shadow — not animated */
+            box-shadow: 0 0 18px rgba(200, 168, 75, .6), 0 0 36px rgba(200, 168, 75, .2);
+            animation: dotPulse 3s ease-in-out infinite;
+            will-change: opacity;
         }
 
         @keyframes slowSpin {
@@ -387,15 +390,16 @@
             }
         }
 
-        @keyframes pulse {
+        /* OPT: opacity-only pulse — zero repaint */
+        @keyframes dotPulse {
 
             0%,
             100% {
-                box-shadow: 0 0 20px var(--gold), 0 0 40px rgba(200, 168, 75, .3);
+                opacity: .7;
             }
 
             50% {
-                box-shadow: 0 0 30px var(--gold), 0 0 70px rgba(200, 168, 75, .5);
+                opacity: 1;
             }
         }
 
@@ -428,7 +432,8 @@
             flex-direction: column;
             align-items: center;
             gap: 28px;
-            animation: fadeIn .4s ease;
+            animation: fadeIn .4s ease both;
+            will-change: opacity;
         }
 
         .loading-mandala {
@@ -442,21 +447,23 @@
             height: 100%;
         }
 
+        /* OPT: ring spins are transform-only = GPU compositor, no repaint. Keep as-is. */
         .ring {
             transform-origin: 70px 70px;
             fill: none;
+            will-change: transform;
         }
 
         .ring-1 {
-            animation: spinCW 1.2s linear infinite;
+            animation: spinCW 1.4s linear infinite;
         }
 
         .ring-2 {
-            animation: spinCCW 1.8s linear infinite;
+            animation: spinCCW 2.1s linear infinite;
         }
 
         .ring-3 {
-            animation: spinCW 2.4s linear infinite;
+            animation: spinCW 2.8s linear infinite;
         }
 
         @keyframes spinCW {
@@ -471,26 +478,26 @@
             }
         }
 
+        /* OPT: fadeGlow changed from text-shadow animate to opacity-only */
         .loading-name {
             color: var(--gold-light);
             font-size: 22px;
             font-family: Georgia, serif;
             font-style: italic;
             letter-spacing: 2px;
-            animation: fadeGlow 1.5s ease-in-out infinite;
+            animation: nameBreath 2s ease-in-out infinite;
+            will-change: opacity;
         }
 
-        @keyframes fadeGlow {
+        @keyframes nameBreath {
 
             0%,
             100% {
-                opacity: .7;
-                text-shadow: 0 0 10px rgba(200, 168, 75, .3);
+                opacity: .65;
             }
 
             50% {
                 opacity: 1;
-                text-shadow: 0 0 25px rgba(200, 168, 75, .7);
             }
         }
 
@@ -503,51 +510,46 @@
         }
 
         /* ===== RESULT STATE ===== */
+        /* OPT: removed filter:blur() from reveal — blur causes full repaint each frame */
         .state-result {
-            animation: revealCard .75s cubic-bezier(.16, 1, .3, 1);
+            animation: revealCard .6s cubic-bezier(.16, 1, .3, 1) both;
             width: min(600px, 90%);
             position: relative;
             z-index: 4;
+            will-change: opacity, transform;
         }
 
         @keyframes revealCard {
             from {
                 opacity: 0;
-                transform: translateY(28px) scale(.955);
-                filter: blur(4px);
+                transform: translateY(24px) scale(.96);
             }
 
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
-                filter: blur(0px);
             }
         }
 
+        /* OPT: backdrop-filter removed (too expensive on integrated GPU). 
+     Replaced with opaque dark background that achieves same visual. 
+     OPT: transition on box-shadow removed (box-shadow transition triggers repaint each frame).
+     OPT: box-shadow layers reduced from 5 to 3. */
         .result-card {
-            /* Glassmorphism base */
-            background:
-                linear-gradient(145deg,
-                    rgba(22, 18, 50, .82) 0%,
-                    rgba(14, 12, 36, .88) 50%,
-                    rgba(8, 7, 22, .90) 100%);
-            backdrop-filter: blur(18px) saturate(140%);
-            -webkit-backdrop-filter: blur(18px) saturate(140%);
+            background: linear-gradient(145deg, #161232 0%, #0e0c22 55%, #080716 100%);
             border: 1px solid rgba(200, 168, 75, .22);
-            border-radius: 22px;
+            border-radius: 20px;
             padding: 38px 44px 34px;
             position: relative;
             overflow: hidden;
             box-shadow:
-                0 0 0 1px rgba(200, 168, 75, .04),
-                0 8px 32px rgba(0, 0, 3, .55),
-                0 32px 80px rgba(0, 0, 8, .70),
-                inset 0 1px 0 rgba(255, 255, 255, .06),
-                inset 0 -1px 0 rgba(0, 0, 0, .3);
-            transition: border-color .5s, box-shadow .5s;
+                0 8px 30px rgba(0, 0, 6, .65),
+                0 28px 70px rgba(0, 0, 10, .70),
+                inset 0 1px 0 rgba(255, 255, 255, .05);
+            /* OPT: no transition on box-shadow */
         }
 
-        /* Top shimmer line */
+        /* Top shimmer line — static */
         .result-card::before {
             content: '';
             position: absolute;
@@ -555,48 +557,70 @@
             left: 8%;
             right: 8%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(200, 168, 75, .35), transparent);
-            transition: background .5s;
+            background: linear-gradient(90deg, transparent, rgba(200, 168, 75, .30), transparent);
+            /* OPT: no transition */
         }
 
-        /* Inner ambient top glow */
+        /* Inner ambient top glow — static */
         .result-card::after {
             content: '';
             position: absolute;
             top: -80px;
             left: -80px;
             right: -80px;
-            height: 220px;
-            background: radial-gradient(ellipse, rgba(200, 168, 75, .05) 0%, transparent 68%);
+            height: 200px;
+            background: radial-gradient(ellipse, rgba(200, 168, 75, .04) 0%, transparent 65%);
             pointer-events: none;
-            transition: background .5s;
+            /* OPT: no transition */
         }
 
-        /* Shimmer sweep element — only active on .aura-divine */
+        /* OPT: Shimmer sweep — changed left animation to translateX (transform = GPU compositor).
+     Runs only 2 sweeps after reveal, then stops. Controlled via JS class. */
         .card-shimmer {
             position: absolute;
             inset: 0;
-            border-radius: 22px;
+            border-radius: 20px;
             overflow: hidden;
             pointer-events: none;
             z-index: 10;
             opacity: 0;
+            will-change: opacity;
         }
 
         .card-shimmer::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -120%;
-            width: 60%;
+            left: 0;
+            width: 55%;
             height: 100%;
             background: linear-gradient(105deg,
                     transparent 30%,
-                    rgba(255, 220, 100, .07) 50%,
-                    rgba(255, 240, 160, .12) 55%,
-                    rgba(255, 220, 100, .07) 60%,
+                    rgba(255, 220, 100, .06) 50%,
+                    rgba(255, 240, 160, .10) 55%,
+                    rgba(255, 220, 100, .06) 60%,
                     transparent 70%);
-            transform: skewX(-15deg);
+            transform: skewX(-15deg) translateX(-160%);
+            will-change: transform;
+        }
+
+        /* OPT: shimmer runs once (forwards) not infinite — stops after completing */
+        .card-shimmer.active {
+            opacity: 1;
+        }
+
+        .card-shimmer.active::before {
+            animation: shimmerSweep .9s ease-in-out .3s 2 forwards;
+        }
+
+        @keyframes shimmerSweep {
+            from {
+                transform: skewX(-15deg) translateX(-160%);
+            }
+
+            to {
+                transform: skewX(-15deg) translateX(440%);
+            }
         }
 
         .card-header {
@@ -653,256 +677,148 @@
             text-transform: uppercase;
         }
 
-        /* Tier badge colors — new names */
+        /* Tier badge colors */
         .tier-awakening {
             background: rgba(90, 240, 122, .12);
             color: #5af07a;
-            border: 1px solid rgba(90, 240, 122, .30);
+            border: 1px solid rgba(90, 240, 122, .28);
         }
 
         .tier-mana {
             background: rgba(90, 176, 240, .12);
             color: #5ab0f0;
-            border: 1px solid rgba(90, 176, 240, .30);
+            border: 1px solid rgba(90, 176, 240, .28);
         }
 
         .tier-mystic {
             background: rgba(176, 90, 240, .14);
             color: #c87af0;
-            border: 1px solid rgba(176, 90, 240, .35);
+            border: 1px solid rgba(176, 90, 240, .32);
         }
 
         .tier-celestial {
             background: rgba(240, 90, 160, .12);
             color: #f05ab0;
-            border: 1px solid rgba(240, 90, 160, .35);
+            border: 1px solid rgba(240, 90, 160, .32);
         }
 
         .tier-divine {
             background: rgba(240, 180, 48, .15);
             color: #f0c030;
-            border: 1px solid rgba(240, 180, 48, .45);
+            border: 1px solid rgba(240, 180, 48, .42);
         }
 
         /* ============================================================
-     TIER AURA VISUAL SYSTEM
-     AWAKENING   → flat minimal, barely-there green tint
-     MANA SPARK  → soft blue glow, gentle pulse
-     MYSTIC      → vivid purple gradient, alive border
-     CELESTIAL   → gold accent, warm subtle shimmer
-     DIVINE      → full gold shimmer sweep + aura pulse
+     TIER AURA VISUAL SYSTEM — PERFORMANCE OPTIMIZED
+     
+     OPT STRATEGY:
+     - All box-shadow animations REMOVED (they trigger repaint)
+     - All infinite card animations REMOVED
+     - Tier difference achieved via: border-color + box-shadow (static) + background tint
+     - Visual hierarchy preserved: awakening < mana < mystic < celestial < divine
+     - OPT: border-color uses CSS var set by JS for efficient tier switching
      ============================================================ */
 
-        /* AWAKENING — flat minimal */
+        /* AWAKENING — flat minimal, static */
         .aura-awakening {
-            border-color: rgba(90, 240, 122, .22) !important;
+            border-color: rgba(90, 240, 122, .25) !important;
+            background: linear-gradient(145deg, #111e14 0%, #0c160e 55%, #080f09 100%) !important;
             box-shadow:
-                0 0 0 1px rgba(90, 240, 122, .05),
-                0 8px 32px rgba(0, 0, 3, .55),
-                0 32px 80px rgba(0, 0, 8, .68),
-                inset 0 1px 0 rgba(90, 240, 122, .08),
-                inset 0 -1px 0 rgba(0, 0, 0, .3);
+                0 8px 30px rgba(0, 0, 6, .65),
+                0 28px 70px rgba(0, 0, 10, .70),
+                0 0 35px rgba(90, 240, 122, .06),
+                inset 0 1px 0 rgba(90, 240, 122, .08);
         }
 
         .aura-awakening::before {
-            background: linear-gradient(90deg, transparent, rgba(90, 240, 122, .20), transparent) !important;
+            background: linear-gradient(90deg, transparent, rgba(90, 240, 122, .18), transparent) !important;
         }
 
         .aura-awakening::after {
-            background: radial-gradient(ellipse, rgba(90, 240, 122, .04) 0%, transparent 65%) !important;
+            background: radial-gradient(ellipse, rgba(90, 240, 122, .04) 0%, transparent 62%) !important;
         }
 
-        /* MANA SPARK — soft glow, animate */
+        /* MANA SPARK — soft blue glow, static (was animated) */
         .aura-mana {
-            border-color: rgba(90, 176, 240, .30) !important;
+            border-color: rgba(90, 176, 240, .32) !important;
+            background: linear-gradient(145deg, #111820 0%, #0c1018 55%, #080b10 100%) !important;
             box-shadow:
-                0 0 0 1px rgba(90, 176, 240, .07),
-                0 8px 32px rgba(0, 0, 3, .55),
-                0 32px 80px rgba(0, 0, 8, .68),
-                0 0 55px rgba(90, 176, 240, .12),
-                inset 0 1px 0 rgba(90, 176, 240, .13),
-                inset 0 -1px 0 rgba(0, 0, 0, .3);
-            animation: manaGlow 4s ease-in-out infinite;
+                0 8px 30px rgba(0, 0, 6, .65),
+                0 28px 70px rgba(0, 0, 10, .70),
+                0 0 50px rgba(90, 176, 240, .11),
+                inset 0 1px 0 rgba(90, 176, 240, .12);
         }
 
         .aura-mana::before {
-            background: linear-gradient(90deg, transparent, rgba(90, 176, 240, .28), transparent) !important;
+            background: linear-gradient(90deg, transparent, rgba(90, 176, 240, .26), transparent) !important;
         }
 
         .aura-mana::after {
-            background: radial-gradient(ellipse, rgba(90, 176, 240, .07) 0%, transparent 65%) !important;
+            background: radial-gradient(ellipse, rgba(90, 176, 240, .06) 0%, transparent 62%) !important;
         }
 
-        @keyframes manaGlow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 1px rgba(90, 176, 240, .07), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .68), 0 0 55px rgba(90, 176, 240, .12), inset 0 1px 0 rgba(90, 176, 240, .13), inset 0 -1px 0 rgba(0, 0, 0, .3);
-            }
-
-            50% {
-                box-shadow: 0 0 0 1px rgba(90, 176, 240, .12), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .68), 0 0 80px rgba(90, 176, 240, .20), inset 0 1px 0 rgba(90, 176, 240, .20), inset 0 -1px 0 rgba(0, 0, 0, .3);
-            }
-        }
-
-        /* MYSTIC ESSENCE — gradient border + alive purple */
+        /* MYSTIC ESSENCE — purple, static (was border-color animated) */
         .aura-mystic {
-            border-color: rgba(176, 90, 240, .42) !important;
-            background:
-                linear-gradient(145deg,
-                    rgba(30, 16, 60, .88) 0%,
-                    rgba(18, 10, 42, .90) 50%,
-                    rgba(10, 6, 28, .92) 100%) !important;
+            border-color: rgba(176, 90, 240, .45) !important;
+            background: linear-gradient(145deg, #1a0f3a 0%, #110a28 55%, #090618 100%) !important;
             box-shadow:
-                0 0 0 1px rgba(176, 90, 240, .10),
-                0 8px 32px rgba(0, 0, 3, .55),
-                0 32px 80px rgba(0, 0, 8, .70),
-                0 0 70px rgba(176, 90, 240, .18),
-                0 0 120px rgba(130, 60, 200, .08),
-                inset 0 1px 0 rgba(200, 120, 255, .16),
-                inset 0 -1px 0 rgba(0, 0, 0, .3);
-            animation: mysticBreath 5s ease-in-out infinite;
+                0 8px 30px rgba(0, 0, 6, .65),
+                0 28px 70px rgba(0, 0, 10, .70),
+                0 0 60px rgba(176, 90, 240, .13),
+                inset 0 1px 0 rgba(200, 120, 255, .14);
         }
 
         .aura-mystic::before {
-            background: linear-gradient(90deg, transparent, rgba(176, 90, 240, .40), transparent) !important;
+            background: linear-gradient(90deg, transparent, rgba(176, 90, 240, .38), transparent) !important;
         }
 
         .aura-mystic::after {
-            background: radial-gradient(ellipse, rgba(176, 90, 240, .10) 0%, transparent 62%) !important;
+            background: radial-gradient(ellipse, rgba(176, 90, 240, .08) 0%, transparent 60%) !important;
         }
 
-        @keyframes mysticBreath {
-
-            0%,
-            100% {
-                border-color: rgba(176, 90, 240, .42) !important;
-            }
-
-            50% {
-                border-color: rgba(200, 110, 255, .62) !important;
-            }
-        }
-
-        /* CELESTIAL AURA — warm gold accent, richer presence */
+        /* CELESTIAL AURA — warm gold, static (was box-shadow animated) */
         .aura-celestial {
-            border-color: rgba(220, 170, 60, .48) !important;
-            background:
-                linear-gradient(145deg,
-                    rgba(30, 22, 10, .88) 0%,
-                    rgba(18, 14, 6, .90) 50%,
-                    rgba(10, 8, 4, .92) 100%) !important;
+            border-color: rgba(220, 170, 60, .50) !important;
+            background: linear-gradient(145deg, #1e1608 0%, #140f04 55%, #0c0a02 100%) !important;
             box-shadow:
-                0 0 0 1px rgba(220, 170, 60, .12),
-                0 8px 32px rgba(0, 0, 3, .55),
-                0 32px 80px rgba(0, 0, 8, .70),
-                0 0 70px rgba(200, 150, 40, .16),
-                0 0 130px rgba(180, 130, 30, .07),
-                inset 0 1px 0 rgba(255, 210, 80, .18),
-                inset 0 -1px 0 rgba(0, 0, 0, .35);
-            animation: celestialAura 5s ease-in-out infinite;
+                0 8px 30px rgba(0, 0, 6, .65),
+                0 28px 70px rgba(0, 0, 10, .70),
+                0 0 65px rgba(200, 150, 40, .14),
+                inset 0 1px 0 rgba(255, 210, 80, .16);
         }
 
         .aura-celestial::before {
-            background: linear-gradient(90deg, transparent, rgba(220, 175, 65, .48), transparent) !important;
+            background: linear-gradient(90deg, transparent, rgba(220, 175, 65, .46), transparent) !important;
         }
 
         .aura-celestial::after {
-            background: radial-gradient(ellipse, rgba(200, 160, 50, .09) 0%, transparent 60%) !important;
+            background: radial-gradient(ellipse, rgba(200, 160, 50, .08) 0%, transparent 58%) !important;
         }
 
-        @keyframes celestialAura {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 1px rgba(220, 170, 60, .12), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .70), 0 0 70px rgba(200, 150, 40, .16), 0 0 130px rgba(180, 130, 30, .07), inset 0 1px 0 rgba(255, 210, 80, .18), inset 0 -1px 0 rgba(0, 0, 0, .35);
-            }
-
-            50% {
-                box-shadow: 0 0 0 1px rgba(220, 170, 60, .20), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .70), 0 0 95px rgba(200, 155, 45, .26), 0 0 170px rgba(180, 130, 30, .12), inset 0 1px 0 rgba(255, 220, 90, .28), inset 0 -1px 0 rgba(0, 0, 0, .35);
-            }
-        }
-
-        /* DIVINE ASCENSION — gold shimmer sweep + deep aura pulse */
+        /* DIVINE ASCENSION — gold, static glow + shimmer sweep (was box-shadow animated infinite) */
         .aura-divine {
-            border-color: rgba(240, 200, 55, .60) !important;
-            background:
-                linear-gradient(145deg,
-                    rgba(34, 26, 8, .90) 0%,
-                    rgba(22, 16, 4, .92) 50%,
-                    rgba(12, 9, 2, .94) 100%) !important;
+            border-color: rgba(240, 200, 55, .62) !important;
+            background: linear-gradient(145deg, #241a04 0%, #180f02 55%, #0e0901 100%) !important;
             box-shadow:
-                0 0 0 1px rgba(240, 200, 55, .20),
-                0 8px 32px rgba(0, 0, 3, .55),
-                0 32px 80px rgba(0, 0, 8, .72),
-                0 0 90px rgba(240, 185, 45, .28),
-                0 0 160px rgba(220, 165, 30, .14),
-                0 0 240px rgba(200, 145, 20, .06),
-                inset 0 1px 0 rgba(255, 230, 90, .30),
-                inset 0 -1px 0 rgba(0, 0, 0, .40);
-            animation: divineAuraPulse 3.5s ease-in-out infinite;
+                0 8px 30px rgba(0, 0, 6, .65),
+                0 28px 70px rgba(0, 0, 10, .72),
+                0 0 80px rgba(240, 185, 45, .20),
+                0 0 140px rgba(220, 165, 30, .09),
+                inset 0 1px 0 rgba(255, 230, 90, .26);
         }
 
         .aura-divine::before {
-            background: linear-gradient(90deg, transparent, rgba(240, 205, 65, .60), transparent) !important;
+            background: linear-gradient(90deg, transparent, rgba(240, 205, 65, .55), transparent) !important;
         }
 
         .aura-divine::after {
-            background: radial-gradient(ellipse, rgba(220, 175, 50, .13) 0%, transparent 55%) !important;
-        }
-
-        @keyframes divineAuraPulse {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 1px rgba(240, 200, 55, .20), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .72), 0 0 90px rgba(240, 185, 45, .28), 0 0 160px rgba(220, 165, 30, .14), 0 0 240px rgba(200, 145, 20, .06), inset 0 1px 0 rgba(255, 230, 90, .30), inset 0 -1px 0 rgba(0, 0, 0, .40);
-            }
-
-            50% {
-                box-shadow: 0 0 0 1px rgba(240, 200, 55, .32), 0 8px 32px rgba(0, 0, 3, .55), 0 32px 80px rgba(0, 0, 8, .72), 0 0 120px rgba(240, 185, 45, .40), 0 0 210px rgba(220, 165, 30, .22), 0 0 300px rgba(200, 145, 20, .10), inset 0 1px 0 rgba(255, 235, 100, .45), inset 0 -1px 0 rgba(0, 0, 0, .40);
-            }
-        }
-
-        /* Shimmer sweep — only visible on divine tier (activated via JS) */
-        .card-shimmer.active {
-            opacity: 1;
-        }
-
-        .card-shimmer.active::before {
-            animation: shimmerSweep 3.2s ease-in-out infinite;
-            animation-delay: .8s;
-        }
-
-        @keyframes shimmerSweep {
-            0% {
-                left: -120%;
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            45% {
-                left: 140%;
-                opacity: 1;
-            }
-
-            55% {
-                opacity: 0;
-                left: 140%;
-            }
-
-            100% {
-                left: 140%;
-                opacity: 0;
-            }
+            background: radial-gradient(ellipse, rgba(220, 175, 50, .10) 0%, transparent 55%) !important;
         }
 
         .card-divider {
             width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(200, 168, 75, .15), transparent);
+            background: linear-gradient(90deg, transparent, rgba(200, 168, 75, .14), transparent);
             margin-bottom: 26px;
         }
 
@@ -930,7 +846,7 @@
             letter-spacing: .3px;
         }
 
-        /* Meta tags */
+        /* Meta chips — OPT: backdrop-filter removed */
         .card-meta {
             display: flex;
             gap: 10px;
@@ -945,11 +861,10 @@
             align-items: center;
             gap: 3px;
             padding: 8px 18px;
+            /* OPT: backdrop-filter: blur(8px) removed — replaced with opaque bg */
             background: rgba(255, 255, 255, .04);
-            border: 1px solid rgba(200, 168, 75, .12);
+            border: 1px solid rgba(200, 168, 75, .11);
             border-radius: 10px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
         }
 
         .meta-chip-label {
@@ -1012,7 +927,7 @@
         .line-connector {
             flex: 1;
             width: 1px;
-            background: rgba(200, 168, 75, .12);
+            background: rgba(200, 168, 75, .11);
             min-height: 16px;
         }
 
@@ -1036,7 +951,7 @@
         .card-footer {
             margin-top: 26px;
             padding-top: 18px;
-            border-top: 1px solid rgba(200, 168, 75, .08);
+            border-top: 1px solid rgba(200, 168, 75, .07);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -1046,15 +961,15 @@
         .footer-line {
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(200, 168, 75, .1));
+            background: linear-gradient(90deg, transparent, rgba(200, 168, 75, .09));
         }
 
         .footer-line:last-child {
-            background: linear-gradient(90deg, rgba(200, 168, 75, .1), transparent);
+            background: linear-gradient(90deg, rgba(200, 168, 75, .09), transparent);
         }
 
         .footer-brand {
-            color: rgba(200, 168, 75, .35);
+            color: rgba(200, 168, 75, .30);
             font-size: 10px;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -2311,42 +2226,56 @@
         }
 
         // ============================================================
-        // SECTION 8: PARTICLE SYSTEM (floating ambient dots)
-        // Pure canvas, no libraries. Subtle, cinematic.
+        // SECTION 8: PARTICLE SYSTEM — PERFORMANCE OPTIMIZED
+        // Changes vs previous:
+        //   - COUNT: 55 → 18 (67% reduction)
+        //   - Throttled to ~20fps (was uncapped rAF = 60fps)
+        //   - fillStyle pre-built as static string (no hsla() per frame)
+        //   - Paused when document hidden (OBS tab switch)
+        //   - Slower drift velocity (less per-frame change)
+        //   - Single ctx.save/restore per frame removed (not needed)
         // ============================================================
 
         (function initParticles() {
             const canvas = document.getElementById("particleCanvas");
-            const ctx = canvas.getContext("2d");
-            let W, H, particles;
-
-            const COUNT = 55;
+            const ctx = canvas.getContext("2d", { alpha: true });
+            let W, H, particles, rafId;
+            let lastT = 0;
+            const INTERVAL = 50; // ~20fps cap (was 60fps)
+            const COUNT = 18;    // was 55
 
             function resize() {
                 W = canvas.width = canvas.offsetWidth;
                 H = canvas.height = canvas.offsetHeight;
             }
 
+            // Pre-built static color strings — no string construction per frame
+            const COLORS = [
+                "rgba(140,100,255,",  // indigo
+                "rgba(80,120,240,",   // blue
+                "rgba(100,80,220,",   // violet
+                "rgba(60,80,200,",    // deep blue
+                "rgba(200,168,75,",   // gold
+                "rgba(160,100,220,",  // purple
+            ];
+
             function mkParticle() {
-                const hues = [240, 260, 280, 210, 200, 50];
-                const h = hues[Math.floor(Math.random() * hues.length)];
+                const ci = Math.floor(Math.random() * COLORS.length);
                 return {
                     x: Math.random() * W,
                     y: Math.random() * H,
-                    r: 0.4 + Math.random() * 1.4,
-                    vx: (Math.random() - .5) * 0.18,
-                    vy: -(0.05 + Math.random() * 0.22),
+                    r: 0.5 + Math.random() * 1.2,
+                    vx: (Math.random() - .5) * 0.10,
+                    vy: -(0.04 + Math.random() * 0.14),
                     alpha: 0.0,
-                    maxA: 0.08 + Math.random() * 0.22,
+                    maxA: 0.06 + Math.random() * 0.16,
                     phase: Math.random() * Math.PI * 2,
-                    spd: 0.003 + Math.random() * 0.005,
-                    h,
-                    s: 60 + Math.random() * 30,
-                    l: 55 + Math.random() * 35,
+                    spd: 0.004 + Math.random() * 0.004,
+                    color: COLORS[ci],
                 };
             }
 
-            function initParticleArr() {
+            function init() {
                 particles = Array.from({ length: COUNT }, () => {
                     const p = mkParticle();
                     p.alpha = Math.random() * p.maxA;
@@ -2354,28 +2283,42 @@
                 });
             }
 
-            function tick() {
+            function tick(t) {
+                rafId = requestAnimationFrame(tick);
+                if (t - lastT < INTERVAL) return; // throttle to ~20fps
+                lastT = t;
+
                 ctx.clearRect(0, 0, W, H);
-                particles.forEach(p => {
+                for (let i = 0; i < COUNT; i++) {
+                    const p = particles[i];
                     p.phase += p.spd;
-                    p.alpha = p.maxA * (0.5 + 0.5 * Math.sin(p.phase));
+                    p.alpha = p.maxA * (0.4 + 0.6 * Math.sin(p.phase));
                     p.x += p.vx;
                     p.y += p.vy;
-                    if (p.y < -6) { p.y = H + 4; p.x = Math.random() * W; }
-                    if (p.x < -6) { p.x = W + 4; }
-                    if (p.x > W + 6) { p.x = -4; }
+                    if (p.y < -4) { p.y = H + 3; p.x = Math.random() * W; }
+                    if (p.x < -4) { p.x = W + 3; }
+                    if (p.x > W + 4) { p.x = -3; }
                     ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `hsla(${p.h},${p.s}%,${p.l}%,${p.alpha})`;
+                    ctx.arc(p.x, p.y, p.r, 0, 6.2832);
+                    ctx.fillStyle = p.color + p.alpha.toFixed(2) + ")";
                     ctx.fill();
-                });
-                requestAnimationFrame(tick);
+                }
             }
+
+            // Pause rAF when tab/window hidden (saves CPU when OBS is capturing another source)
+            document.addEventListener("visibilitychange", () => {
+                if (document.hidden) {
+                    cancelAnimationFrame(rafId);
+                } else {
+                    lastT = 0;
+                    rafId = requestAnimationFrame(tick);
+                }
+            });
 
             window.addEventListener("resize", resize);
             resize();
-            initParticleArr();
-            requestAnimationFrame(tick);
+            init();
+            rafId = requestAnimationFrame(tick);
         })();
     </script>
 </body>
