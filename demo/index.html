@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="id" prefix="og: https://ogp.me/ns#">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Jasa renovasi rumah, interior, dan konstruksi profesional. Pengerjaan rapi, harga transparan, survey gratis. Hubungi kami via WhatsApp sekarang." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://kontraktorku.id/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="KontraktorKu – Renovasi & Konstruksi Profesional" />
+    <meta property="og:description"
+        content="Jasa renovasi rumah, interior, dan konstruksi profesional. Survey gratis, harga transparan." />
+    <meta property="og:url" content="https://kontraktorku.id/" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="KontraktorKu – Renovasi & Konstruksi Profesional" />
+    <meta name="twitter:description" content="Jasa renovasi rumah, interior, dan konstruksi profesional." />
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" />
+
+    <title>RatnoProyek – Renovasi & Konstruksi Profesional</title>
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://kontraktorku.id/#business",
+        "name": "KontraktorKu",
+        "description": "Jasa renovasi rumah, interior, dan konstruksi profesional di Indonesia",
+        "url": "https://kontraktorku.id/",
+        "telephone": "+6281288411691",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Jl. Contoh No. 123",
+          "addressLocality": "Jakarta Selatan",
+          "addressRegion": "DKI Jakarta",
+          "postalCode": "12345",
+          "addressCountry": "ID"
+        },
+        "openingHours": "Mo-Sa 08:00-17:00",
+        "areaServed": ["Jakarta", "Bogor", "Depok", "Tangerang", "Bekasi"],
+        "priceRange": "$$"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Beranda",
+            "item": "https://kontraktorku.id/"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Apakah ada biaya untuk survey?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Survey awal kami lakukan secara gratis tanpa syarat apapun."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Berapa lama pengerjaan renovasi rumah?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Tergantung scope pekerjaan. Renovasi ringan 1-2 minggu, sedang 1-2 bulan, berat bisa 3-6 bulan. Kami selalu memberikan estimasi waktu yang jelas di awal."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+
+    <!-- ===================== NAVBAR ===================== -->
+    <header class="navbar" id="navbar" role="banner">
+        <nav class="nav-container" aria-label="Navigasi utama">
+            <a href="#hero" class="nav-logo" aria-label="RatnoProyek – Kembali ke atas">
+                <span class="logo-mark" aria-hidden="true">R</span>
+                <span class="logo-text">Ratno<span class="logo-accent">Proyek</span></span>
+            </a>
+
+            <ul class="nav-links" role="list">
+                <li><a href="#layanan" class="nav-link">Layanan</a></li>
+                <li><a href="#galeri" class="nav-link">Galeri</a></li>
+                <li><a href="#tentang" class="nav-link">Tentang</a></li>
+                <li><a href="#faq" class="nav-link">FAQ</a></li>
+            </ul>
+
+            <a href="https://wa.me/6281288411691?text=Halo%2C%20saya%20ingin%20konsultasi%20renovasi"
+                class="btn btn-primary btn-nav" target="_blank" rel="noopener noreferrer"
+                aria-label="Hubungi kami via WhatsApp">
+                <span class="material-symbols-rounded" aria-hidden="true">chat</span>
+                WhatsApp
+            </a>
+
+            <button class="hamburger" id="hamburger" aria-label="Buka menu navigasi" aria-expanded="false"
+                aria-controls="mobile-menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </nav>
+
+        <!-- Mobile menu -->
+        <div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Menu navigasi mobile" hidden>
+            <ul role="list">
+                <li><a href="#layanan" class="mobile-link">Layanan</a></li>
+                <li><a href="#galeri" class="mobile-link">Galeri</a></li>
+                <li><a href="#tentang" class="mobile-link">Tentang</a></li>
+                <li><a href="#faq" class="mobile-link">FAQ</a></li>
+                <li>
+                    <a href="https://wa.me/6281288411691?text=Halo%2C%20saya%20ingin%20konsultasi%20renovasi"
+                        class="btn btn-primary btn-full" target="_blank" rel="noopener noreferrer">
+                        <span class="material-symbols-rounded" aria-hidden="true">chat</span>
+                        Konsultasi via WhatsApp
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ===================== HERO ===================== -->
+        <section class="hero" id="hero" aria-labelledby="hero-heading">
+            <div class="hero-bg" aria-hidden="true">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=80" alt=""
+                    class="hero-img" fetchpriority="high" />
+                <div class="hero-overlay"></div>
+                <div class="hero-accent-bar" aria-hidden="true"></div>
+            </div>
+
+            <div class="container hero-content">
+                <div class="hero-badges fade-up" style="--delay:0.1s">
+                    <span class="badge"><span class="material-symbols-rounded" aria-hidden="true">check_circle</span>
+                        Survey Gratis</span>
+                    <span class="badge"><span class="material-symbols-rounded" aria-hidden="true">check_circle</span>
+                        Pengerjaan Rapi</span>
+                    <span class="badge"><span class="material-symbols-rounded" aria-hidden="true">check_circle</span>
+                        Harga Transparan</span>
+                </div>
+
+                <h1 id="hero-heading" class="hero-heading fade-up" style="--delay:0.2s">
+                    Wujudkan Rumah<br />
+                    <span class="text-accent">Impian Anda</span>
+                </h1>
+
+                <p class="hero-sub fade-up" style="--delay:0.3s">
+                    Jasa renovasi, interior, dan konstruksi profesional.<br class="br-desktop" />
+                    Pengerjaan rapi, tepat waktu, harga transparan.
+                </p>
+
+                <div class="hero-cta fade-up" style="--delay:0.4s">
+                    <a href="https://wa.me/6281288411691?text=Halo%2C%20saya%20ingin%20konsultasi%20renovasi"
+                        class="btn btn-primary btn-lg" target="_blank" rel="noopener noreferrer"
+                        aria-label="Konsultasi gratis via WhatsApp">
+                        <span class="material-symbols-rounded" aria-hidden="true">chat</span>
+                        Konsultasi via WhatsApp
+                    </a>
+                    <a href="#layanan" class="btn btn-ghost btn-lg">
+                        Lihat Layanan
+                        <span class="material-symbols-rounded" aria-hidden="true">arrow_downward</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== STATISTIK ===================== -->
+        <section class="stats" id="stats" aria-label="Statistik perusahaan">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card fade-up" style="--delay:0.05s">
+                        <span class="stat-num" data-target="10">0</span><span class="stat-plus">+</span>
+                        <span class="stat-label">Tahun Pengalaman</span>
+                    </div>
+                    <div class="stat-card fade-up" style="--delay:0.15s">
+                        <span class="stat-num" data-target="350">0</span><span class="stat-plus">+</span>
+                        <span class="stat-label">Proyek Selesai</span>
+                    </div>
+                    <div class="stat-card fade-up" style="--delay:0.25s">
+                        <span class="stat-num" data-target="12">0</span><span class="stat-plus"></span>
+                        <span class="stat-label">Jenis Layanan</span>
+                    </div>
+                    <div class="stat-card fade-up" style="--delay:0.35s">
+                        <span class="stat-num" data-target="5">0</span><span class="stat-plus"></span>
+                        <span class="stat-label">Kota Layanan</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== TENTANG ===================== -->
+        <section class="tentang" id="tentang" aria-labelledby="tentang-heading">
+            <div class="container tentang-grid">
+                <div class="tentang-img-wrap fade-up" style="--delay:0.05s">
+                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700&q=80"
+                        alt="Tim profesional RatnoProyek sedang bekerja" loading="lazy" class="tentang-img" />
+                    <div class="tentang-img-badge" aria-hidden="true">
+                        <span class="material-symbols-rounded">verified</span>
+                        Terpercaya
+                    </div>
+                </div>
+
+                <div class="tentang-copy fade-up" style="--delay:0.2s">
+                    <span class="eyebrow">Tentang Kami</span>
+                    <h2 id="tentang-heading">Kontraktor Andalan untuk Hunian &amp; Komersial</h2>
+                    <p>
+                        Kami hadir sebagai mitra terpercaya untuk renovasi rumah, desain interior, custom interior,
+                        dan pembangunan hunian di Jabodetabek dan Seluruh Indonesia. Kami membantu mewujudkan ruang yang
+                        nyaman,
+                        fungsional, dan sesuai kebutuhan melalui proses pengerjaan yang rapi serta berkualitas.
+                    </p>
+                    <p>
+                        Dari konsultasi, perencanaan, hingga serah terima, kami menemani Anda di setiap langkah tanpa
+                        biaya tersembunyi.
+                    </p>
+                    <a href="https://wa.me/6281288411691?text=Halo%2C%20saya%20ingin%20tahu%20lebih%20lanjut"
+                        class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <span class="material-symbols-rounded" aria-hidden="true">chat</span>
+                        Tanya Sekarang
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== LAYANAN ===================== -->
+        <section class="layanan" id="layanan" aria-labelledby="layanan-heading">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="eyebrow">Layanan Kami</span>
+                    <h2 id="layanan-heading">Semua Kebutuhan Renovasi dalam Satu Tempat</h2>
+                    <p class="section-sub">Dari perbaikan kecil hingga pembangunan penuh, kami siap menangani semuanya.
+                    </p>
+                </div>
+
+                <div class="layanan-grid">
+                    <!-- Card -->
+                    <article class="service-card fade-up" style="--delay:0.05s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">home_repair_service</span></div>
+                        <h3>Renovasi Rumah</h3>
+                        <p>Pembaruan total atau parsial untuk rumah tinggal, kos, dan ruko.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.1s">
+                        <div class="service-icon" aria-hidden="true"><span class="material-symbols-rounded">chair</span>
+                        </div>
+                        <h3>Interior</h3>
+                        <p>Desain dan instalasi interior modern sesuai selera dan budget Anda.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.15s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">foundation</span></div>
+                        <h3>Bangun Rumah</h3>
+                        <p>Pembangunan dari nol dengan material berkualitas dan pengawasan ketat.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.2s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">roofing</span></div>
+                        <h3>Plafon Gypsum</h3>
+                        <p>Pasang dan renovasi plafon gypsum, PVC, dan GRC board.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.25s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">grid_view</span></div>
+                        <h3>Keramik &amp; Granit</h3>
+                        <p>Pasang lantai keramik, granit, dan vinyl untuk semua ruangan.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.3s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">format_paint</span></div>
+                        <h3>Pengecatan</h3>
+                        <p>Cat dinding eksterior dan interior dengan cat premium anti-lumut.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.35s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">garage</span></div>
+                        <h3>Kanopi &amp; Pagar</h3>
+                        <p>Kanopi baja ringan, alderon, dan pagar besi atau hollow modern.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.4s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">electrical_services</span></div>
+                        <h3>Instalasi Listrik</h3>
+                        <p>Pemasangan instalasi daya, lampu, stop kontak, dan panel MCB.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.45s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">plumbing</span></div>
+                        <h3>Plumbing</h3>
+                        <p>Instalasi dan perbaikan pipa air bersih, saluran, dan pompa.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.5s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">shower</span></div>
+                        <h3>Kamar Mandi</h3>
+                        <p>Renovasi total kamar mandi termasuk kloset, shower, dan keramik.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.55s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">kitchen</span></div>
+                        <h3>Dapur &amp; Kitchen Set</h3>
+                        <p>Pembuatan dan renovasi dapur dengan kitchen set custom.</p>
+                    </article>
+                    <article class="service-card fade-up" style="--delay:0.6s">
+                        <div class="service-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">water_drop</span></div>
+                        <h3>Waterproofing</h3>
+                        <p>Pelapisan anti-bocor atap dak, kamar mandi, dan dinding lembab.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== KEUNGGULAN ===================== -->
+        <section class="keunggulan" id="keunggulan" aria-labelledby="keunggulan-heading">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="eyebrow">Keunggulan</span>
+                    <h2 id="keunggulan-heading">Mengapa Memilih Kami?</h2>
+                </div>
+                <div class="keunggulan-grid">
+                    <div class="unggulan-item fade-up" style="--delay:0.05s">
+                        <div class="unggulan-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">workspace_premium</span></div>
+                        <h3>Berpengalaman</h3>
+                        <p>Lebih dari 10 tahun menangani berbagai proyek renovasi dan konstruksi.</p>
+                    </div>
+                    <div class="unggulan-item fade-up" style="--delay:0.1s">
+                        <div class="unggulan-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">construction</span></div>
+                        <h3>Pengerjaan Rapi</h3>
+                        <p>Standar finishing tinggi yang diawasi langsung oleh supervisor berpengalaman.</p>
+                    </div>
+                    <div class="unggulan-item fade-up" style="--delay:0.15s">
+                        <div class="unggulan-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">schedule</span></div>
+                        <h3>Tepat Waktu</h3>
+                        <p>Komitmen penyelesaian sesuai jadwal yang disepakati di awal kontrak.</p>
+                    </div>
+                    <div class="unggulan-item fade-up" style="--delay:0.2s">
+                        <div class="unggulan-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">receipt_long</span></div>
+                        <h3>Harga Transparan</h3>
+                        <p>RAB terperinci tanpa biaya tersembunyi. Harga pasti sejak awal.</p>
+                    </div>
+                    <div class="unggulan-item fade-up" style="--delay:0.25s">
+                        <div class="unggulan-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">support_agent</span></div>
+                        <h3>Konsultasi Mudah</h3>
+                        <p>Bisa via WhatsApp, langsung, atau kunjungan ke lokasi. Gratis!</p>
+                    </div>
+                    <div class="unggulan-item fade-up" style="--delay:0.3s">
+                        <div class="unggulan-icon" aria-hidden="true"><span
+                                class="material-symbols-rounded">engineering</span></div>
+                        <h3>Tenaga Profesional</h3>
+                        <p>Tim terlatih dan bersertifikat dengan rekam jejak yang dapat diverifikasi.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== GALERI ===================== -->
+        <section class="galeri" id="galeri" aria-labelledby="galeri-heading">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="eyebrow">Portofolio</span>
+                    <h2 id="galeri-heading">Hasil Kerja Nyata</h2>
+                    <p class="section-sub">Setiap foto adalah proyek yang sudah diserahterimakan kepada klien kami.</p>
+                </div>
+
+                <div class="galeri-grid" id="galeri-grid" role="list" aria-label="Galeri proyek">
+                    <!-- Images injected by JS -->
+                </div>
+            </div>
+
+            <!-- Lightbox -->
+            <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Tampilan foto" hidden>
+                <button class="lightbox-close" id="lightbox-close" aria-label="Tutup tampilan foto">
+                    <span class="material-symbols-rounded" aria-hidden="true">close</span>
+                </button>
+                <button class="lightbox-prev" id="lightbox-prev" aria-label="Foto sebelumnya">
+                    <span class="material-symbols-rounded" aria-hidden="true">chevron_left</span>
+                </button>
+                <img src="" alt="" class="lightbox-img" id="lightbox-img" />
+                <button class="lightbox-next" id="lightbox-next" aria-label="Foto berikutnya">
+                    <span class="material-symbols-rounded" aria-hidden="true">chevron_right</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- ===================== AREA LAYANAN ===================== -->
+        <section class="area" id="area" aria-labelledby="area-heading">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="eyebrow">Jangkauan</span>
+                    <h2 id="area-heading">Area Layanan</h2>
+                    <p class="section-sub">Kami melayani proyek di wilayah Jabodetabek dan sekitarnya.</p>
+                </div>
+                <div class="area-grid fade-up" style="--delay:0.1s" aria-label="Daftar kota layanan">
+                    <div class="area-item"><span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Jakarta Selatan</div>
+                    <div class="area-item"><span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Jakarta Barat</div>
+                    <div class="area-item"><span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Jakarta Utara</div>
+                    <div class="area-item"><span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Jakarta Timur</div>
+                    <div class="area-item"><span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Bogor</div>
+                    <div class="area-item"><span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Depok</div>
+                    <div class="area-item"><span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Tangerang</div>
+                    <div class="area-item"><span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Tangerang Selatan</div>
+                    <div class="area-item"><span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Bekasi</div>
+                    <div class="area-item"><span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Bekasi Timur</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="area-description fade-up" style="--delay:0.05s">
+            <p>
+                Berpusat di Jabodetabek, kami siap melayani berbagai kebutuhan proyek
+                di seluruh Indonesia. Dengan dukungan tim yang fleksibel, layanan kami
+                dapat menjangkau berbagai wilayah sesuai kebutuhan dan skala pekerjaan.
+            </p>
+        </div>
+
+        <!-- ===================== AREA LAYANAN ===================== -->
+        <section class="area" id="area" aria-labelledby="area-heading">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="eyebrow">Jangkauan</span>
+                    <h2 id="area-heading">Area Layanan</h2>
+                    <p class="section-sub">Kami melayani proyek di seluruh Indonesia dengan jangkauan yang luas.</p>
+                </div>
+
+                <div class="area-grid fade-up" style="--delay:0.1s" aria-label="Daftar wilayah layanan">
+                    <div class="area-item">
+                        <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Pulau Jawa
+                    </div>
+                    <div class="area-item">
+                        <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Sumatera
+                    </div>
+                    <div class="area-item">
+                        <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Kalimantan
+                    </div>
+                    <div class="area-item">
+                        <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Sulawesi
+                    </div>
+                    <div class="area-item">
+                        <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Bali
+                    </div>
+                    <div class="area-item">
+                        <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Nusa Tenggara
+                    </div>
+                    <div class="area-item">
+                        <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Maluku
+                    </div>
+                    <div class="area-item">
+                        <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Papua
+                    </div>
+                    <div class="area-item">
+                        <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Kota Besar Indonesia
+                    </div>
+                    <div class="area-item">
+                        <span class="material-symbols-rounded" aria-hidden="true">location_on</span>
+                        Seluruh Indonesia
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== PROSES ===================== -->
+        <section class="proses" id="proses" aria-labelledby="proses-heading">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="eyebrow">Alur Kerja</span>
+                    <h2 id="proses-heading">Proses Kerja Kami</h2>
+                </div>
+                <div class="proses-steps">
+                    <div class="proses-step fade-up" style="--delay:0.05s">
+                        <div class="step-num" aria-hidden="true">01</div>
+                        <div class="step-body">
+                            <h3>Konsultasi</h3>
+                            <p>Hubungi kami via WhatsApp. Ceritakan kebutuhan Anda, gratis dan tanpa komitmen.</p>
+                        </div>
+                    </div>
+                    <div class="proses-step fade-up" style="--delay:0.15s">
+                        <div class="step-num" aria-hidden="true">02</div>
+                        <div class="step-body">
+                            <h3>Survey Lokasi</h3>
+                            <p>Tim kami datang ke lokasi untuk mengukur, menilai kondisi, dan mencatat kebutuhan.</p>
+                        </div>
+                    </div>
+                    <div class="proses-step fade-up" style="--delay:0.25s">
+                        <div class="step-num" aria-hidden="true">03</div>
+                        <div class="step-body">
+                            <h3>RAB &amp; Desain</h3>
+                            <p>Kami siapkan RAB terperinci dan desain awal. Harga pasti, tidak ada biaya kejutan.</p>
+                        </div>
+                    </div>
+                    <div class="proses-step fade-up" style="--delay:0.35s">
+                        <div class="step-num" aria-hidden="true">04</div>
+                        <div class="step-body">
+                            <h3>Pengerjaan</h3>
+                            <p>Pekerjaan dimulai dengan pengawasan ketat. Progress dilaporkan secara berkala.</p>
+                        </div>
+                    </div>
+                    <div class="proses-step fade-up" style="--delay:0.45s">
+                        <div class="step-num" aria-hidden="true">05</div>
+                        <div class="step-body">
+                            <h3>Serah Terima</h3>
+                            <p>Bersih, rapi, dan sesuai kesepakatan. Garansi purna jual untuk pekerjaan kami.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== FAQ ===================== -->
+        <section class="faq" id="faq" aria-labelledby="faq-heading">
+            <div class="container">
+                <div class="section-header fade-up">
+                    <span class="eyebrow">FAQ</span>
+                    <h2 id="faq-heading">Pertanyaan yang Sering Diajukan</h2>
+                </div>
+                <div class="faq-list fade-up" style="--delay:0.1s">
+
+                    <details class="faq-item">
+                        <summary class="faq-q">
+                            Apakah ada biaya untuk survey?
+                            <span class="faq-icon material-symbols-rounded" aria-hidden="true">expand_more</span>
+                        </summary>
+                        <div class="faq-a">Survey awal kami lakukan secara <strong>gratis</strong> tanpa syarat apapun.
+                            Tim kami yang datang ke lokasi Anda.</div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-q">
+                            Berapa lama pengerjaan renovasi rumah?
+                            <span class="faq-icon material-symbols-rounded" aria-hidden="true">expand_more</span>
+                        </summary>
+                        <div class="faq-a">Tergantung scope pekerjaan. Renovasi ringan 1–2 minggu, sedang 1–2 bulan,
+                            berat bisa 3–6 bulan. Kami selalu memberikan estimasi waktu yang jelas di awal kontrak.
+                        </div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-q">
+                            Apakah ada garansi setelah pekerjaan selesai?
+                            <span class="faq-icon material-symbols-rounded" aria-hidden="true">expand_more</span>
+                        </summary>
+                        <div class="faq-a">Ya. Kami memberikan garansi pekerjaan selama 3 bulan setelah serah terima.
+                            Jika ada temuan cacat akibat pekerjaan kami, kami perbaiki tanpa biaya tambahan.</div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-q">
+                            Apakah saya bisa melihat contoh proyek sebelumnya?
+                            <span class="faq-icon material-symbols-rounded" aria-hidden="true">expand_more</span>
+                        </summary>
+                        <div class="faq-a">Tentu. Anda bisa melihat galeri proyek di halaman ini, atau kami bisa
+                            menunjukkan foto-foto proyek sesuai jenis pekerjaan yang Anda butuhkan langsung via
+                            WhatsApp.</div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-q">
+                            Bagaimana sistem pembayaran yang digunakan?
+                            <span class="faq-icon material-symbols-rounded" aria-hidden="true">expand_more</span>
+                        </summary>
+                        <div class="faq-a">Sistem pembayaran bertahap: DP di awal, progress di tengah, dan pelunasan
+                            setelah serah terima. Semua tertuang dalam surat perjanjian kerja resmi.</div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-q">
+                            Apakah bisa mengerjakan proyek di luar Jabodetabek?
+                            <span class="faq-icon material-symbols-rounded" aria-hidden="true">expand_more</span>
+                        </summary>
+                        <div class="faq-a">Untuk proyek di luar Jabodetabek bisa dikonsultasikan terlebih dahulu.
+                            Tergantung jenis dan skala proyek, kami dapat mengirimkan tim atau merekomendasikan mitra
+                            terpercaya.</div>
+                    </details>
+
+                    <details class="faq-item">
+                        <summary class="faq-q">
+                            Apakah saya perlu menyiapkan desain sendiri?
+                            <span class="faq-icon material-symbols-rounded" aria-hidden="true">expand_more</span>
+                        </summary>
+                        <div class="faq-a">Tidak perlu. Tim kami siap membantu merencanakan desain berdasarkan kebutuhan
+                            dan selera Anda. Konsultasi desain sudah termasuk dalam layanan kami.</div>
+                    </details>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== CTA BESAR ===================== -->
+        <section class="cta-big" id="cta" aria-labelledby="cta-heading">
+            <div class="container cta-content fade-up">
+                <span class="eyebrow eyebrow-light">Mulai Sekarang</span>
+                <h2 id="cta-heading">Siap Wujudkan Rumah Impian Anda?</h2>
+                <p>Konsultasikan kebutuhan renovasi Anda sekarang. Survey gratis, tanpa komitmen.</p>
+                <a href="https://wa.me/6281288411691?text=Halo%2C%20saya%20ingin%20konsultasi%20renovasi"
+                    class="btn btn-white btn-lg" target="_blank" rel="noopener noreferrer"
+                    aria-label="Mulai konsultasi gratis via WhatsApp">
+                    <span class="material-symbols-rounded" aria-hidden="true">chat</span>
+                    Konsultasi Gratis Sekarang
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer" role="contentinfo">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <a href="#hero" class="nav-logo footer-logo" aria-label="RatnoProyek – Kembali ke atas">
+                    <span class="logo-mark" aria-hidden="true">R</span>
+                    <span class="logo-text">Ratno<span class="logo-accent">Proyek</span></span>
+                </a>
+                <p>Mitra terpercaya untuk renovasi, interior, dan konstruksi profesional di Jabodetabek.</p>
+                <a href="https://wa.me/6281288411691" class="footer-wa" target="_blank" rel="noopener noreferrer"
+                    aria-label="Hubungi via WhatsApp 0812 8841 1691">
+                    <span class="material-symbols-rounded" aria-hidden="true">chat</span>
+                    0812 8841 1691
+                </a>
+            </div>
+
+            <div class="footer-info">
+                <h3>Informasi</h3>
+                <address>
+                    <p><span class="material-symbols-rounded" aria-hidden="true">location_on</span> Jl. Contoh No. 123,
+                        Jakarta Selatan 12345</p>
+                    <p><span class="material-symbols-rounded" aria-hidden="true">schedule</span> Senin–Sabtu,
+                        08.00–17.00 WIB</p>
+                    <p><span class="material-symbols-rounded" aria-hidden="true">mail</span> info@kontraktorku.id</p>
+                </address>
+            </div>
+
+            <div class="footer-map">
+                <h3>Lokasi Kami</h3>
+                <div class="map-wrap">
+                    <iframe title="Lokasi RatnoProyek di Google Maps"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126933.02047538!2d106.7271533!3d-6.2297419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta%20Selatan!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                        loading="lazy" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade"
+                        aria-label="Peta lokasi RatnoProyek"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container footer-bottom-inner">
+                <p>&copy; 2026 RatnoProyek</p>
+                <nav aria-label="Link footer">
+                    <a href="#layanan">Layanan</a>
+                    <a href="#galeri">Galeri</a>
+                    <a href="#faq">FAQ</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== FLOATING WA BUTTON ===================== -->
+    <a href="https://wa.me/6281288411691?text=Halo%2C%20saya%20ingin%20konsultasi%20renovasi" class="fab-wa" id="fab-wa"
+        target="_blank" rel="noopener noreferrer" aria-label="Chat WhatsApp – Konsultasi Gratis">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" width="28" height="28"
+            aria-hidden="true" focusable="false">
+            <path
+                d="M16 .5C7.44.5.5 7.44.5 16c0 2.81.74 5.45 2.03 7.74L.5 31.5l8.04-2.1A15.45 15.45 0 0 0 16 31.5C24.56 31.5 31.5 24.56 31.5 16S24.56.5 16 .5Zm0 28.2a13.64 13.64 0 0 1-6.93-1.88l-.5-.3-5.11 1.34 1.36-4.97-.33-.52A13.72 13.72 0 1 1 16 28.7Zm7.5-10.26c-.41-.2-2.43-1.2-2.8-1.33-.38-.14-.65-.2-.93.2-.27.41-1.06 1.34-1.3 1.61-.24.28-.47.31-.87.1a11.1 11.1 0 0 1-3.27-2.02 12.26 12.26 0 0 1-2.26-2.82c-.24-.41 0-.63.18-.84.16-.18.37-.47.55-.7.18-.24.24-.41.37-.69.12-.27.06-.51-.03-.71-.1-.2-.93-2.23-1.27-3.06-.33-.8-.67-.69-.93-.7h-.79c-.27 0-.72.1-1.1.51-.38.41-1.44 1.4-1.44 3.41s1.47 3.96 1.68 4.24c.2.27 2.9 4.42 7.02 6.2.98.42 1.74.67 2.34.86.98.31 1.87.27 2.58.16.79-.12 2.43-.99 2.77-1.95.34-.96.34-1.78.24-1.95-.1-.17-.37-.27-.78-.48Z" />
+        </svg>
+        <span class="fab-tooltip" aria-hidden="true">Konsultasi Gratis</span>
+    </a>
+
+    <!-- Back to top -->
+    <button class="back-top" id="back-top" aria-label="Kembali ke atas" hidden>
+        <span class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_up</span>
+    </button>
+
+    <script src="script.js" defer></script>
+</body>
+
+</html>
