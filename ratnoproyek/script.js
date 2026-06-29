@@ -22,16 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const lightboxNext = document.getElementById('lightbox-next');
   const backTop = document.getElementById('back-top');
 
-  const galeriPhotos = [
-    { src: 'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?w=600&q=80', alt: 'Ruang tamu modern setelah renovasi' },
-    { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80', alt: 'Dapur bersih dengan kitchen set baru' },
-    { src: 'https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=600&q=80', alt: 'Kamar tidur minimalis dengan plafon gypsum' },
-    { src: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80', alt: 'Proses pengerjaan konstruksi oleh tim kami' },
-    { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80', alt: 'Tampak eksterior rumah setelah renovasi total' },
-    { src: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&q=80', alt: 'Kamar mandi baru dengan keramik premium' },
-    { src: 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80', alt: 'Interior ruang keluarga dengan desain elegan' },
-    { src: 'https://images.unsplash.com/photo-1587582423116-ec07293f0395?q=80', alt: 'Seorang tukang sedang bekerja' },
-    { src: 'https://images.unsplash.com/photo-1560185007-5f0bb1866cab?w=600&q=80', alt: 'Kanopi baja ringan terpasang rapi' }
+   const galeriPhotos = [
+    { src: 'https://i.pinimg.com/736x/27/6d/f3/276df3efac48b738021ec6436a95a64a.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/1200x/df/e4/55/dfe4558fc7987b8e3290e26cc1dacf5a.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/736x/dc/6b/2f/dc6b2f89f2e034a0b2d0d12ddbb52746.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/736x/a0/9b/1c/a09b1cfa35d15b2ab35b81bcbfe9e27e.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/1200x/c3/9f/1a/c39f1ab148446b12e8fa10f9f4c21ce9.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/736x/6d/1b/de/6d1bdeb5531c1d8afc72f7ead30c318d.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/736x/d9/da/7d/d9da7d1a36fc19352236d2f8fd031021.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/1200x/fd/ca/42/fdca425e7f3b097776565aad865c0c0f.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/1200x/b1/0d/12/b10d12b3053385f4365990dbd067bf92.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' }
   ];
 
   let currentPhotoIdx = 0;
