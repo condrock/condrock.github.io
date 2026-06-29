@@ -24,14 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
    const galeriPhotos = [
     { src: 'https://i.pinimg.com/736x/27/6d/f3/276df3efac48b738021ec6436a95a64a.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
-    { src: 'https://i.pinimg.com/1200x/df/e4/55/dfe4558fc7987b8e3290e26cc1dacf5a.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
-    { src: 'https://i.pinimg.com/736x/dc/6b/2f/dc6b2f89f2e034a0b2d0d12ddbb52746.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
-    { src: 'https://i.pinimg.com/736x/a0/9b/1c/a09b1cfa35d15b2ab35b81bcbfe9e27e.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
-    { src: 'https://i.pinimg.com/1200x/c3/9f/1a/c39f1ab148446b12e8fa10f9f4c21ce9.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
-    { src: 'https://i.pinimg.com/736x/6d/1b/de/6d1bdeb5531c1d8afc72f7ead30c318d.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
-    { src: 'https://i.pinimg.com/736x/d9/da/7d/d9da7d1a36fc19352236d2f8fd031021.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
-    { src: 'https://i.pinimg.com/1200x/fd/ca/42/fdca425e7f3b097776565aad865c0c0f.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
-    { src: 'https://i.pinimg.com/1200x/b1/0d/12/b10d12b3053385f4365990dbd067bf92.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' }
+    { src: 'https://i.pinimg.com/736x/e4/2c/37/e42c3797b0bcf7630014528a50b477e3.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/1200x/1e/80/b2/1e80b29f6400cfd2115f9d3ed4e592d2.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/736x/b9/3e/de/b93edee99e5ca88361761a61e4eb6a94.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/736x/f9/d2/5b/f9d25bf55965657b1db581d06b6514ac.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/736x/12/d3/b1/12d3b1a07cad342e14977ee27406e98f.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/736x/3e/47/39/3e473976f0b4c5adf7699b54d9c6de9f.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/736x/b5/61/41/b5614139ddb0df4f93eefd169fc33d68.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' },
+    { src: 'https://i.pinimg.com/1200x/25/d3/be/25d3be7b8432a8266ce32262fdf0b0e5.jpg', alt: 'RatnoProyek - Jasa renovasi rumah, desain interior, dan konstruksi profesional' }
   ];
 
   let currentPhotoIdx = 0;
