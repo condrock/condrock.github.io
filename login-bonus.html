@@ -261,7 +261,7 @@
                 saveLockState({ attempts: 0, lockedUntil: 0 });
                 // Use sessionStorage (clears when tab closes — more secure)
                 sessionStorage.setItem('bonusAuth', 'granted');
-                window.location.href = 'bonus.html';
+                window.location.href = 'bonus-icwLGPlR1XP7cXa7s6f8hlepjA6pYuGGvDO0I7TzRi8p0a1C.html';
             } else {
                 lock.attempts = (lock.attempts || 0) + 1;
                 if (lock.attempts >= MAX_ATTEMPTS) {
@@ -286,7 +286,7 @@
 
         // If already logged in, skip login
         if (sessionStorage.getItem('bonusAuth') === 'granted') {
-            window.location.href = 'bonus.html';
+            window.location.href = 'bonus-icwLGPlR1XP7cXa7s6f8hlepjA6pYuGGvDO0I7TzRi8p0a1C.html';
         }
     </script>
 </body>
